@@ -9,27 +9,27 @@ public class MenuScript : MonoBehaviour {
     public float panSpeed = 1.0f;
     public GameObject canvas;
 
-    private bool isThere = false;
-    private bool pleaseMove = false;
+    private float startTime;
+    private float journeyLength;
 
-    float Lerp(float goal, float speed, float currentVal)
+    bool compareVec(Vector3 a, Vector3 b)
     {
-        if (currentVal > goal)
-        {
-            if (currentVal - speed < goal) { return currentVal = goal; }
-            return currentVal -= speed;
-        }
-        else if (currentVal < goal)
-        {
-            if (currentVal + speed > goal) { return currentVal = goal; }
-            return currentVal += speed;
-        }
-        else return currentVal;
+        return (a.x == b.x && a.y == b.y && a.z == b.z);
     }
 
     public void moveCameraToSaves()
     {
-        pleaseMove = true;
+        startTime = Time.time;
+        journeyLength = Vector3.Distance(transform.position, cameraTarget.transform.position);
+        Vector3 move;
+        while(!compareVec(cam.transform.position, cameraTarget.transform.position))
+        {
+            float distCovered = (Time.time - startTime) * panSpeed;
+            float fracJourney = distCovered / journeyLength;
+            move = Vector3.Lerp(cam.transform.position, cameraTarget.transform.position, fracJourney);
+            cam.transform.position = move;
+        }
+        if (compareVec(cam.transform.position, cameraTarget.transform.position)) { canvas.SetActive(false); }
     }
 
 	// Use this for initialization
@@ -39,20 +39,6 @@ public class MenuScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isThere == false && pleaseMove == true)
-        {
-            print("Pingas");
-            Vector3 move;/*
-        move.x = Lerp(cameraTarget.transform.position.x, panSpeed, cam.transform.position.x);
-        move.y = Lerp(cameraTarget.transform.position.y, panSpeed, cam.transform.position.y);
-        move.z = Lerp(cameraTarget.transform.position.z, panSpeed, cam.transform.position.z);*/
-            move = Vector3.Lerp(cameraTarget.transform.position, cam.transform.position, panSpeed);
 
-            cam.transform.position = move;
-
-            isThere = (cameraTarget.transform.position == cam.transform.position);
-            /* cam.transform.position = cameraTarget.transform.position;*/
-        }
-        if(isThere && pleaseMove) { canvas.SetActive(false); pleaseMove = false; }
     }
 }
