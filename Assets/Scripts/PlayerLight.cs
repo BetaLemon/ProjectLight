@@ -9,11 +9,15 @@ public class PlayerLight : MonoBehaviour {
     public Light pointLight;
     public Light spotLight;
 
+    public GameObject kamehameha;
+
     public float defaultPointLightRange;
     public float defaultSpotLightIntensity;
+    private float defaultKameScale;
 
     private LightMode lightMode;
     private float prevLightAxis = 0;
+
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -35,6 +39,7 @@ public class PlayerLight : MonoBehaviour {
         lightMode = LightMode.NEAR;
         defaultPointLightRange = pointLight.range;
         defaultSpotLightIntensity = spotLight.intensity;
+        defaultKameScale = kamehameha.transform.localScale.z;
 	}
 	
 	// Update is called once per frame
@@ -62,6 +67,7 @@ public class PlayerLight : MonoBehaviour {
                 spotLight.intensity = 0.0f;*/
                 pointLight.range = Lerp(defaultPointLightRange, 1.5f, pointLight.range);
                 spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
+                kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
                 break;
             case LightMode.FAR:
                 /*
@@ -69,6 +75,7 @@ public class PlayerLight : MonoBehaviour {
                 spotLight.intensity = defaultSpotLightIntensity;*/
                 pointLight.range = Lerp(3.0f, 5f, pointLight.range);
                 spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
+                kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
                 break;
             default:
                 print("Error: wrong light mode.");
