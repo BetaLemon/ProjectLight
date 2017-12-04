@@ -6,12 +6,12 @@ public class PlayerLight : MonoBehaviour {
 
     enum LightMode { NEAR, FAR };
 
-    public Light pointLight;
+    public Light staffLight;
     public Light spotLight;
 
     public GameObject kamehameha;
 
-    public float defaultPointLightRange;
+    public float defaultStaffLightRange;
     public float defaultSpotLightIntensity;
     private float defaultKameScale;
 
@@ -37,7 +37,7 @@ public class PlayerLight : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         lightMode = LightMode.NEAR;
-        defaultPointLightRange = pointLight.range;
+        defaultStaffLightRange = staffLight.range;
         defaultSpotLightIntensity = spotLight.intensity;
         defaultKameScale = kamehameha.transform.localScale.z;
 	}
@@ -49,14 +49,14 @@ public class PlayerLight : MonoBehaviour {
         {
             if(lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; }
             else if(lightMode == LightMode.FAR) { lightMode = LightMode.NEAR; }
-            print(lightMode);
+            //print(lightMode);
         }
 
         prevLightAxis = Input.GetAxis("LightSwitch");
         
         if(Input.GetAxis("LightMax") != 0)
         {
-            pointLight.range += 2;
+            staffLight.range += 2;
         }
 
         switch (lightMode)
@@ -65,7 +65,7 @@ public class PlayerLight : MonoBehaviour {
                 /*
                 pointLight.range = defaultPointLightRange;
                 spotLight.intensity = 0.0f;*/
-                pointLight.range = Lerp(defaultPointLightRange, 1.5f, pointLight.range);
+                staffLight.range = Lerp(defaultStaffLightRange, 1.5f, staffLight.range);
                 spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
                 break;
@@ -73,12 +73,12 @@ public class PlayerLight : MonoBehaviour {
                 /*
                 pointLight.range = 8.0f;
                 spotLight.intensity = defaultSpotLightIntensity;*/
-                pointLight.range = Lerp(3.0f, 5f, pointLight.range);
+                staffLight.range = Lerp(3.0f, 5f, staffLight.range);
                 spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
                 break;
             default:
-                print("Error: wrong light mode.");
+                //print("Error: wrong light mode.");
                 break;
         }
 	}

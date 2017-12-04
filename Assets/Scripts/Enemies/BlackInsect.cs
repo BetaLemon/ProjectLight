@@ -27,8 +27,8 @@ public class BlackInsect : MonoBehaviour {
         directionVector = (temp.transform.position - transform.position)*speed;
         controller.Move(directionVector);
         activeNode = getActiveNode();
-        print("activeNode is: " + activeNode);
-        print("Length is: " + (activeNode+1)%positions.Length);
+        //print("activeNode is: " + activeNode);
+        //print("Length is: " + (activeNode+1)%positions.Length);
 	}
 	
 	// Update is called once per frame
@@ -74,7 +74,7 @@ public class BlackInsect : MonoBehaviour {
                 tmp = i;
             }
         }
-        if(tmp == 99) { print("No active Node"); }
+        if(tmp == 99) { /*print("No active Node");*/ }
         return tmp;
     }
 }

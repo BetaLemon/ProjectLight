@@ -12,9 +12,9 @@ public class LightScript : MonoBehaviour {
 	void Start () {
         life = 100.0f;
         light = GetComponent<Light>();
-        print(light.intensity);
+        //print(light.intensity);
         hue = light.intensity / life;
-        print(hue);
+        //print(hue);
 	}
 	
 	// Update is called once per frame
