@@ -27,11 +27,6 @@ public class LightOrb : MonoBehaviour {
     void Start () {
         //Assign start glow color:
         glow.color = glowColor;
-
-        //Assign start glow intensity according to start orb energy charge:
-        if (orbCharge > 0) orbIntensity = 10;
-        else orbIntensity = 0;
-        glow.intensity = orbIntensity;
     }
 	
 	void Update () {

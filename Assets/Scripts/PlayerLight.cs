@@ -7,12 +7,15 @@ public class PlayerLight : MonoBehaviour {
     enum LightMode { NEAR, FAR };
 
     public Light staffLight;
-    public Light spotLight;
+    //public Light spotLight;
 
     public GameObject kamehameha;
 
-    public float defaultStaffLightRange;
-    public float defaultSpotLightIntensity;
+    private float defaultStaffLightRange = 4;
+    private float maxStaffLightRange = 100;
+    private float minStaffLightRange = 10;
+
+    //public float defaultSpotLightIntensity;
     private float defaultKameScale;
 
     private LightMode lightMode;
@@ -37,8 +40,7 @@ public class PlayerLight : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         lightMode = LightMode.NEAR;
-        defaultStaffLightRange = staffLight.range;
-        defaultSpotLightIntensity = spotLight.intensity;
+        //defaultSpotLightIntensity = spotLight.intensity;
         defaultKameScale = kamehameha.transform.localScale.z;
 	}
 	
@@ -66,7 +68,7 @@ public class PlayerLight : MonoBehaviour {
                 pointLight.range = defaultPointLightRange;
                 spotLight.intensity = 0.0f;*/
                 staffLight.range = Lerp(defaultStaffLightRange, 1.5f, staffLight.range);
-                spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
+                //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
                 break;
             case LightMode.FAR:
@@ -74,7 +76,7 @@ public class PlayerLight : MonoBehaviour {
                 pointLight.range = 8.0f;
                 spotLight.intensity = defaultSpotLightIntensity;*/
                 staffLight.range = Lerp(3.0f, 5f, staffLight.range);
-                spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
+                //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
                 break;
             default:
