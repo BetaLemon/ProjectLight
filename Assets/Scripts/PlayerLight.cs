@@ -17,6 +17,8 @@ public class PlayerLight : MonoBehaviour {
 
     //public float defaultSpotLightIntensity;
     private float defaultKameScale;
+    public float maxExpandingLight;
+    public float expandingLightSpeed;
 
     private LightMode lightMode;
     private float prevLightAxis = 0;
@@ -58,7 +60,8 @@ public class PlayerLight : MonoBehaviour {
         
         if(Input.GetAxis("LightMax") != 0)
         {
-            staffLight.range += 2;
+            staffLight.range += expandingLightSpeed;
+            if (staffLight.range > maxExpandingLight) { staffLight.range = maxExpandingLight; }
         }
 
         switch (lightMode)
@@ -70,12 +73,17 @@ public class PlayerLight : MonoBehaviour {
                 staffLight.range = Lerp(defaultStaffLightRange, 1.5f, staffLight.range);
                 //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
+                if(kamehameha.transform.localScale.z == 0)
+                {
+                    kamehameha.SetActive(false);
+                }
                 break;
             case LightMode.FAR:
+                kamehameha.SetActive(true);
                 /*
                 pointLight.range = 8.0f;
                 spotLight.intensity = defaultSpotLightIntensity;*/
-                staffLight.range = Lerp(3.0f, 5f, staffLight.range);
+                staffLight.range = Lerp(3.0f, 5f, staffLight.range);    // 3.0f és el radi mínim del StaffLight
                 //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
                 break;

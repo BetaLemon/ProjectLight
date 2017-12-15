@@ -6,9 +6,13 @@ public class PlayerController : MonoBehaviour {
 
     CharacterController controller;
     public float speed = 6.0f;
+    public float jumpSpeed = 10f;
     public float gravity = 1.0f;
     private Vector3 moveDirection;
     private Quaternion lerpLook;
+
+    private float prevJumpTime;
+    public float maxJumpTime;
 
     void Start()
     {
@@ -29,9 +33,18 @@ public class PlayerController : MonoBehaviour {
         {
             moveDirection.y = 0;
         }
+        if(prevJumpTime < maxJumpTime)
+        {
+            if (Input.GetButton("Jump"))
+                moveDirection.y += jumpSpeed;
+        }
+        else
+        {
+            if(controller.isGrounded)
+                prevJumpTime = 0;
+        }
 
-        if (Input.GetButton("Jump"))
-            moveDirection.y = 20;
+        prevJumpTime += Time.deltaTime;
 
         controller.Move(moveDirection * Time.deltaTime);
 
