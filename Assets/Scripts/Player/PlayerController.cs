@@ -20,27 +20,8 @@ public class PlayerController : MonoBehaviour {
         moveDirection = Vector3.zero;
     }
 
-    private void Interact()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(controller.transform.position, 2);
-        int tmp = 0;
-        for(int i = 0; i < hitColliders.Length; i++)
-        {
-            if (hitColliders[i].isTrigger)
-            {
-                if (hitColliders[i].gameObject.CompareTag("PlayerLight")) { continue; }
-                tmp++;
-                hitColliders[i].GetComponent<LightOrb>().Interact("shit");
-            }
-            
-        }
-        print("Hit " + tmp + " triggers.");
-    }
-
     void FixedUpdate()
     {
-        Interact();
-
         moveDirection.x = Input.GetAxis("Horizontal") * speed;
         moveDirection.z = Input.GetAxis("Vertical") * speed;
 
