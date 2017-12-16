@@ -24,12 +24,33 @@ public class LightOrb : MonoBehaviour {
 
     public Color glowColor = Color.white; //Start orb color. Is public in order to be set up on level design
 
+    private float Lerp(float goal, float speed, float currentVal)
+    {
+        if (currentVal > goal)
+        {
+            if (currentVal - speed < goal) { return currentVal = goal; }
+            return currentVal -= speed;
+        }
+        else if (currentVal < goal)
+        {
+            if (currentVal + speed > goal) { return currentVal = goal; }
+            return currentVal += speed;
+        }
+        else return currentVal;
+    }
+
     void Start () {
         //Assign start glow color:
         glow.color = glowColor;
     }
-	
-	void Update () {
+
+    public void Interact(string txt)
+    {
+        print(txt);
+    }
+
+    void Update()
+    {
         //DEBUG SECTION:
         //print(GetComponent<Light>().intensity);
 
@@ -44,8 +65,16 @@ public class LightOrb : MonoBehaviour {
         glow.range = 1.5f + orbCharge / 10;
 
         //Adjust glow intensity according to orb energy charge
-        if (orbCharge > 0) orbIntensity = 10;
-        else orbIntensity = 0;
+        if (orbCharge > 0) orbIntensity = Lerp(10, 1, orbIntensity);
+        else orbIntensity = Lerp(0, 1, orbIntensity);
         glow.intensity = orbIntensity;
     }
+
+    /*private void OnCollisionStay(Collision other)
+    {
+        if(other.collider.gameObject.tag == "Player")
+        {
+            print("shit");
+        }
+    }*/
 }
