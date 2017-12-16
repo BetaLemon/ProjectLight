@@ -14,6 +14,8 @@ public class PlayerLight : MonoBehaviour {
     private float defaultStaffLightRange = 4;
     private float maxStaffLightRange = 100;
     private float minStaffLightRange = 10;
+    public float LerpSpeed = 0.2f;
+    public float FarStaffRange = 3.0f;
 
     //public float defaultSpotLightIntensity;
     private float defaultKameScale;
@@ -23,6 +25,7 @@ public class PlayerLight : MonoBehaviour {
     private LightMode lightMode;
     private float prevLightAxis = 0;
 
+    public float power = 100;
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -67,23 +70,18 @@ public class PlayerLight : MonoBehaviour {
         switch (lightMode)
         {
             case LightMode.NEAR:
-                /*
-                pointLight.range = defaultPointLightRange;
-                spotLight.intensity = 0.0f;*/
-                staffLight.range = Lerp(defaultStaffLightRange, 1.5f, staffLight.range);
+                
+                staffLight.range = Lerp(defaultStaffLightRange, LerpSpeed, staffLight.range);
                 //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
-                if(kamehameha.transform.localScale.z == 0)
-                {
-                    kamehameha.SetActive(false);
-                }
+                if(kamehameha.transform.localScale.z == 0) { kamehameha.SetActive(false); }
                 break;
             case LightMode.FAR:
                 kamehameha.SetActive(true);
                 /*
                 pointLight.range = 8.0f;
                 spotLight.intensity = defaultSpotLightIntensity;*/
-                staffLight.range = Lerp(3.0f, 5f, staffLight.range);    // 3.0f és el radi mínim del StaffLight
+                staffLight.range = Lerp(FarStaffRange, LerpSpeed, staffLight.range);    // 3.0f és el radi mínim del StaffLight
                 //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
                 kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
                 break;

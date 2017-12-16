@@ -44,9 +44,16 @@ public class LightOrb : MonoBehaviour {
         glow.color = glowColor;
     }
 
-    public void Interact(string txt)
+    public void Interact(float playerPower)
     {
-        print(txt);
+        if(playerPower > orbCharge)
+        {
+            orbCharge += playerPower-orbCharge;
+        }
+        if(playerPower < orbCharge)
+        {
+
+        }
     }
 
     void Update()

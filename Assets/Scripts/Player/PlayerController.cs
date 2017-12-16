@@ -38,11 +38,8 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetButton("Jump"))
                 moveDirection.y += jumpSpeed;
         }
-        else
-        {
-            if(controller.isGrounded)
-                prevJumpTime = 0;
-        }
+        if(controller.isGrounded)
+            prevJumpTime = 0;
 
         prevJumpTime += Time.deltaTime;
 
