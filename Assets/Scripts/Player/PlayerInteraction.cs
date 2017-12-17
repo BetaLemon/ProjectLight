@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject Kamehameha;
 
     private RaycastHit rayHit;
+    private bool hasHitMirror;
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +45,12 @@ public class PlayerInteraction : MonoBehaviour {
             //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
             Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green);
             //end debug
-            if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }
+            if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
+            else { hasHitMirror = false; }
+        }
+        else
+        {
+            hasHitMirror = false;
         }
     }
 
@@ -58,5 +64,10 @@ public class PlayerInteraction : MonoBehaviour {
         Vector3 inVec = mirrorHit.point - StaffLight.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
         Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
+    }
+
+    public bool isHittingMirror()
+    {
+        return hasHitMirror;
     }
 }

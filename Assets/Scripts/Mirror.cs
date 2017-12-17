@@ -34,5 +34,6 @@ public class Mirror : MonoBehaviour {
         {
             Kamehameha.transform.localScale = new Vector3(0, 0, 0);
         }
+        transform.Rotate(new Vector3(0,1,0));
 	}
 }

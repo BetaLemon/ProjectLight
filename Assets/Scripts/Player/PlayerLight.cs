@@ -66,28 +66,30 @@ public class PlayerLight : MonoBehaviour {
             staffLight.range += expandingLightSpeed;
             if (staffLight.range > maxExpandingLight) { staffLight.range = maxExpandingLight; }
         }
-
-        switch (lightMode)
+        if (!(GetComponent<PlayerInteraction>().isHittingMirror()))
         {
-            case LightMode.NEAR:
-                
-                staffLight.range = Lerp(defaultStaffLightRange, LerpSpeed, staffLight.range);
-                //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
-                kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
-                if(kamehameha.transform.localScale.z == 0) { kamehameha.SetActive(false); }
-                break;
-            case LightMode.FAR:
-                kamehameha.SetActive(true);
-                /*
-                pointLight.range = 8.0f;
-                spotLight.intensity = defaultSpotLightIntensity;*/
-                staffLight.range = Lerp(FarStaffRange, LerpSpeed, staffLight.range);    // 3.0f és el radi mínim del StaffLight
-                //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
-                kamehameha.transform.localScale = new Vector3(16,16,Lerp(16, 2f,kamehameha.transform.localScale.z));
-                break;
-            default:
-                //print("Error: wrong light mode.");
-                break;
+            switch (lightMode)
+            {
+                case LightMode.NEAR:
+
+                    staffLight.range = Lerp(defaultStaffLightRange, LerpSpeed, staffLight.range);
+                    //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
+                    kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
+                    if (kamehameha.transform.localScale.z == 0) { kamehameha.SetActive(false); }
+                    break;
+                case LightMode.FAR:
+                    kamehameha.SetActive(true);
+                    /*
+                    pointLight.range = 8.0f;
+                    spotLight.intensity = defaultSpotLightIntensity;*/
+                    staffLight.range = Lerp(FarStaffRange, LerpSpeed, staffLight.range);    // 3.0f és el radi mínim del StaffLight
+                                                                                            //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
+                    kamehameha.transform.localScale = new Vector3(16, 16, Lerp(16, 2f, kamehameha.transform.localScale.z));
+                    break;
+                default:
+                    //print("Error: wrong light mode.");
+                    break;
+            }
         }
 	}
 }
