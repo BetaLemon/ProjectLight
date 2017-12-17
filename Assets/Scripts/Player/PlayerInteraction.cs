@@ -55,7 +55,7 @@ public class PlayerInteraction : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
                 else { hasHitMirror = false; }  // If it's not a mirror, hashitMirror is false.
 
-                if (rayHit.collider.gameObject.CompareTag("Trigger")) { Trigger(); }
+                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
             }
             else
             {
@@ -77,9 +77,9 @@ public class PlayerInteraction : MonoBehaviour {
         Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
     }
 
-    void Trigger()
+    void TriggerTrigger(RaycastHit rh)
     {
-        print("Triggered.");
+        rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger();
     }
 
     public bool isHittingMirror()

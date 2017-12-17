@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
     private float prevJumpTime;
     public float maxJumpTime;
 
+    private Vector3 offset;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -67,8 +69,19 @@ public class PlayerController : MonoBehaviour {
         //moveDirection = Vector3.zero;*/
     }
 
-    void Update()
+    void OnTriggerStay(Collider other)
     {
-        
+        if(other.gameObject.tag == "MovingPlatform")
+        {
+            transform.parent = other.transform;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag ==   "MovingPlatform")
+        {
+            transform.parent = null;
+        }
     }
 }
