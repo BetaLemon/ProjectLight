@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerLight : MonoBehaviour {
 
-    enum LightMode { NEAR, FAR };
+    public enum LightMode { NEAR, FAR };
 
     public Light staffLight;
     //public Light spotLight;
@@ -92,4 +92,6 @@ public class PlayerLight : MonoBehaviour {
             }
         }
 	}
+
+    public LightMode getLightMode() { return lightMode; }
 }

@@ -38,20 +38,25 @@ public class PlayerInteraction : MonoBehaviour {
 
         }
         //print("Hit " + tmp + " triggers.");
-       
-        if(Physics.Raycast(StaffLight.transform.position, transform.forward, out rayHit))
-        {   //debug
-            Vector3 reflectVec = Vector3.Reflect(rayHit.point - StaffLight.transform.position, rayHit.normal);
-            //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
-            Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green);
-            //end debug
-            if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
-            else { hasHitMirror = false; }
-        }
-        else
+        if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Kamehameha.
         {
-            hasHitMirror = false;
+            if (Physics.Raycast(StaffLight.transform.position, transform.forward, out rayHit))  // If Raycast hits a collider.
+            {   //debug
+                Vector3 reflectVec = Vector3.Reflect(rayHit.point - StaffLight.transform.position, rayHit.normal);  // For drawing the reflected line. (only debugging)
+                //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
+                Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green);
+                //end debug
+
+                // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
+                else { hasHitMirror = false; }  // If it's not a mirror, hashitMirror is false.
+            }
+            else
+            {
+                hasHitMirror = false;   // If it didn't collide with anything, no mirror was hit.
+            }
         }
+        else { hasHitMirror = false; }  // If the player isn't using the Kamehameha, then no mirrors can be hit by it.
     }
 
     void LightOrb(Collider col)
