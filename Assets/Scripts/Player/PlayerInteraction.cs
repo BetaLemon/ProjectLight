@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour {
 
     public Light StaffLight;
+    public GameObject Kamehameha;
 
     private RaycastHit rayHit;
 
@@ -22,7 +23,7 @@ public class PlayerInteraction : MonoBehaviour {
             if (hitColliders[i].isTrigger)
             {
                 if (hitColliders[i].gameObject.CompareTag("PlayerLight")) { continue; }
-                print(hitColliders[i].gameObject.tag);
+                //print(hitColliders[i].gameObject.tag);
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
@@ -35,12 +36,16 @@ public class PlayerInteraction : MonoBehaviour {
             }
 
         }
-        print("Hit " + tmp + " triggers.");
-
-        Physics.Raycast(StaffLight.transform.position, new Vector3(0, 0, 1), out rayHit);
-        //if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }
-        Vector3 reflectVec = Vector3.Reflect(rayHit.point-StaffLight.transform.position, rayHit.normal);
-        Debug.DrawRay(rayHit.point, reflectVec, Color.green);
+        //print("Hit " + tmp + " triggers.");
+       
+        if(Physics.Raycast(StaffLight.transform.position, transform.forward, out rayHit))
+        {   //debug
+            Vector3 reflectVec = Vector3.Reflect(rayHit.point - StaffLight.transform.position, rayHit.normal);
+            //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
+            Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green);
+            //end debug
+            if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }
+        }
     }
 
     void LightOrb(Collider col)
@@ -50,6 +55,8 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Mirror(RaycastHit mirrorHit)
     {
-        //mirrorHit.collider.gameObject.Interact(mirrorHit.normal, mirrorHit.point);
+        Vector3 inVec = mirrorHit.point - StaffLight.transform.position;
+        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
+        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
     }
 }
