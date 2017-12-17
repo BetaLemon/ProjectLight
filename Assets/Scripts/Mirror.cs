@@ -7,11 +7,14 @@ public class Mirror : MonoBehaviour {
     public GameObject Kamehameha;
 
     private bool reflecting;
-    private Vector3 incomingVec, normalVec, hitPoint;
+    private Vector3 incomingVec, normalVec, hitPoint, reflectVec;
+
+    private RaycastHit rayHit;
+    private bool hitOtherMirror;
 
 	// Use this for initialization
 	void Start () {
-
+        hitOtherMirror = false;
 	}
 
     public void Reflect(Vector3 inVec, Vector3 normal, Vector3 point)
@@ -27,8 +30,20 @@ public class Mirror : MonoBehaviour {
         if (reflecting){
             Kamehameha.transform.localScale = new Vector3(16, 16, 16);
             Kamehameha.transform.position = hitPoint;
-            Kamehameha.transform.forward = Vector3.Reflect(incomingVec, normalVec);
+            reflectVec= Vector3.Reflect(incomingVec, normalVec);
+            Kamehameha.transform.forward = reflectVec;
             reflecting = false;
+
+            if (Physics.Raycast(hitPoint, reflectVec, out rayHit))
+            {   
+                Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }
+                else { hitOtherMirror = false; }
+            }
+            else
+            {
+                hitOtherMirror = false;
+            }
         }
         else
         {
@@ -36,4 +51,11 @@ public class Mirror : MonoBehaviour {
         }
         transform.Rotate(new Vector3(0,1,0));
 	}
+
+    void OtherMirror(RaycastHit mirrorHit)
+    {
+        Vector3 inVec = mirrorHit.point - hitPoint;
+        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
+        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position) / 2);
+    }
 }
