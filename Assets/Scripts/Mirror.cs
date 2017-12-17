@@ -39,6 +39,8 @@ public class Mirror : MonoBehaviour {
                 Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }
                 else { hitOtherMirror = false; }
+
+                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
             }
             else
             {
@@ -57,5 +59,10 @@ public class Mirror : MonoBehaviour {
         Vector3 inVec = mirrorHit.point - hitPoint;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
         Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position) / 2);
+    }
+
+    void TriggerTrigger(RaycastHit rh)
+    {
+        rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger();
     }
 }
