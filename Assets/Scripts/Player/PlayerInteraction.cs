@@ -17,6 +17,8 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
+        /// PASSIVE INTERACTION (Staff Light)
         Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, 2);
         int tmp = 0;
         for (int i = 0; i < hitColliders.Length; i++)
@@ -37,6 +39,8 @@ public class PlayerInteraction : MonoBehaviour {
             }
 
         }
+
+        /// ACTIVE INTERACTION (Kamehameha)
         //print("Hit " + tmp + " triggers.");
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Kamehameha.
         {
@@ -50,6 +54,8 @@ public class PlayerInteraction : MonoBehaviour {
                 // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
                 else { hasHitMirror = false; }  // If it's not a mirror, hashitMirror is false.
+
+                if (rayHit.collider.gameObject.CompareTag("Trigger")) { Trigger(); }
             }
             else
             {
@@ -69,6 +75,11 @@ public class PlayerInteraction : MonoBehaviour {
         Vector3 inVec = mirrorHit.point - StaffLight.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
         Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
+    }
+
+    void Trigger()
+    {
+        print("Triggered.");
     }
 
     public bool isHittingMirror()
