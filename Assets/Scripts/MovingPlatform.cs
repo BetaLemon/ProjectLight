@@ -10,8 +10,6 @@ public class MovingPlatform : MonoBehaviour {
     private int currentNode;
     public bool isRunning;
 
-    private Vector3 prevPos, offset;
-
     public float speed;
 
     // Use this for initialization
@@ -25,8 +23,6 @@ public class MovingPlatform : MonoBehaviour {
         {
             platform.transform.position = Vector3.MoveTowards(platform.transform.position, positions[currentNode].transform.position, speed);
             if (Vector3.Equals(platform.transform.position, positions[currentNode].transform.position)) { currentNode = (currentNode + 1) % positions.Length; }
-            offset = prevPos - platform.transform.position;
-            prevPos = platform.transform.position;
         }
     }
 

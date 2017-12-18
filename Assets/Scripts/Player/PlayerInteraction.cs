@@ -8,7 +8,7 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject Kamehameha;
 
     private RaycastHit rayHit;
-    private bool hasHitMirror;
+    private bool hasHit;
 
 	// Use this for initialization
 	void Start () {
@@ -51,18 +51,22 @@ public class PlayerInteraction : MonoBehaviour {
                 Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green);
                 //end debug
 
+                hasHit = true;
+
                 // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
-                else { hasHitMirror = false; }  // If it's not a mirror, hashitMirror is false.
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }
+                else { hasHit = false; }  // If it's not a mirror, hashitMirror is false.
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+
+                //if(!((rayHit.collider.gameObject.CompareTag("Trigger")) || (rayHit.collider.gameObject.CompareTag("Mirror")))){ hitDumbObject(rayHit); }
             }
             else
             {
-                hasHitMirror = false;   // If it didn't collide with anything, no mirror was hit.
+                hasHit = false;   // If it didn't collide with anything, no mirror was hit.
             }
         }
-        else { hasHitMirror = false; }  // If the player isn't using the Kamehameha, then no mirrors can be hit by it.
+        else { hasHit = false; }  // If the player isn't using the Kamehameha, then no mirrors can be hit by it.
     }
 
     void LightOrb(Collider col)
@@ -84,6 +88,11 @@ public class PlayerInteraction : MonoBehaviour {
 
     public bool isHittingMirror()
     {
-        return hasHitMirror;
+        return hasHit;
+    }
+
+    public RaycastHit getRayHit()
+    {
+        return rayHit;
     }
 }
