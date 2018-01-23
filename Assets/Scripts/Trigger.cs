@@ -23,8 +23,12 @@ public class Trigger : MonoBehaviour {
             switch (triggeredObjects[i].tag)
             {
                 case "MovingPlatform":
-                    MovingPlatform tmp = triggeredObjects[i].GetComponent<MovingPlatform>();
-                    tmp.getTriggered();
+                    MovingPlatform platform = triggeredObjects[i].GetComponent<MovingPlatform>();
+                    platform.getTriggered();
+                    break;
+                case "Door":
+                    Door door = triggeredObjects[i].GetComponent<Door>();
+                    door.getTriggered();
                     break;
             }
         }
