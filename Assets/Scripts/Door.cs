@@ -9,9 +9,7 @@ public class Door : MonoBehaviour {
 
     private Animator DoorAnimation;
 
-    public bool openTheDoor;
-    public bool closeTheDoor;
-    private bool doorOpen;
+    public bool doorOpen;
 
     //public float doorSpeed = 0.1f; //Speed at which the door opens and closes
 
@@ -23,19 +21,19 @@ public class Door : MonoBehaviour {
 	void Update () {
 
 
-        if (openTheDoor)
+        if (doorOpen)
         {
             DoorAnimation.SetBool("Close", false);
             DoorAnimation.SetBool("Open", true);
         }
-        else if (closeTheDoor)
+        else if (!doorOpen)
         {
             DoorAnimation.SetBool("Close", true);
             DoorAnimation.SetBool("Open", false);
         }
     }
 
-    public void getTriggered() { if (doorOpen) { closeTheDoor = true; openTheDoor = false; }
-                                 else { openTheDoor = true; closeTheDoor = false; }
+    public void getTriggered() { if (doorOpen) { doorOpen = false; }
+                                 else { doorOpen = true; }
     }
 }
