@@ -23,7 +23,8 @@ public class PlayerLight : MonoBehaviour {
     private LightMode lightMode; //Near or Far light modes
     private float prevLightAxis = 0;
 
-    public float power = 100.0f;
+    private int playerLife;
+    private int playerMaxLife;
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -58,11 +59,17 @@ public class PlayerLight : MonoBehaviour {
 
         prevLightAxis = Input.GetAxis("LightSwitch");
         
+        /* To be done:
+         * - Separar en dos modes el NEAR, per a que no es resti una cosa amb l'altra (LightMax). !!!
+         * - Canviar els noms de les variables.
+         * 
+         */
+
         switch (lightMode)
         {
             case LightMode.NEAR:
 
-                lightOrb.range = Lerp(defaultLightOrbRange, lerpSpeed, lightOrb.range); //Light Orb radius to it's current range at LerpSpeed
+                lightOrb.range = Lerp(defaultLightOrbRange, lerpSpeed, lightOrb.range); //Light Orb radius to it's default range at LerpSpeed
                 lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                 if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
 
@@ -75,7 +82,7 @@ public class PlayerLight : MonoBehaviour {
                 break;
             case LightMode.FAR:
                 //NASTY BUGS IN THIS SECTION
-                if (!(GetComponent<PlayerInteraction>().isHittingMirror()) && !(GetComponent<PlayerInteraction>().isHittingPlatform()))
+                if (!(GetComponent<PlayerInteraction>().isHittingMirror()) && !(GetComponent<PlayerInteraction>().isHittingPlatform())) // Needs to be enhanced.
                 {
                     lightCylinder.SetActive(true);
 

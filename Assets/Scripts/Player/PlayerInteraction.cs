@@ -71,7 +71,7 @@ public class PlayerInteraction : MonoBehaviour {
 
     void LightOrb(Collider col)
     {
-       col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().power);
+       col.GetComponent<LightOrb>().Interact(GetComponent<Player>().life);
     }
 
     void Mirror(RaycastHit mirrorHit)
