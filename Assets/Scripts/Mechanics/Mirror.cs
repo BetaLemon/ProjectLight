@@ -11,10 +11,12 @@ public class Mirror : MonoBehaviour {
 
     private RaycastHit rayHit;
     private bool hitOtherMirror;
+    private bool hitMovingPlatform;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         hitOtherMirror = false;
+        hitMovingPlatform = false;
 	}
 
     public void Reflect(Vector3 inVec, Vector3 normal, Vector3 point)
@@ -38,13 +40,15 @@ public class Mirror : MonoBehaviour {
             {   
                 Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }
-                else { hitOtherMirror = false; }
+                else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hitMovingPlatform = true; }
+                else { hitOtherMirror = false; hitMovingPlatform = false; }
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
             }
             else
             {
                 hitOtherMirror = false;
+                hitMovingPlatform = false;
             }
         }
         else

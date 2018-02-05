@@ -9,9 +9,10 @@ public class PlayerInteraction : MonoBehaviour {
 
     private RaycastHit rayHit;
     private bool hasHitMirror;
+    private bool hasHitPlatform;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -52,8 +53,9 @@ public class PlayerInteraction : MonoBehaviour {
                 //end debug
 
                 // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; }
-                else { hasHitMirror = false; }  // If it's not a mirror, hashitMirror is false.
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; } //Block light going through mirror, and reflect it
+                else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hasHitPlatform = true; } //Block light going through platform
+                else { hasHitMirror = false; hasHitPlatform = false; }  // If it's not a mirror or a platform, all check booleans false.
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
 
@@ -87,6 +89,10 @@ public class PlayerInteraction : MonoBehaviour {
     public bool isHittingMirror()
     {
         return hasHitMirror;
+    }
+    public bool isHittingPlatform()
+    {
+        return hasHitPlatform;
     }
 
     public RaycastHit getRayHit()

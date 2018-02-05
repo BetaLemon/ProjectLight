@@ -74,7 +74,8 @@ public class PlayerLight : MonoBehaviour {
 
                 break;
             case LightMode.FAR:
-                if (!(GetComponent<PlayerInteraction>().isHittingMirror())) //Afegeixo mes bloquejadors aqui... pero EL TEU SISTEMA TE BUGS ALEX, BUGS MOLT LLETJOS XD
+                //NASTY BUGS IN THIS SECTION
+                if (!(GetComponent<PlayerInteraction>().isHittingMirror()) && !(GetComponent<PlayerInteraction>().isHittingPlatform()))
                 {
                     lightCylinder.SetActive(true);
 
