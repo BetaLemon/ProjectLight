@@ -6,26 +6,24 @@ public class PlayerLight : MonoBehaviour {
 
     public enum LightMode { NEAR, FAR };
 
-    public Light staffLight;
-    //public Light spotLight;
+    public Light lightOrb;
+    public GameObject lightCylinder;
+    //EL SPOTLIGHT L'HE RETIRAT D'AQUEST CODI, CREC QUE S'AURÍA DE SUSTITUIR EL CILINDRE PER UN CILINDRE DE LLUM EN CONDICIONS, QUE DE VERITAT ILUMINI CORRECTAMENT. -Dylan
 
-    public GameObject kamehameha;
-
-    private float defaultStaffLightRange = 4;
-    private float maxStaffLightRange = 100;
-    private float minStaffLightRange = 10;
-    public float LerpSpeed = 0.2f;
-    public float FarStaffRange = 3.0f;
-
-    //public float defaultSpotLightIntensity;
-    private float defaultKameScale;
+    //Light Orb variables
+    private float defaultLightOrbRange = 3.0f; //Orb light base extension radius to which the update tends
+    public float lerpSpeed = 0.2f;
+    public float farStaffRange = 2.5f;
     public float maxExpandingLight;
     public float expandingLightSpeed;
 
-    private LightMode lightMode;
+    //Light Cylinder variables
+    private float defaultLightCylinderScale;
+
+    private LightMode lightMode; //Near or Far light modes
     private float prevLightAxis = 0;
 
-    public float power = 100;
+    public float power = 100.0f;
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -45,8 +43,7 @@ public class PlayerLight : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         lightMode = LightMode.NEAR;
-        //defaultSpotLightIntensity = spotLight.intensity;
-        defaultKameScale = kamehameha.transform.localScale.z;
+        defaultLightCylinderScale = lightCylinder.transform.localScale.z;
 	}
 	
 	// Update is called once per frame
@@ -61,41 +58,37 @@ public class PlayerLight : MonoBehaviour {
 
         prevLightAxis = Input.GetAxis("LightSwitch");
         
-    
         switch (lightMode)
         {
             case LightMode.NEAR:
 
-                staffLight.range = Lerp(defaultStaffLightRange, LerpSpeed, staffLight.range);
-                //spotLight.intensity = Lerp(0.0f, 5.0f, spotLight.intensity);
-                kamehameha.transform.localScale = new Vector3(16, 16, Lerp(defaultKameScale, 2f, kamehameha.transform.localScale.z));
-                if (kamehameha.transform.localScale.z == 0) { kamehameha.SetActive(false); }
+                lightOrb.range = Lerp(defaultLightOrbRange, lerpSpeed, lightOrb.range); //Light Orb radius to it's current range at LerpSpeed
+                lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
+                if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
 
-                if (Input.GetAxis("LightMax") != 0)
+                if (Input.GetAxis("LightMax") != 0) //If expand light orb input is detected
                 {
-                    staffLight.range += expandingLightSpeed;
-                    if (staffLight.range > maxExpandingLight) { staffLight.range = maxExpandingLight; }
+                    lightOrb.range += expandingLightSpeed; //Expand the light on input at expansion speed
+                    if (lightOrb.range > maxExpandingLight) { lightOrb.range = maxExpandingLight; } //Light orb expansion limit
                 }
 
                 break;
             case LightMode.FAR:
-                if (!(GetComponent<PlayerInteraction>().isHittingMirror()))
+                if (!(GetComponent<PlayerInteraction>().isHittingMirror())) //Afegeixo mes bloquejadors aqui... pero EL TEU SISTEMA TE BUGS ALEX, BUGS MOLT LLETJOS XD
                 {
-                    kamehameha.SetActive(true);
-                    /*
-                    pointLight.range = 8.0f;
-                    spotLight.intensity = defaultSpotLightIntensity;*/
-                    staffLight.range = Lerp(FarStaffRange, LerpSpeed, staffLight.range);    // 3.0f és el radi mínim del StaffLight
-                                                                                            //spotLight.intensity = Lerp(defaultSpotLightIntensity, 2f, spotLight.intensity);
-                    kamehameha.transform.localScale = new Vector3(16, 16, Lerp(16, 2f, kamehameha.transform.localScale.z));
+                    lightCylinder.SetActive(true);
+
+                    lightOrb.range = Lerp(farStaffRange, lerpSpeed, lightOrb.range);
+                                                                                            
+                    lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(16, 2f, lightCylinder.transform.localScale.z));
                 }
                 else
                 {
-                    kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, kamehameha.transform.position) / 2);
+                    lightCylinder.transform.localScale = new Vector3(16, 16, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position) / 2);
                 }
             break;
         default:
-                //print("Error: wrong light mode.");
+                print("Error: wrong light mode.");
                 break;
         }
         
