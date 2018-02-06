@@ -27,11 +27,9 @@ public class PlayerInteraction : MonoBehaviour {
             if (hitColliders[i].isTrigger)
             {
                 if (hitColliders[i].gameObject.CompareTag("PlayerLight")) { continue; }
-                //print(hitColliders[i].gameObject.tag);
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        print("Hello");
                         LightOrb(hitColliders[i]);
                         break;
                     default:break;
@@ -71,7 +69,8 @@ public class PlayerInteraction : MonoBehaviour {
 
     void LightOrb(Collider col)
     {
-       col.GetComponent<LightOrb>().Interact(GetComponent<Player>().life);
+       print("Collision detected");
+       col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainLossAmmount);
     }
 
     void Mirror(RaycastHit mirrorHit)

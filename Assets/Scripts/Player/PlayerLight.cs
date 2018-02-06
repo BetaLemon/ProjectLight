@@ -8,7 +8,9 @@ public class PlayerLight : MonoBehaviour {
 
     public Light lightOrb;
     public GameObject lightCylinder;
-    //EL SPOTLIGHT L'HE RETIRAT D'AQUEST CODI, CREC QUE S'AURÍA DE SUSTITUIR EL CILINDRE PER UN CILINDRE DE LLUM EN CONDICIONS, QUE DE VERITAT ILUMINI CORRECTAMENT. -Dylan
+
+    private LightMode lightMode; //Near or Far light modes
+    private float prevLightAxis = 0;
 
     //Light Orb variables
     private float defaultLightOrbRange = 3.0f; //Orb light base extension radius to which the update tends
@@ -20,11 +22,9 @@ public class PlayerLight : MonoBehaviour {
     //Light Cylinder variables
     private float defaultLightCylinderScale;
 
-    private LightMode lightMode; //Near or Far light modes
-    private float prevLightAxis = 0;
-
-    private int playerLife;
-    private int playerMaxLife;
+    //Self health drainage system due to light expansion
+    public float healthDrainLossAmmount = 0.05f; //Health points from Player.cs substracted from mana consumption strain on light production
+    private int drainDelay = 10000; //Time between health drain losses
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -73,7 +73,7 @@ public class PlayerLight : MonoBehaviour {
                 lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                 if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
 
-                if (Input.GetAxis("LightMax") != 0) //If expand light orb input is detected
+                if (Input.GetAxis("LightMax") != 0) //If expand light sphere input is detected
                 {
                     lightOrb.range += expandingLightSpeed; //Expand the light on input at expansion speed
                     if (lightOrb.range > maxExpandingLight) { lightOrb.range = maxExpandingLight; } //Light orb expansion limit

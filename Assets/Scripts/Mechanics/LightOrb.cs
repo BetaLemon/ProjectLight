@@ -8,12 +8,12 @@ public class LightOrb : MonoBehaviour {
 
     private float orbIntensity;           //Either: 10(has charge enrgy) or 0(no charge enrgy), defined on startup according to orbCharge.
     public float orbCharge;               //Current orb charge. Is public in order to be set up on level design
-    private float maxOrbCharge = 20f;
-    private float minOrbCharge = 0;
+    private float maxOrbCharge = 10f;
+    private float minOrbCharge = 0f;
     private float minOrbRange = 1.5f;
     private float maxOrbRange = 3.5f;
 
-    //-------- POSSIBLE COLORS ---------
+    //-------- POSSIBLE ORB COLORS ---------
     //Red: Color.red
     //Orange: ???
     //Yellow: ???
@@ -44,15 +44,15 @@ public class LightOrb : MonoBehaviour {
         glow.color = glowColor;
     }
 
-    public void Interact(float playerPower)
+    public void Interact(float healthDrainLossAmmount) //Used for external interaction from the player. 
     {
-        if(playerPower > orbCharge)
-        {
-            orbCharge += playerPower-orbCharge;
+        //The health drainage and deposition from and towards light orbs is equal to the health loss ammount of the wizard when straining his magic
+        if (Input.GetAxis("BaseInteraction") != 0) {
+            orbCharge -= healthDrainLossAmmount; //(orb subtraction)
         }
-        if(playerPower < orbCharge)
-        {
-
+        if (Input.GetAxis("LightMax") != 0) {
+            print("Increasing orb charge by: " + healthDrainLossAmmount);
+            orbCharge += healthDrainLossAmmount; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
         }
     }
 
