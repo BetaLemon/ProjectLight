@@ -11,7 +11,7 @@ public class LightOrb : MonoBehaviour {
     private float maxOrbCharge = 10f;
     private float minOrbCharge = 0f;
     private float minOrbRange = 1.5f;
-    private float maxOrbRange = 3.5f;
+    private float maxOrbRange = 4.5f;
 
     //-------- POSSIBLE ORB COLORS ---------
     //Red: Color.red
@@ -69,7 +69,7 @@ public class LightOrb : MonoBehaviour {
         if (glow.range > maxOrbRange) glow.range = maxOrbRange;
         else if (glow.range < minOrbRange) glow.range = minOrbRange;
 
-        glow.range = 1.5f + orbCharge / 10;
+        glow.range = 1.5f + orbCharge / 10; //Orb light extension radius starts at 1.5, and extends the same as the current charge divided by a decreasing factor
 
         //Adjust glow intensity according to orb energy charge
         if (orbCharge > 0) orbIntensity = Lerp(10, 1, orbIntensity);

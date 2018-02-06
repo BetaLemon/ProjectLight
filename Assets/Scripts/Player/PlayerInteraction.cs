@@ -11,16 +11,14 @@ public class PlayerInteraction : MonoBehaviour {
     private bool hasHitMirror;
     private bool hasHitPlatform;
 
-    // Use this for initialization
     void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
 
         /// PASSIVE INTERACTION (Staff Light)
-        Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, 2);
+        Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, GetComponent<PlayerLight>().lightOrb.range); //(Sphere center, Radius)
         int tmp = 0;
         for (int i = 0; i < hitColliders.Length; i++)
         {
@@ -36,7 +34,6 @@ public class PlayerInteraction : MonoBehaviour {
                 }
                 tmp++;
             }
-
         }
 
         /// ACTIVE INTERACTION (Kamehameha)
@@ -53,6 +50,7 @@ public class PlayerInteraction : MonoBehaviour {
                 // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; } //Block light going through mirror, and reflect it
                 else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hasHitPlatform = true; } //Block light going through platform
+                else if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider); } //Interact with the light orb
                 else { hasHitMirror = false; hasHitPlatform = false; }  // If it's not a mirror or a platform, all check booleans false.
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
@@ -67,7 +65,7 @@ public class PlayerInteraction : MonoBehaviour {
         else { hasHitMirror = false; }  // If the player isn't using the Kamehameha, then no mirrors can be hit by it.
     }
 
-    void LightOrb(Collider col)
+    void LightOrb(Collider col) //Light orb interacter
     {
        print("Collision detected");
        col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainLossAmmount);
