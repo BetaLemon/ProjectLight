@@ -4,55 +4,55 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    CharacterController controller;
-    public float speed = 6.0f;
-    public float jumpSpeed = 10f;
-    public float gravity = 1.0f;
-    private Vector3 moveDirection;
-    private Quaternion lerpLook;
+    // Variables:
+    CharacterController controller; // For controlling the player.
+    public float speed = 6.0f;      // Speed at which he moves.
+    public float jumpSpeed = 10f;   // Speed at which he jumps.
+    public float gravity = 1.0f;    // Gravity acceleration.
+    private Vector3 moveDirection;  // The direction the player is gonna move towards.
+    private Quaternion lerpLook;    // The direction at which the player is gonna look.
 
-    private float prevJumpTime;
-    public float maxJumpTime;
+    private float prevJumpTime;     // For controlling the time the player spends in the air.
+    public float maxJumpTime;       // The maximum time the player will be able to be in the air.
 
-    private Vector3 offset;
-
-    void Start()
+    void Start()    // When the script starts.
     {
-        controller = GetComponent<CharacterController>();
-        moveDirection = Vector3.zero;
+        controller = GetComponent<CharacterController>();   // We get the player's CharacterController.
+        moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
     }
 
-    void FixedUpdate()
+    void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
     {
-        moveDirection.x = Input.GetAxis("Horizontal") * speed;
-        moveDirection.z = Input.GetAxis("Vertical") * speed;
+        moveDirection.x = Input.GetAxis("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
+        moveDirection.z = Input.GetAxis("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
 
-        if (!controller.isGrounded)
+        if (!controller.isGrounded) // If the player is not grounded / is in the air.
         {
-            moveDirection.y -= gravity;
+            moveDirection.y -= gravity; // We apply gravity.
         }
-        else
+        else    // Else, the player is touching the ground.
         {
-            moveDirection.y = 0;
+            moveDirection.y = 0;    // His vertical (y) movement is reset.
+            prevJumpTime = 0;       // His time in the air is 0.
         }
-        if(prevJumpTime < maxJumpTime)
+        if(prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
         {
-            if (Input.GetButton("Jump"))
-                moveDirection.y += jumpSpeed;
-        }
-        if(controller.isGrounded)
-            prevJumpTime = 0;
-
-        prevJumpTime += Time.deltaTime;
-
-        controller.Move(moveDirection * Time.deltaTime);
-
-        if (moveDirection.x != 0 || moveDirection.z != 0)
-        {
-            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
+            if (Input.GetButton("Jump"))        // ... the Jump button is pressed...
+                moveDirection.y += jumpSpeed;   // ... add JumpSpeed to the vertical movement (y).
         }
 
-        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime * speed);
+        prevJumpTime += Time.deltaTime;     // We add the deltaTime to the time in the air (if he is on the ground, it will be reset to 0 in the next execution).
+
+        controller.Move(moveDirection * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
+
+        if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
+        {
+            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
+        }
+
+        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime * speed);   // We rotate the player towards lerpLook, applying a lerp.
+
+        // I don't know what this old junk is:
 
         /*
         if (controller.isGrounded)
@@ -67,19 +67,21 @@ public class PlayerController : MonoBehaviour {
         controller.Move(moveDirection);
 
         //moveDirection = Vector3.zero;*/
+
+        // End of junk.
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)  // If entering a Trigger Collider.
     {
-        if(other.gameObject.tag == "MovingPlatform")
+        if(other.gameObject.tag == "MovingPlatform")    // If the trigger belongs to the MovingPlatform, make that the player's parent.
         {
             transform.parent = other.transform;
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)  // If leaving a Trigger Collider.
     {
-        if(other.gameObject.tag ==   "MovingPlatform")
+        if(other.gameObject.tag ==   "MovingPlatform")  // If he's leaving the MovingPlatform, make the player it's own.
         {
             transform.parent = null;
         }
