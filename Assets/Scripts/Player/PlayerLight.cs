@@ -75,6 +75,7 @@ public class PlayerLight : MonoBehaviour {
 
                 if (Input.GetAxis("LightMax") != 0) //If expand light sphere input is detected
                 {
+                    GetComponent<Player>().health -= healthDrainLossAmmount; //Decrease player health for doing this action
                     lightOrb.range += expandingLightSpeed; //Expand the light on input at expansion speed
                     if (lightOrb.range > maxExpandingLight) { lightOrb.range = maxExpandingLight; } //Light orb expansion limit
                 }
@@ -84,6 +85,8 @@ public class PlayerLight : MonoBehaviour {
                 //NASTY BUGS IN THIS SECTION
                 if (!(GetComponent<PlayerInteraction>().isHittingMirror()) && !(GetComponent<PlayerInteraction>().isHittingPlatform())) // Needs to be enhanced.
                 {
+                    GetComponent<Player>().health -= healthDrainLossAmmount; //Decrease player health for being in this mode
+
                     lightCylinder.SetActive(true);
 
                     lightOrb.range = Lerp(farStaffRange, lerpSpeed, lightOrb.range);

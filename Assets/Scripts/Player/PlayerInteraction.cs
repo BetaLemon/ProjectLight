@@ -17,7 +17,7 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-        /// PASSIVE INTERACTION (Staff Light)
+        /// PASSIVE INTERACTION (Sphere Light)
         Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, GetComponent<PlayerLight>().lightOrb.range); //(Sphere center, Radius)
         int tmp = 0;
         for (int i = 0; i < hitColliders.Length; i++)
@@ -36,9 +36,9 @@ public class PlayerInteraction : MonoBehaviour {
             }
         }
 
-        /// ACTIVE INTERACTION (Kamehameha)
+        /// ACTIVE INTERACTION (Cylinder Light)
         //print("Hit " + tmp + " triggers.");
-        if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Kamehameha.
+        if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
             if (Physics.Raycast(StaffLight.transform.position, transform.forward, out rayHit))  // If Raycast hits a collider.
             {   //debug
@@ -62,7 +62,7 @@ public class PlayerInteraction : MonoBehaviour {
                 hasHitMirror = false;   // If it didn't collide with anything, no mirror was hit.
             }
         }
-        else { hasHitMirror = false; }  // If the player isn't using the Kamehameha, then no mirrors can be hit by it.
+        else { hasHitMirror = false; }  // If the player isn't using the Cylinder Light, then no mirrors can be hit by it.
     }
 
     void LightOrb(Collider col) //Light orb interacter

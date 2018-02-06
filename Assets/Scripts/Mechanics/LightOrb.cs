@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LightOrb : MonoBehaviour {
 
+    public GameObject thePlayer; //Reference to the player
+    //--------
+
     public Light glow;
 
     private float orbIntensity;           //Either: 10(has charge enrgy) or 0(no charge enrgy), defined on startup according to orbCharge.
@@ -40,6 +43,8 @@ public class LightOrb : MonoBehaviour {
     }
 
     void Start () {
+
+        thePlayer = GameObject.Find("Player");
         //Assign start glow color:
         glow.color = glowColor;
     }
@@ -49,6 +54,7 @@ public class LightOrb : MonoBehaviour {
         //The health drainage and deposition from and towards light orbs is equal to the health loss ammount of the wizard when straining his magic
         if (Input.GetAxis("BaseInteraction") != 0) {
             orbCharge -= healthDrainLossAmmount; //(orb subtraction)
+            if(orbCharge > 0) thePlayer.GetComponent<Player>().health += healthDrainLossAmmount; //Increase player health from orb absortion as long as there's energy
         }
         if (Input.GetAxis("LightMax") != 0) {
             print("Increasing orb charge by: " + healthDrainLossAmmount);
