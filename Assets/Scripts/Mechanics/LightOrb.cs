@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightOrb : MonoBehaviour {
 
-    public GameObject thePlayer; //Reference to the player
+    private GameObject thePlayer; //Reference to the player
     //--------
 
     public Light glow;
