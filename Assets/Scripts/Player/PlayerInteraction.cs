@@ -51,7 +51,7 @@ public class PlayerInteraction : MonoBehaviour {
                 // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; } //Block light going through mirror, and reflect it
                 else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hasHitPlatform = true; } //Block light going through platform
-                else if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider); print("Collision detected with light RAY"); } //Interact with the light orb
+                else if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider); print("Collision detected with light RAY " + rayHit.collider.gameObject.name); } //Interact with the light orb
                 else { hasHitMirror = false; hasHitPlatform = false; }  // If it's not a mirror or a platform, all check booleans false.
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }

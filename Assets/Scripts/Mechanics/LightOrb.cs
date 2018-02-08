@@ -44,13 +44,14 @@ public class LightOrb : MonoBehaviour {
 
     void Start () {
 
-        thePlayer = GameObject.Find("Player");
+        thePlayer = GameObject.Find("Player");  // Maybe use tags instead?
         //Assign start glow color:
         glow.color = glowColor;
     }
 
     public void Interact(float healthDrainLossAmmount) //Used for external interaction from the player. 
     {
+        print("debugging your ass.");
         //The health drainage and deposition from and towards light orbs is equal to the health loss ammount of the wizard when straining his magic
         if (Input.GetAxis("BaseInteraction") != 0) {
             orbCharge -= healthDrainLossAmmount; //(orb subtraction)
