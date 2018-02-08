@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerLight : MonoBehaviour {
 
-    public enum LightMode { NEAR, FAR, NEAR_MAX, MAX };
+    public enum LightMode { NEAR, FAR, MAX };
 
     public Light lightSphere;
     public GameObject lightCylinder;
