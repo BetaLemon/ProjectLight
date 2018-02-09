@@ -70,7 +70,7 @@ public class PlayerLight : MonoBehaviour {
         {
             if (lightMode == LightMode.NEAR || lightMode == LightMode.MAX) { lightMode = LightMode.MAX; }
         }
-        else if(lightMode != LightMode.FAR) { lightMode = LightMode.NEAR; }
+        else if (lightMode != LightMode.FAR) { lightMode = LightMode.NEAR; }
 
         switch (lightMode)
         {

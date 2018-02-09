@@ -13,8 +13,8 @@ public class LightOrb : MonoBehaviour {
     public float orbCharge;               //Current orb charge. Is public in order to be set up on level design
     private float maxOrbCharge = 10f;
     private float minOrbCharge = 0f;
+    //public float maxOrbRange = 4.5f;
     private float minOrbRange = 1.5f;
-    private float maxOrbRange = 4.5f;
 
     //-------- POSSIBLE ORB COLORS ---------
     //Red: Color.red
@@ -42,31 +42,25 @@ public class LightOrb : MonoBehaviour {
         else return currentVal;
     }
 
-    void Start () {
+    void Start ()
+    {
 
         thePlayer = GameObject.Find("Player");  // Maybe use tags instead?
         //Assign start glow color:
         glow.color = glowColor;
     }
 
-
-    public void Interact(float healthDrainLossAmmount, bool isInCylinderMode) //Used for external interaction from the player. 
+    public void SubtractFromOrb()
     {
-        //The health drainage and deposition from and towards light orbs is equal to the health loss ammount of the wizard when straining his magic
-        if (Input.GetAxis("BaseInteraction") != 0) {
-            orbCharge -= healthDrainLossAmmount; //(orb subtraction)
-            if(orbCharge > 0) thePlayer.GetComponent<Player>().health += healthDrainLossAmmount; //Increase player health from orb absortion as long as there's energy
-        }
-        else if (Input.GetAxis("LightMax") != 0) {
-            print("Increasing orb charge by: " + healthDrainLossAmmount);
-            orbCharge += healthDrainLossAmmount; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
-        }
+            float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount; //Is the same equivalent value for subtracting as for charging (You give what you can take)
+            orbCharge -= exchange; //(orb subtraction)
+            if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
     }
-
-    public void Interact(float healthDrainLossAmmount) //External interaction from a mirror reflection. 
+    public void ChargeOrb()
     {
-            print("Increasing orb charge by: " + healthDrainLossAmmount);
-            orbCharge += healthDrainLossAmmount; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
+            float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
+            print("Increasing orb charge by: " + exchange);
+            orbCharge += exchange; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
     }
 
     void Update()
@@ -78,11 +72,7 @@ public class LightOrb : MonoBehaviour {
         if (orbCharge > maxOrbCharge) orbCharge = maxOrbCharge;
         else if (orbCharge < minOrbCharge) orbCharge = minOrbCharge;
 
-        //Glow range limits:
-        if (glow.range > maxOrbRange) glow.range = maxOrbRange;
-        else if (glow.range < minOrbRange) glow.range = minOrbRange;
-
-        glow.range = 1.5f + orbCharge / 10; //Orb light extension radius starts at 1.5, and extends the same as the current charge divided by a decreasing factor
+        glow.range = minOrbRange + orbCharge / 10; //Orb light extension radius starts at a minimum, and extends the same as the current charge divided by a decreasing factor
 
         //Adjust glow intensity according to orb energy charge
         if (orbCharge > 0) orbIntensity = Lerp(10, 1, orbIntensity);

@@ -26,7 +26,8 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        LightOrb(hitColliders[i], false);
+                        if (Input.GetAxis("LightMax") != 0) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
+                        else if (Input.GetAxis("BaseInteraction") != 0) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
                         BlackInsect(hitColliders[i]);
@@ -50,18 +51,10 @@ public class PlayerInteraction : MonoBehaviour {
 
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit);} //Reflect mirror light
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider, true); } //Interact with the light orb
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
             }
         }
-    }
-
-    //Light orb interacter:
-    void LightOrb(Collider col, bool isInCylinderMode) 
-    {
-        if(!isInCylinderMode) col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount, isInCylinderMode);
-        else col.GetComponentInParent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount, isInCylinderMode);
-
     }
 
     void BlackInsect(Collider col)
