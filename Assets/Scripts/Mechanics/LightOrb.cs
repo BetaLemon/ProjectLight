@@ -13,7 +13,7 @@ public class LightOrb : MonoBehaviour {
     public float orbCharge;                    //Current orb charge. Is public in order to be set up on level design
     private float maxOrbCharge = 10f;
     private float minOrbCharge = 0f;
-    private float orbGlowRangeFactor = 8f;    //Reduces orb glow range the higher it is
+    private float orbGlowRangeFactor = 6f;    //Reduces orb glow range the higher it is
     private float minOrbGlowRange = 1.5f;      //The orb starts to glow directly from this range
 
     //-------- POSSIBLE ORB COLORS ---------
