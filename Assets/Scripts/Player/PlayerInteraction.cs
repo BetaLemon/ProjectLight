@@ -8,8 +8,6 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject Kamehameha;
 
     private RaycastHit rayHit;
-    private bool hasHitMirror;
-    private bool hasHitPlatform;
 
     void Start () {
 		
@@ -28,8 +26,7 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        LightOrb(hitColliders[i]);
-                        print("Collision detected with light ORB");
+                        LightOrb(hitColliders[i], false);
                         break;
                     default:break;
                 }
@@ -48,30 +45,20 @@ public class PlayerInteraction : MonoBehaviour {
                 Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green); //Drawing the reflection ray as debug
                 //end debug
 
-                // If the tag of the gameObject it collided with is "Mirror" then execute Mirror for interaction, and set hasHitMirror to true:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); hasHitMirror = true; } //Block light going through mirror, and reflect it
-                else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hasHitPlatform = true; } //Block light going through platform
-                else if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider); print("Collision detected with light RAY " + rayHit.collider.gameObject.name); } //Interact with the light orb
-                else { hasHitMirror = false; hasHitPlatform = false; }  // If it's not a mirror or a platform, all check booleans false.
-
+                // Specific game object interactions with light cylinder:
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit);} //Reflect mirror light
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { LightOrb(rayHit.collider, true); } //Interact with the light orb
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-
-                //if(!((rayHit.collider.gameObject.CompareTag("Trigger")) || (rayHit.collider.gameObject.CompareTag("Mirror")))){ hitDumbObject(rayHit); }
-            }
-            else
-            {
-                hasHitMirror = false;   // If it didn't collide with anything, no mirror was hit.
             }
         }
-        else { hasHitMirror = false; }  // If the player isn't using the Cylinder Light, then no mirrors can be hit by it.
     }
 
     //Light orb interacter:
-    void LightOrb(Collider col) 
+    void LightOrb(Collider col, bool isInCylinderMode) 
     {
-       print("Entered light orb interaction");
+        if(!isInCylinderMode) col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount, isInCylinderMode);
+        else col.GetComponentInParent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount, isInCylinderMode);
 
-            col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount);
     }
 
     void Mirror(RaycastHit mirrorHit)
@@ -84,15 +71,6 @@ public class PlayerInteraction : MonoBehaviour {
     void TriggerTrigger(RaycastHit rh)
     {
         rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger();
-    }
-
-    public bool isHittingMirror()
-    {
-        return hasHitMirror;
-    }
-    public bool isHittingPlatform()
-    {
-        return hasHitPlatform;
     }
 
     public RaycastHit getRayHit()

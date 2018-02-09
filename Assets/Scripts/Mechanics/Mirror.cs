@@ -16,13 +16,11 @@ public class Mirror : MonoBehaviour {
     
     private RaycastHit rayHit;          // Saves the hit when the raycast intersects with a collider.
     private bool hitOtherMirror;        // Stores specifically if a mirror has been hit.
-    private bool hitMovingPlatform;     // Stores specifically if a moving platform was hit.
 
     // Use this for initialization
     void Start () {
         // We set the initial values for the two hitting bools:
         hitOtherMirror = false;
-        hitMovingPlatform = false;
 	}
     
     // Function that is called when a raycast has hit our mirror and a reflection is expected:
@@ -48,8 +46,6 @@ public class Mirror : MonoBehaviour {
             {   
                 Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);     // For debugging reasons, we display the ray.
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
-                else if (rayHit.collider.gameObject.CompareTag("MovingPlatform")) { hitMovingPlatform = true; }     // If we hit a moving platform, well we hit it... (?)
-                else { hitOtherMirror = false; hitMovingPlatform = false; }     // Else, we ain't hitting anything, guys.
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
             }
@@ -57,7 +53,6 @@ public class Mirror : MonoBehaviour {
             {
                 // ... then, well, nothing was hit:
                 hitOtherMirror = false;
-                hitMovingPlatform = false;
             }
         }
         else    // If we're not reflecting:

@@ -49,18 +49,24 @@ public class LightOrb : MonoBehaviour {
         glow.color = glowColor;
     }
 
-    public void Interact(float healthDrainLossAmmount) //Used for external interaction from the player. 
+
+    public void Interact(float healthDrainLossAmmount, bool isInCylinderMode) //Used for external interaction from the player. 
     {
-        print("debugging your ass.");
         //The health drainage and deposition from and towards light orbs is equal to the health loss ammount of the wizard when straining his magic
         if (Input.GetAxis("BaseInteraction") != 0) {
             orbCharge -= healthDrainLossAmmount; //(orb subtraction)
             if(orbCharge > 0) thePlayer.GetComponent<Player>().health += healthDrainLossAmmount; //Increase player health from orb absortion as long as there's energy
         }
-        if (Input.GetAxis("LightMax") != 0) {
+        else if (Input.GetAxis("LightMax") != 0) {
             print("Increasing orb charge by: " + healthDrainLossAmmount);
             orbCharge += healthDrainLossAmmount; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
         }
+    }
+
+    public void Interact(float healthDrainLossAmmount) //External interaction from a mirror reflection. 
+    {
+            print("Increasing orb charge by: " + healthDrainLossAmmount);
+            orbCharge += healthDrainLossAmmount; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
     }
 
     void Update()
@@ -83,12 +89,4 @@ public class LightOrb : MonoBehaviour {
         else orbIntensity = Lerp(0, 1, orbIntensity);
         glow.intensity = orbIntensity;
     }
-
-    /*private void OnCollisionStay(Collision other)
-    {
-        if(other.collider.gameObject.tag == "Player")
-        {
-            print("shit");
-        }
-    }*/
 }
