@@ -62,8 +62,7 @@ public class PlayerLight : MonoBehaviour {
         prevLightAxis = Input.GetAxis("LightSwitch");
 
         /* To be done:
-         * - Separar en dos modes el NEAR, per a que no es resti una cosa amb l'altra (LightMax). !!!
-         * - Canviar els noms de les variables.
+         * - Millorar els noms de les variables.
          * 
          */
 
@@ -80,13 +79,6 @@ public class PlayerLight : MonoBehaviour {
                 lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
                 lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                 if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
-
-                //if (Input.GetAxis("LightMax") != 0) //If expand light sphere input is detected
-                //{
-                //    GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
-                //    lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
-                //    if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
-                //}
 
                 break;
             case LightMode.MAX:
@@ -112,22 +104,6 @@ public class PlayerLight : MonoBehaviour {
                     lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(maxLightCylinderScale, 2f, lightCylinder.transform.localScale.z));
                 }
 
-                ////NASTY BUGS IN THIS SECTION
-                //print("I am far now.");
-                //if (!(GetComponent<PlayerInteraction>().isHittingMirror()) && !(GetComponent<PlayerInteraction>().isHittingPlatform())) // Needs to be enhanced.
-                //{
-                //    GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for being in this mode
-
-                //    lightCylinder.SetActive(true);
-
-                //    lightSphere.range = Lerp(lightSphereRangeInFarMode, lerpSpeed, lightSphere.range);
-
-                //    lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(maxLightCylinderScale, 2f, lightCylinder.transform.localScale.z));
-                //}
-                //else
-                //{
-                //    lightCylinder.transform.localScale = new Vector3(16, 16, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position) / 2);
-                //}
                 break;
         default:
                 print("Error: wrong light mode.");
