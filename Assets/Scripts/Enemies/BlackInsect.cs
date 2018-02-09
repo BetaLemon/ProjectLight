@@ -75,6 +75,7 @@ public class BlackInsect : MonoBehaviour {
         {
             // This is for debugging only:
             DarkSphere.SetActive(false);
+            GetComponent<SphereCollider>().enabled = false;
         }
     }
 

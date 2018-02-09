@@ -19,4 +19,9 @@ public class Player : MonoBehaviour {
 		if(health > maxHealth) { health = maxHealth; }
         if(health < minHealth) { health = minHealth; }
 	}
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("BlackInsect")) { health -= 1*Time.deltaTime; }
+    }
 }
