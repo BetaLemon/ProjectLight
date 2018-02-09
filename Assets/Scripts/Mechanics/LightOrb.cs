@@ -9,12 +9,12 @@ public class LightOrb : MonoBehaviour {
 
     public Light glow;
 
-    private float orbIntensity;           //Either: 10(has charge enrgy) or 0(no charge enrgy), defined on startup according to orbCharge.
-    public float orbCharge;               //Current orb charge. Is public in order to be set up on level design
+    private float orbIntensity;                //Either: 10(has charge enrgy) or 0(no charge enrgy), defined on startup according to orbCharge.
+    public float orbCharge;                    //Current orb charge. Is public in order to be set up on level design
     private float maxOrbCharge = 10f;
     private float minOrbCharge = 0f;
-    //public float maxOrbRange = 4.5f;
-    private float minOrbRange = 1.5f;
+    private float orbGlowRangeFactor = 8f;    //Reduces orb glow range the higher it is
+    private float minOrbGlowRange = 1.5f;      //The orb starts to glow directly from this range
 
     //-------- POSSIBLE ORB COLORS ---------
     //Red: Color.red
@@ -72,7 +72,7 @@ public class LightOrb : MonoBehaviour {
         if (orbCharge > maxOrbCharge) orbCharge = maxOrbCharge;
         else if (orbCharge < minOrbCharge) orbCharge = minOrbCharge;
 
-        glow.range = minOrbRange + orbCharge / 10; //Orb light extension radius starts at a minimum, and extends the same as the current charge divided by a decreasing factor
+        glow.range = minOrbGlowRange + orbCharge / orbGlowRangeFactor; //Orb light extension radius starts at a minimum, and extends the same as the current charge divided by a decreasing factor
 
         //Adjust glow intensity according to orb energy charge
         if (orbCharge > 0) orbIntensity = Lerp(10, 1, orbIntensity);

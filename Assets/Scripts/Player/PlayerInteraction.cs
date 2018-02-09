@@ -42,7 +42,7 @@ public class PlayerInteraction : MonoBehaviour {
         //print("Hit " + tmp + " triggers.");
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
-            if (Physics.Raycast(StaffLight.transform.position, transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            if (Physics.Raycast(StaffLight.transform.position + new Vector3(0f,-1f,0f), transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
             {   //debug
                 Vector3 reflectVec = Vector3.Reflect(rayHit.point - StaffLight.transform.position, rayHit.normal);  // For drawing the reflected line. (only debugging)
                 //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
