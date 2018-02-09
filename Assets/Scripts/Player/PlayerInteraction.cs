@@ -31,6 +31,9 @@ public class PlayerInteraction : MonoBehaviour {
                         LightOrb(hitColliders[i]);
                         print("Collision detected with light ORB");
                         break;
+                    case "BlackInsect":
+                        BlackInsect(hitColliders[i]);
+                        break;
                     default:break;
                 }
                 tmp++;
@@ -72,6 +75,11 @@ public class PlayerInteraction : MonoBehaviour {
        print("Entered light orb interaction");
 
             col.GetComponent<LightOrb>().Interact(GetComponent<PlayerLight>().healthDrainAmmount);
+    }
+
+    void BlackInsect(Collider col)
+    {
+        col.gameObject.GetComponent<BlackInsect>().Hurt();
     }
 
     void Mirror(RaycastHit mirrorHit)
