@@ -36,7 +36,6 @@ public class Mirror : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         if (reflecting){    // If we are reflecting:
-            Kamehameha.transform.localScale = new Vector3(16, 16, 16);  // Set the size of our mirror's Kamehameha to the preliminary defaults: 16,16,16.
             Kamehameha.transform.position = hitPoint;                   // We set the Kamehameha's position to where the light hit.
             reflectVec= Vector3.Reflect(incomingVec, normalVec);        // We calculate the reflection vector, using our incoming and normal vectors.
             Kamehameha.transform.forward = reflectVec;                  // We make the Kamehameha look in the direction of the reflected vector.
@@ -48,10 +47,14 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
+
+                Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
+                                                                                                                        // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
+                Kamehameha.transform.localScale = new Vector3(16, 16, 16);  // Set the size of our mirror's Kamehameha to the preliminary defaults: 16,16,16.
                 hitOtherMirror = false;
             }
         }
