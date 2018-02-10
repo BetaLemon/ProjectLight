@@ -22,6 +22,9 @@ public class BlackInsect : MonoBehaviour {
     public int maxLife = 50;
     private float life;
 
+    private bool knockback = false;
+    private float deltaKnockback = 0;
+
     // FOR DEBUGGING:
     public GameObject DarkSphere;
 
@@ -52,8 +55,21 @@ public class BlackInsect : MonoBehaviour {
 
         if (alive)  // If the enemy is alive:
         {
-            // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
-            directionVector = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+            if (knockback)
+            {
+                Vector3 player = FindObjectOfType<Player>().transform.position;
+                directionVector = Vector3.Normalize(player - transform.position) * (-1) * (speed-2);
+                deltaKnockback += Time.deltaTime;
+                if(deltaKnockback >= 0.5) { knockback = false; }
+                //knockback = false;
+            }
+            else
+            {
+                // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
+                directionVector = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+            }
+
+            directionVector.y -= gravity;
 
             // We want the enemy to look in the direction it's moving:
             Quaternion lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
@@ -112,6 +128,7 @@ public class BlackInsect : MonoBehaviour {
     public void Hurt()
     {
         if (life > 0) { life -= 1*Time.deltaTime; }
+        knockback = true;
         print("Enemy was hurt. Life is " + life);
     }
 }
