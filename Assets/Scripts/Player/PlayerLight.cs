@@ -79,9 +79,9 @@ public class PlayerLight : MonoBehaviour {
                 lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
                 lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                 if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
-
                 break;
             case LightMode.MAX:
+
                 GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
                 lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
                 if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
