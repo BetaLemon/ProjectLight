@@ -8,6 +8,10 @@ public class Mirror : MonoBehaviour {
     // light source from others, it is internally called Kamehameha. It owns such a Kamehameha and points it
     // in the reflected angles direction. Mirrors can reflect with each other.
 
+    enum MirrorMode { MOVING, STILL};
+    public bool movableMirror = true;
+    private MirrorMode mode;
+
     public GameObject Kamehameha;   // Stores the cylinder that represents the player's light ray. Internally called Kamehameha.
 
     private bool reflecting;    // Controls whether it needs to make calculations and show the Kamehameha.
@@ -36,7 +40,6 @@ public class Mirror : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         if (reflecting){    // If we are reflecting:
-            Kamehameha.transform.localScale = new Vector3(16, 16, 16);  // Set the size of our mirror's Kamehameha to the preliminary defaults: 16,16,16.
             Kamehameha.transform.position = hitPoint;                   // We set the Kamehameha's position to where the light hit.
             reflectVec= Vector3.Reflect(incomingVec, normalVec);        // We calculate the reflection vector, using our incoming and normal vectors.
             Kamehameha.transform.forward = reflectVec;                  // We make the Kamehameha look in the direction of the reflected vector.
@@ -48,10 +51,16 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
 
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
+
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
+
+                Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
+                                                                                                                        // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
+                Kamehameha.transform.localScale = new Vector3(16, 16, 16);  // Set the size of our mirror's Kamehameha to the preliminary defaults: 16,16,16.
                 hitOtherMirror = false;
             }
         }
@@ -60,6 +69,18 @@ public class Mirror : MonoBehaviour {
             Kamehameha.transform.localScale = new Vector3(0, 0, 0); // We make the Kamehameha suuuuuuper tiny.
         }
         //transform.Rotate(new Vector3(0,1,0));
+
+        if (movableMirror)
+        {
+            switch (mode)
+            {
+                case MirrorMode.MOVING:
+                    transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0)*Time.deltaTime*50);
+                    break;
+                case MirrorMode.STILL:
+                    break;
+            }
+        }
 	}
 
     // Function that is called when another mirror is hit:

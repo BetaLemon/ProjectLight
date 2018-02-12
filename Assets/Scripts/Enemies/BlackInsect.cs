@@ -11,7 +11,7 @@ public class BlackInsect : MonoBehaviour {
 
     public float speed = 5.0f;          // Speed at which it moves.
     public float rotationSpeed = 0.05f; // Speed at which he rotates over the 'y' axis when changing target position.
-    public float gravity;               // Stores gravity applied.
+    public float gravity = 2.0f;               // Stores gravity applied.
 
     private bool alive;                 // Stores whether the enemy is alive or not.
     public float tolerance = 0.5f;      // Tolerance for checking if a position is reached.
@@ -21,6 +21,9 @@ public class BlackInsect : MonoBehaviour {
 
     public int maxLife = 50;
     private float life;
+
+    private bool knockback = false;
+    private float deltaKnockback = 0;
 
     // FOR DEBUGGING:
     public GameObject DarkSphere;
@@ -52,8 +55,26 @@ public class BlackInsect : MonoBehaviour {
 
         if (alive)  // If the enemy is alive:
         {
-            // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
-            directionVector = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+            Vector3 tmpVec;
+            if (knockback)
+            {
+                Vector3 player = FindObjectOfType<Player>().transform.position;
+                tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed-2);
+                directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+                deltaKnockback += Time.deltaTime;
+                if(deltaKnockback >= 0.5) { knockback = false; }
+                //knockback = false;
+            }
+            else
+            {
+                // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
+                tmpVec = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+                directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+            }
+            //if (!controller.isGrounded) { directionVector.y -= gravity*2; }
+            //else { directionVector.y = 0; }
+            //print(controller.isGrounded);
+            directionVector.y -= gravity * Time.deltaTime;
 
             // We want the enemy to look in the direction it's moving:
             Quaternion lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
@@ -63,7 +84,8 @@ public class BlackInsect : MonoBehaviour {
             controller.Move(directionVector * Time.deltaTime);
 
             // If the distance between (currentNode+1) and the enemy is smaller than the tolerance, then we have reached it. 
-            if(Vector3.Distance(positions[(activeNode +1)%positions.Length].transform.position, transform.position) < tolerance)
+            Vector3 checkVec = positions[(activeNode + 1) % positions.Length].transform.position;
+            if (Vector2.Distance(new Vector2(checkVec.x, checkVec.z), new Vector2(transform.position.x, transform.position.z)) < tolerance)
             {
                 activeNode = (activeNode + 1) % positions.Length;   // So we set the activeNode to the next one.
 
@@ -112,6 +134,7 @@ public class BlackInsect : MonoBehaviour {
     public void Hurt()
     {
         if (life > 0) { life -= 1*Time.deltaTime; }
+        knockback = true;
         print("Enemy was hurt. Life is " + life);
     }
 }
