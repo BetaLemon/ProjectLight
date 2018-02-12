@@ -6,6 +6,8 @@ public class BlackInsect : MonoBehaviour {
 
     //// Script for a basic enemy that walks between a number of set points in a cycle.
 
+    enum EnemyState { WALKING, HURTED, WAITING };
+
     private CharacterController controller; // CharacterController that controls the enemy.
     public GameObject[] positions;          // Stores all the positions the enemy is gonna work towards to.
 
@@ -19,11 +21,12 @@ public class BlackInsect : MonoBehaviour {
     private Vector3 directionVector;    // Vector of direction in which it is gonna move.
     private int activeNode;             // The current node it moves towards.
 
-    public int maxLife = 50;
+    public int maxLife = 5;
     private float life;
 
-    private bool knockback = false;
-    private float deltaKnockback = 0;
+    private EnemyState state;
+    private float[] stateDeltas = {0,0,0};  // WALKING, HURTED, WAITING
+    private float[] stateSwitchTime = { 0, 0.1f, 0.5f };
 
     // FOR DEBUGGING:
     public GameObject DarkSphere;
@@ -56,21 +59,29 @@ public class BlackInsect : MonoBehaviour {
         if (alive)  // If the enemy is alive:
         {
             Vector3 tmpVec;
-            if (knockback)
+            int stateIndex = (int)state;
+            switch (state)
             {
-                Vector3 player = FindObjectOfType<Player>().transform.position;
-                tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed-2);
-                directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
-                deltaKnockback += Time.deltaTime;
-                if(deltaKnockback >= 0.5) { knockback = false; }
-                //knockback = false;
+                case EnemyState.WALKING:
+                    // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
+                    tmpVec = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+                    directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+                    break;
+                case EnemyState.HURTED:
+                    Vector3 player = FindObjectOfType<Player>().transform.position;
+                    tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed+5);
+                    directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+
+                    stateDeltas[stateIndex] += Time.deltaTime;
+                    if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WAITING; stateDeltas[stateIndex] = 0; }
+                    break;
+                case EnemyState.WAITING:
+                    directionVector.x = 0; directionVector.z = 0;
+                    stateDeltas[stateIndex] += Time.deltaTime;
+                    if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WALKING; stateDeltas[stateIndex] = 0; }
+                    break;
             }
-            else
-            {
-                // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
-                tmpVec = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
-                directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
-            }
+
             //if (!controller.isGrounded) { directionVector.y -= gravity*2; }
             //else { directionVector.y = 0; }
             //print(controller.isGrounded);
@@ -133,8 +144,12 @@ public class BlackInsect : MonoBehaviour {
 
     public void Hurt()
     {
-        if (life > 0) { life -= 1*Time.deltaTime; }
-        knockback = true;
+        if(state == EnemyState.WALKING)
+        {
+            if (life > 0) { life -= 1; }
+            state = EnemyState.HURTED;
+        }
+        //knockback = true;
         print("Enemy was hurt. Life is " + life);
     }
 }
