@@ -8,12 +8,16 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject Kamehameha;
 
     private RaycastHit rayHit;
+    float prevBaseInteraction;
+    float pressedBaseInteraction;
 
     void Start () {
 		
 	}
 	
 	void FixedUpdate () {
+
+        pressedBaseInteraction = Input.GetAxis("BaseInteraction");
 
         /// PASSIVE INTERACTION (Sphere Light)
         Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
@@ -31,6 +35,9 @@ public class PlayerInteraction : MonoBehaviour {
                         break;
                     case "BlackInsect":
                         BlackInsect(hitColliders[i]);
+                        break;
+                    case "Mirror":
+                        if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
                         break;
                     default:break;
                 }
@@ -56,6 +63,8 @@ public class PlayerInteraction : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             }
         }
+
+        prevBaseInteraction = pressedBaseInteraction;
     }
 
     void BlackInsect(Collider col)
