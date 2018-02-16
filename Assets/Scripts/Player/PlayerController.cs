@@ -15,16 +15,19 @@ public class PlayerController : MonoBehaviour {
     private float prevJumpTime;     // For controlling the time the player spends in the air.
     public float maxJumpTime;       // The maximum time the player will be able to be in the air.
 
+    private PlayerInput input;
+
     void Start()    // When the script starts.
     {
         controller = GetComponent<CharacterController>();   // We get the player's CharacterController.
         moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
+        input = GetComponent<PlayerInput>();
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
     {
-        moveDirection.x = Input.GetAxis("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
-        moveDirection.z = Input.GetAxis("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
+        moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
+        moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
 
         if (!controller.isGrounded) // If the player is not grounded / is in the air.
         {
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour {
         }
         if(prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
         {
-            if (Input.GetButton("Jump"))        // ... the Jump button is pressed...
+            if (input.isPressed("Jump"))        // ... the Jump button is pressed...
                 moveDirection.y += jumpSpeed;   // ... add JumpSpeed to the vertical movement (y).
         }
 

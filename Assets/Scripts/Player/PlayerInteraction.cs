@@ -19,7 +19,7 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-        pressedBaseInteraction = Input.GetAxis("BaseInteraction");
+        pressedBaseInteraction = input.getInput("BaseInteraction");
 
         /// PASSIVE INTERACTION (Sphere Light)
         Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
@@ -32,8 +32,8 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        if (input.getInput("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
-                        else if (Input.GetAxis("BaseInteraction") != 0) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
+                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
+                        else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
                         BlackInsect(hitColliders[i]);

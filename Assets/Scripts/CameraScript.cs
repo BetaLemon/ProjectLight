@@ -6,28 +6,38 @@ public class CameraScript : MonoBehaviour {
 
     // This script controls camera movement
 
-    enum CameraMode { FOCUSED, PLAYER };
+    enum CameraMode { GAME_START, FOCUSED, PLAYER };
     private CameraMode mode;
     private GameObject focused;
 
     public GameObject player;   // Stores the player, to use his position later on.
     private Vector3 offset;     // Vector that stores the offset between the player and the camera.
     public float speed = 4.0f;  // Speed at which the camera lerps.
+    
+    public GameObject[] panNodes;
+    public GameObject lookAtPoint;
+    private int currentNode;
+    public float tolerance; //needs to be private.
 
 	// Use this for initialization
 	void Start () {
         offset = transform.position - player.transform.position;    // The offset is read at start. Might be changed at some point in time.
-        mode = CameraMode.PLAYER;
+        mode = CameraMode.GAME_START;
         focused = null;
+
+        currentNode = 0;
 	}
 
     // LateUpdate is called after Update each frame
     void FixedUpdate () {
 
-        if(focused == null) { mode = CameraMode.PLAYER; }
+        //if(focused == null) { mode = CameraMode.PLAYER; }
 
         switch (mode)
         {
+            case CameraMode.GAME_START:
+                GameStartCamera();
+                break;
             case CameraMode.PLAYER:
                 PlayerCamera();
                 break;
@@ -65,6 +75,23 @@ public class CameraScript : MonoBehaviour {
         position.z = Mathf.Lerp(transform.position.z, focused.transform.position.z - 3, interpolation);
 
         transform.position = position; // The position of the camera is finally modified.
+    }
+
+    void GameStartCamera()
+    {
+        /*Vector3 moveVec, camNextNode, camNextNextNode;
+        camNextNode = transform.position - panNodes[currentNode].transform.position;
+        camNextNextNode = transform.position - panNodes[currentNode+1].transform.position;
+        moveVec = (camNextNode + camNextNextNode) * -1;*/
+
+        //transform.Translate(moveVec.normalized * 10);
+        transform.position = Vector3.MoveTowards(transform.position, panNodes[currentNode].transform.position, 0.2f);
+        transform.LookAt(lookAtPoint.transform.position);
+
+        if(Vector3.Distance(transform.position, panNodes[currentNode].transform.position) < tolerance)
+        {
+            currentNode = (currentNode + 1) % panNodes.Length;
+        }
     }
 
     public void setFocus(GameObject target)

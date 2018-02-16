@@ -22,31 +22,36 @@ public class PlayerInput : MonoBehaviour {
      *      - LightMax
      * */
 
-    private Dictionary<string, bool> input = new Dictionary<string, bool>();
+    private Dictionary<string, float> input = new Dictionary<string, float>();
 
 	// Use this for initialization
 	void Start () {
-        input.Add("Horizontal", false);
-        input.Add("Vertical", false);
-        input.Add("Jump", false);
+        input.Add("Horizontal", 0);
+        input.Add("Vertical", 0);
+        input.Add("Jump", 0);
 
-        input.Add("BaseInteraction", false);
-        input.Add("LightMax", false);
-        input.Add("LightSwitch", false);
+        input.Add("BaseInteraction", 0);
+        input.Add("LightMax", 0);
+        input.Add("LightSwitch", 0);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        input["Horizontal"] = Input.GetAxis("Horizontal") != 0;
-        input["Vertical"] = Input.GetAxis("Vertical") != 0;
-        input["Jump"] = Input.GetAxis("Jump") != 0;
+        input["Horizontal"] = Input.GetAxis("Horizontal");
+        input["Vertical"] = Input.GetAxis("Vertical");
+        input["Jump"] = Input.GetAxis("Jump");
 
-        input["BaseInteraction"] = Input.GetAxis("BaseInteraction") != 0;
-        input["LightMax"] = Input.GetAxis("LightMax") != 0;
-        input["LightSwitch"] = Input.GetAxis("LightSwitch") != 0;
+        input["BaseInteraction"] = Input.GetAxis("BaseInteraction");
+        input["LightMax"] = Input.GetAxis("LightMax");
+        input["LightSwitch"] = Input.GetAxis("LightSwitch");
     }
 
-    public bool getInput(string id)
+    public bool isPressed(string id)
+    {
+        return (input[id] != 0);
+    }
+
+    public float getInput(string id)
     {
         return input[id];
     }
