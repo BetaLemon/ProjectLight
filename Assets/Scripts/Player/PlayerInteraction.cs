@@ -11,8 +11,10 @@ public class PlayerInteraction : MonoBehaviour {
     float prevBaseInteraction;
     float pressedBaseInteraction;
 
+    private PlayerInput input;
+
     void Start () {
-		
+        input = GetComponent<PlayerInput>();
 	}
 	
 	void FixedUpdate () {
@@ -30,7 +32,7 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        if (Input.GetAxis("LightMax") != 0) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
+                        if (input.getInput("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
                         else if (Input.GetAxis("BaseInteraction") != 0) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
