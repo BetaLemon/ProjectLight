@@ -10,6 +10,9 @@ public class Player : MonoBehaviour {
     private float minHealth = 0f; //Health at which the player dies
     public float respawnHealth = 15; //Health with which the player respawns after death
 
+    public int gemstones = 0;
+    public int smallGemstones = 0;
+
     private GameObject currentArea = null; //La ultima area en la que el jugador ha entrado
 
 	// Use this for initialization
@@ -30,6 +33,14 @@ public class Player : MonoBehaviour {
         else if (other.gameObject.CompareTag("BlackInsect")) { health -= 1 * Time.deltaTime; } //Black insect's dark areas damage the player
         else if (other.gameObject.CompareTag("Lethal")) { Die(); } //Player enters lethal area, dies and respawns
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("SmallGemstone")) { Destroy(other.gameObject); smallGemstones += 1; }
+        else if (other.gameObject.CompareTag("Gemstone")) { Destroy(other.gameObject); gemstones += 1; }
+        else if (other.gameObject.CompareTag("ManaCharge")) { Destroy(other.gameObject); health += 5; }
+    }
+    
 
     private void Die() {
         print("Player died");
