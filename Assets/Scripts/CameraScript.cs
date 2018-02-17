@@ -26,6 +26,8 @@ public class CameraScript : MonoBehaviour {
         focused = null;
 
         currentNode = 0;
+
+        if(mode == CameraMode.GAME_START) { transform.position = panNodes[currentNode].transform.position; }
 	}
 
     // LateUpdate is called after Update each frame
@@ -79,19 +81,29 @@ public class CameraScript : MonoBehaviour {
 
     void GameStartCamera()
     {
-        /*Vector3 moveVec, camNextNode, camNextNextNode;
-        camNextNode = transform.position - panNodes[currentNode].transform.position;
-        camNextNextNode = transform.position - panNodes[currentNode+1].transform.position;
-        moveVec = (camNextNode + camNextNextNode) * -1;*/
+        //Vector3 moveVec, camNextNode, camNextNextNode;
+        //camNextNode = transform.position - panNodes[currentNode].transform.position;
+        //camNextNextNode = transform.position - panNodes[currentNode+1].transform.position;
+        //moveVec = (camNextNode + camNextNextNode) * -1;
+
+        //transform.position = transform.position + (moveVec.normalized * 0.2f);
 
         //transform.Translate(moveVec.normalized * 10);
+
         transform.position = Vector3.MoveTowards(transform.position, panNodes[currentNode].transform.position, 0.2f);
         transform.LookAt(lookAtPoint.transform.position);
 
-        if(Vector3.Distance(transform.position, panNodes[currentNode].transform.position) < tolerance)
+        //Vector3 middlePointBetweenNodes = panNodes[currentNode].transform.position + panNodes[currentNode + 1].transform.position;
+        //middlePointBetweenNodes = middlePointBetweenNodes / 2;
+
+        if (Vector3.Distance(transform.position, panNodes[currentNode].transform.position) < tolerance)
         {
             currentNode = (currentNode + 1) % panNodes.Length;
         }
+        //if(Vector3.Distance(transform.position, middlePointBetweenNodes) < tolerance)
+        //{
+        //    currentNode = (currentNode + 1) % panNodes.Length;
+        //}
     }
 
     public void setFocus(GameObject target)
