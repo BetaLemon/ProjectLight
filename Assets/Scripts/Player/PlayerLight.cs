@@ -27,6 +27,8 @@ public class PlayerLight : MonoBehaviour {
     public float healthDrainAmmount = 0.05f; //Health points from Player.cs substracted from mana consumption strain on light production
     private int drainDelay = 10000; //Time between health drain losses
 
+    private PlayerInput input;
+
     float Lerp(float goal, float speed, float currentVal)
     {
         if (currentVal > goal)
@@ -46,12 +48,13 @@ public class PlayerLight : MonoBehaviour {
 	void Start () {
         lightMode = LightMode.NEAR;
         defaultLightCylinderScale = lightCylinder.transform.localScale.z;
+        input = GetComponent<PlayerInput>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if(Input.GetAxis("LightSwitch") != 0 && prevLightAxis == 0)
+        if(input.getInput("LightSwitch") != 0 && prevLightAxis == 0)
         {
             if(lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; }
             else if(lightMode == LightMode.MAX) { lightMode = LightMode.FAR; }
@@ -59,14 +62,14 @@ public class PlayerLight : MonoBehaviour {
             //print(lightMode);
         }
 
-        prevLightAxis = Input.GetAxis("LightSwitch");
+        prevLightAxis = input.getInput("LightSwitch");
 
         /* To be done:
          * - Millorar els noms de les variables.
          * 
          */
 
-        if (Input.GetAxis("LightMax") != 0)
+        if (input.isPressed("LightMax"))
         {
             if (lightMode == LightMode.NEAR || lightMode == LightMode.MAX) { lightMode = LightMode.MAX; }
         }
