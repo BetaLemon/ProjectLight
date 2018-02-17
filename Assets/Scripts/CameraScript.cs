@@ -22,7 +22,8 @@ public class CameraScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         offset = transform.position - player.transform.position;    // The offset is read at start. Might be changed at some point in time.
-        mode = CameraMode.GAME_START;
+        if (panNodes.Length == 0 || lookAtPoint == null) { mode = CameraMode.PLAYER; print("No nodes for camera are set, and/or no look at point set."); }
+        else { mode = CameraMode.GAME_START; }
         focused = null;
 
         currentNode = 0;
