@@ -86,11 +86,6 @@ public class PlayerLight : MonoBehaviour {
                 lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
                 if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
                 break;
-            case LightMode.MAX:
-                GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
-                lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
-                if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
-                break;
             case LightMode.FAR:
 
                 GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for being in this mode
