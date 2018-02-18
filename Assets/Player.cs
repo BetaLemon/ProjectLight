@@ -10,55 +10,52 @@ public class Player : MonoBehaviour {
     private float minHealth = 0f; //Health at which the player dies
     public float respawnHealth = 15; //Health with which the player respawns after death
 
+    //Player Economy:
     public int gemstones = 0;
     public int smallGemstones = 0;
 
-    private float startYPos;
-    private float endYPos;
-    private float damageThreashold = 5;
-    private bool damageMe = false;
-    private bool firstCall = true;
+    //FallDamage control:
+    private float lastPositionY = 0f;
+    private float fallDistance = 0f;
+    public float fallDamageDistance = 8f;
 
-    private GameObject currentArea = null; //La ultima area en la que el jugador ha entrado
-    private CharacterController controllerRef;
+    private CharacterController controllerRef; //Own character controller
 
-    float currentSpeed;
-    float lastFrameSpeed;
+    //Area control:
+    [Tooltip("Sets where the player would respawn if not assigned to any area")]
+    public Vector3 baseWorldSpawn = new Vector3(0, 0, 0);
+    private GameObject currentArea = null; //Last area where the player has entered
 
-	// Use this for initialization
 	void Start () {
-        controllerRef = GameObject.FindObjectOfType<CharacterController>();
+        controllerRef = FindObjectOfType<CharacterController>();
     }
 	
-	// Update is called once per frame
 	void Update () {
-        /*
-        if (controllerRef.isGrounded)
-        {
-            if (transform.position.y > startYPos)
-            {
-                firstCall = true;
-            }
-            if (firstCall) {
-                startYPos = gameObject.transform.position.y;
-                firstCall = false;
-                damageMe = true;
-            }
-        }
-        if (GameObject.FindObjectOfType<CharacterController>().isGrounded)
-        {
-            if (startYPos - endYPos > damageThreashold)
-            {
-                if (damageMe) {
-                    Die();
-                    damageMe = false;
-                }
-            }
-        }*/
 
-        //Health limits:
+        //Fall damage system through: HeightControl Also causes player health to deplete below y0 It's kind of a bug, 
+        //but it's actually usefull lol. Alternative: Use MoveDirection.y from PlayerController.cs as a velocity variation accounting for fall damage)
+
+        if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
+        {
+            fallDistance += lastPositionY - transform.position.y;
+        }
+
+        lastPositionY = transform.position.y; //Update last position as current to account for next update iteration
+
+        if (fallDistance >= fallDamageDistance && controllerRef.isGrounded) //Damage if we fell from high enough
+        {
+            health -= 5;
+            ApplyNormal();
+        }
+
+        if (fallDistance <= fallDamageDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
+        {
+            ApplyNormal();
+        }
+
+        //Health limiters:
         if (health > maxHealth) { health = maxHealth; }
-        if(health < minHealth) { health = minHealth; Die(); }
+        if (health < minHealth) { health = minHealth; Die(); }
 	}
 
     private void OnTriggerStay(Collider other)
@@ -84,9 +81,15 @@ public class Player : MonoBehaviour {
             transform.position = currentArea.transform.GetChild(0).transform.position;
         }
         else {
-            transform.position = new Vector3(0,0,0); //Base Spawn
+            transform.position = baseWorldSpawn; //Send to central world spawn
         }
         //Reset Health:
         health = respawnHealth;
+    }
+
+    private void ApplyNormal()
+    {
+        fallDistance = 0;
+        lastPositionY = 0;
     }
 }
