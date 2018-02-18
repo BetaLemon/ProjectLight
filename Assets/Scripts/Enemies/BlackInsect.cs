@@ -64,7 +64,12 @@ public class BlackInsect : MonoBehaviour {
             {
                 case EnemyState.WALKING:
                     // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
-                    tmpVec = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
+                    tmpVec = Vector3.zero;
+                    tmpVec.x = positions[(activeNode + 1) % positions.Length].transform.position.x - transform.position.x;
+                    tmpVec.z = positions[(activeNode + 1) % positions.Length].transform.position.z - transform.position.z;
+
+                    tmpVec = tmpVec.normalized * speed;
+
                     directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
                     break;
                 case EnemyState.HURTED:
