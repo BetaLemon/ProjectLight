@@ -13,17 +13,51 @@ public class Player : MonoBehaviour {
     public int gemstones = 0;
     public int smallGemstones = 0;
 
+    private float startYPos;
+    private float endYPos;
+    private float damageThreashold = 5;
+    private bool damageMe = false;
+    private bool firstCall = true;
+
     private GameObject currentArea = null; //La ultima area en la que el jugador ha entrado
+    private CharacterController controllerRef;
+
+    float currentSpeed;
+    float lastFrameSpeed;
 
 	// Use this for initialization
 	void Start () {
-
-	}
+        controllerRef = GameObject.FindObjectOfType<CharacterController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        /*
+        if (controllerRef.isGrounded)
+        {
+            if (transform.position.y > startYPos)
+            {
+                firstCall = true;
+            }
+            if (firstCall) {
+                startYPos = gameObject.transform.position.y;
+                firstCall = false;
+                damageMe = true;
+            }
+        }
+        if (GameObject.FindObjectOfType<CharacterController>().isGrounded)
+        {
+            if (startYPos - endYPos > damageThreashold)
+            {
+                if (damageMe) {
+                    Die();
+                    damageMe = false;
+                }
+            }
+        }*/
+
         //Health limits:
-		if(health > maxHealth) { health = maxHealth; }
+        if (health > maxHealth) { health = maxHealth; }
         if(health < minHealth) { health = minHealth; Die(); }
 	}
 

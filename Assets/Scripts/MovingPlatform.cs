@@ -13,8 +13,8 @@ public class MovingPlatform : MonoBehaviour {
     public int nextNode = 0;               // The current node index inside the positions array, the platform is or would move towards. Can be used to choose where to start moving towards, else will choose closest
     public bool isRunning;                 // Controls if the platform is moving or not.
     private int runs = 0;                  // How many times the platform has been triggered
-    public int maxRuns = -1;               // How many times the platform can be retriggered (Infinite by default, -1)
-    public int maxNodes = -1;              // How many nodes the platform will do. If exhausted, is running goes to false, the platform stops (Infinite by default, -1)
+    public int maxRuns = -1;                // How many times the platform can be retriggered (Infinite by default, -1)
+    public int maxNodes = -1;               // How many nodes the platform will do. If exhausted, is running goes to false, the platform stops (Infinite by default, -1)
     private int nodesSinceRunStart = 0;    // How many nodes the platform has visited since triggered as running
     public bool runnable = true;           // If the platform can be triggered (Used for more than once avoidance)
 
@@ -34,7 +34,7 @@ public class MovingPlatform : MonoBehaviour {
             if (Vector3.Equals(platform.transform.position, positions[nextNode].transform.position)) {
                 nodesSinceRunStart++;
                 nextNode = (nextNode + 1) % positions.Length;
-                if (nodesSinceRunStart >= maxNodes && nodesSinceRunStart != -1) { //Nodes to visit limiter
+                if (nodesSinceRunStart >= maxNodes && maxNodes != -1) { //Nodes to visit limiter
                     nodesSinceRunStart = 0;
                     isRunning = false; //Stop the platform
                 }
@@ -46,9 +46,9 @@ public class MovingPlatform : MonoBehaviour {
     public void getTriggered() {
         if (runnable)
         { //Start the platform movement only if runnable
-            isRunning = true; 
+            isRunning = true;
             runs++;
-            if (runs >= maxRuns && runs != -1) runnable = false; //Will stop further running
+            if (runs >= maxRuns && maxRuns != -1) runnable = false; //Will stop further running
         }
     }
 }
