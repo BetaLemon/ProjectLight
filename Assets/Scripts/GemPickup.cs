@@ -31,5 +31,6 @@ public class GemPickup : MonoBehaviour
             }
         }
         transform.position = new Vector3(transform.position.x, _startPosition.y + Mathf.Sin(Time.time * 4) / 4, transform.position.z); //Sinoidal motion for position (Up and down)
+
     }
 }

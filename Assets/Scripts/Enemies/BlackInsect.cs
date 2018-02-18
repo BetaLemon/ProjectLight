@@ -109,7 +109,7 @@ public class BlackInsect : MonoBehaviour {
             // This is for debugging only:
             
             transform.parent.gameObject.SetActive(false); //Disactivate whole enemy
-            GetComponent<DropsSystem>().Drop(transform.position, transform.rotation); //Call drops for this enemy (Set same rotation as enemy, may be corrected for more originality lol)
+            GetComponent<DropsSystem>().Drop(transform.position); //Call drops for this enemy
 
             //DarkSphere.SetActive(false);
             //GetComponent<SphereCollider>().enabled = false;
