@@ -16,6 +16,7 @@ public class BlackInsect : MonoBehaviour {
     public float gravity = 2.0f;               // Stores gravity applied.
 
     private bool alive;                 // Stores whether the enemy is alive or not.
+    public bool isAMovingEnemy = true;
     public float tolerance = 0.5f;      // Tolerance for checking if a position is reached.
 
     private Vector3 directionVector;    // Vector of direction in which it is gonna move.
@@ -58,55 +59,58 @@ public class BlackInsect : MonoBehaviour {
 
         if (alive)  // If the enemy is alive:
         {
-            Vector3 tmpVec;
-            int stateIndex = (int)state;
-            switch (state)
+            if (isAMovingEnemy)
             {
-                case EnemyState.WALKING:
-                    // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
-                    tmpVec = Vector3.zero;
-                    tmpVec.x = positions[(activeNode + 1) % positions.Length].transform.position.x - transform.position.x;
-                    tmpVec.z = positions[(activeNode + 1) % positions.Length].transform.position.z - transform.position.z;
+                Vector3 tmpVec;
+                int stateIndex = (int)state;
+                switch (state)
+                {
+                    case EnemyState.WALKING:
+                        // Move towards the (currentNode+1) (modular aritmethics) by using its position and at the set speed:
+                        tmpVec = Vector3.zero;
+                        tmpVec.x = positions[(activeNode + 1) % positions.Length].transform.position.x - transform.position.x;
+                        tmpVec.z = positions[(activeNode + 1) % positions.Length].transform.position.z - transform.position.z;
 
-                    tmpVec = tmpVec.normalized * speed;
+                        tmpVec = tmpVec.normalized * speed;
 
-                    directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
-                    break;
-                case EnemyState.HURTED:
-                    Vector3 player = FindObjectOfType<Player>().transform.position;
-                    tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed+5);
-                    directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+                        directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
+                        break;
+                    case EnemyState.HURTED:
+                        Vector3 player = FindObjectOfType<Player>().transform.position;
+                        tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed + 5);
+                        directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
 
-                    stateDeltas[stateIndex] += Time.deltaTime;
-                    if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WAITING; stateDeltas[stateIndex] = 0; }
-                    break;
-                case EnemyState.WAITING:
-                    directionVector.x = 0; directionVector.z = 0;
-                    stateDeltas[stateIndex] += Time.deltaTime;
-                    if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WALKING; stateDeltas[stateIndex] = 0; }
-                    break;
-            }
+                        stateDeltas[stateIndex] += Time.deltaTime;
+                        if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WAITING; stateDeltas[stateIndex] = 0; }
+                        break;
+                    case EnemyState.WAITING:
+                        directionVector.x = 0; directionVector.z = 0;
+                        stateDeltas[stateIndex] += Time.deltaTime;
+                        if (stateDeltas[stateIndex] > stateSwitchTime[stateIndex]) { state = EnemyState.WALKING; stateDeltas[stateIndex] = 0; }
+                        break;
+                }
 
-            //if (!controller.isGrounded) { directionVector.y -= gravity*2; }
-            //else { directionVector.y = 0; }
-            //print(controller.isGrounded);
-            directionVector.y -= gravity * Time.deltaTime;
+                //if (!controller.isGrounded) { directionVector.y -= gravity*2; }
+                //else { directionVector.y = 0; }
+                //print(controller.isGrounded);
+                directionVector.y -= gravity * Time.deltaTime;
 
-            // We want the enemy to look in the direction it's moving:
-            Quaternion lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lerpLook, rotationSpeed);
+                // We want the enemy to look in the direction it's moving:
+                Quaternion lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lerpLook, rotationSpeed);
 
-            // We move the enemy:
-            controller.Move(directionVector * Time.deltaTime);
+                // We move the enemy:
+                controller.Move(directionVector * Time.deltaTime);
 
-            // If the distance between (currentNode+1) and the enemy is smaller than the tolerance, then we have reached it. 
-            Vector3 checkVec = positions[(activeNode + 1) % positions.Length].transform.position;
-            if (Vector2.Distance(new Vector2(checkVec.x, checkVec.z), new Vector2(transform.position.x, transform.position.z)) < tolerance)
-            {
-                activeNode = (activeNode + 1) % positions.Length;   // So we set the activeNode to the next one.
+                // If the distance between (currentNode+1) and the enemy is smaller than the tolerance, then we have reached it. 
+                Vector3 checkVec = positions[(activeNode + 1) % positions.Length].transform.position;
+                if (Vector2.Distance(new Vector2(checkVec.x, checkVec.z), new Vector2(transform.position.x, transform.position.z)) < tolerance)
+                {
+                    activeNode = (activeNode + 1) % positions.Length;   // So we set the activeNode to the next one.
 
-                //transform.Rotate(0, Mathf.SmoothDampAngle(, 0);  // without smoothing.
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionVector), Time.deltaTime * speed);
+                    //transform.Rotate(0, Mathf.SmoothDampAngle(, 0);  // without smoothing.
+                    //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionVector), Time.deltaTime * speed);
+                }
             }
         }
         else    // If the enemy is dead:
