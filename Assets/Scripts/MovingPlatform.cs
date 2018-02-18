@@ -12,10 +12,12 @@ public class MovingPlatform : MonoBehaviour {
 
     public int nextNode = 0;               // The current node index inside the positions array, the platform is or would move towards. Can be used to choose where to start moving towards, else will choose closest
     public bool isRunning;                 // Controls if the platform is moving or not.
-    private int runs = 0;                  // How many times the platform has been triggered
+    public int runs = 0;                  // How many times the platform has been triggered
+    [Tooltip("-1 for infinite runs.")]
     public int maxRuns = -1;                // How many times the platform can be retriggered (Infinite by default, -1)
+    [Tooltip("-1 for infinite nodes.")]
     public int maxNodes = -1;               // How many nodes the platform will do. If exhausted, is running goes to false, the platform stops (Infinite by default, -1)
-    private int nodesSinceRunStart = 0;    // How many nodes the platform has visited since triggered as running
+    public int nodesSinceRunStart = 0;    // How many nodes the platform has visited since triggered as running
     public bool runnable = true;           // If the platform can be triggered (Used for more than once avoidance)
 
     public float speed;                    // Speed at which the platform moves.
