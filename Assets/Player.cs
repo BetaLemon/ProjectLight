@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -13,12 +14,14 @@ public class Player : MonoBehaviour {
     //Player Economy:
     public int gemstones = 0;
     public int smallGemstones = 0;
+    public Text LargeGemstones;
+    public Text SmallGemstones;
 
     //FallDamage control:
     private float lastPositionY = 0f;
     private float fallDistance = 0f;
-    public float fallDamageDistance = 8f;
-
+    public float fallDamageStartDistance = 5f;
+    
     private CharacterController controllerRef; //Own character controller
 
     //Area control:
@@ -32,8 +35,8 @@ public class Player : MonoBehaviour {
 	
 	void Update () {
 
-        //Fall damage system through: HeightControl Also causes player health to deplete below y0 It's kind of a bug, 
-        //but it's actually usefull lol. Alternative: Use MoveDirection.y from PlayerController.cs as a velocity variation accounting for fall damage)
+        //Fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
+        //Alternative: Use MoveDirection.y from PlayerController.cs as a velocity variation accounting for fall damage
 
         if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
         {
@@ -42,13 +45,13 @@ public class Player : MonoBehaviour {
 
         lastPositionY = transform.position.y; //Update last position as current to account for next update iteration
 
-        if (fallDistance >= fallDamageDistance && controllerRef.isGrounded) //Damage if we fell from high enough
+        if (fallDistance >= fallDamageStartDistance && controllerRef.isGrounded) //Damage if we fell from high enough, according to further height
         {
-            health -= 5;
+            health -= 10 + fallDistance*10; //The higher the altitude, the higher the damage
             ApplyNormal();
         }
 
-        if (fallDistance <= fallDamageDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
+        if (fallDistance <= fallDamageStartDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
         {
             ApplyNormal();
         }
@@ -67,8 +70,15 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("SmallGemstone")) { Destroy(other.gameObject); smallGemstones += 1; }
-        else if (other.gameObject.CompareTag("Gemstone")) { Destroy(other.gameObject); gemstones += 1; }
+        if (other.gameObject.CompareTag("SmallGemstone"))
+        {
+            Destroy(other.gameObject); smallGemstones += 1;
+            SmallGemstones.text = "SmallGemstones x" + smallGemstones.ToString(); //Update GUI
+        }
+        else if (other.gameObject.CompareTag("Gemstone")) {
+            Destroy(other.gameObject); gemstones += 1;
+            LargeGemstones.text = "LargeGemstones x" + gemstones.ToString(); //Update GUI
+        }
         else if (other.gameObject.CompareTag("ManaCharge")) { Destroy(other.gameObject); health += 5; }
     }
     
