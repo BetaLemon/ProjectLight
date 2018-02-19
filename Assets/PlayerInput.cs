@@ -24,7 +24,8 @@ public class PlayerInput : MonoBehaviour {
 	void Update () {
         input["Horizontal"] = Input.GetAxis("Horizontal");
         input["Vertical"] = Input.GetAxis("Vertical");
-        input["Jump"] = Input.GetAxis("Jump");
+        //input["Jump"] = Input.GetAxis("Jump");
+        input["Jump"] = 0;  // Jump has been disabled.
 
         input["BaseInteraction"] = Input.GetAxis("BaseInteraction");
         input["LightMax"] = Input.GetAxis("LightMax");
@@ -33,7 +34,7 @@ public class PlayerInput : MonoBehaviour {
 
     public bool isPressed(string id)
     {
-        return (input[id] != 0);
+        return (input[id] > 0 || input[id] < 0);
     }
 
     public float getInput(string id)

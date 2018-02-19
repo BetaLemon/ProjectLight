@@ -24,11 +24,15 @@ public class PlayerController : MonoBehaviour {
         input = GetComponent<PlayerInput>();
     }
 
-    void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
+    void Update()
     {
         moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
         moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
+    }
 
+    void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
+    {
+   
         if (!controller.isGrounded) // If the player is not grounded / is in the air.
         {
             moveDirection.y -= gravity; // We apply gravity.
@@ -48,12 +52,17 @@ public class PlayerController : MonoBehaviour {
 
         controller.Move(moveDirection * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
 
-        if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
-        {
-            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
-        }
+        if (moveDirection.x == 0) { moveDirection.x = transform.forward.x; }
+        if(moveDirection.z == 0) { moveDirection.z = transform.forward.z; }
+        //moveDirection.y = transform.forward.y;
 
-        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime * speed);   // We rotate the player towards lerpLook, applying a lerp.
+       // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
+       // {
+            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
+                                                                                                    //  }
+        //transform.forward = Vector3.RotateTowards(transform.forward, moveDirection, speed, speed);
+
+        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
 
         // I don't know what this old junk is:
 

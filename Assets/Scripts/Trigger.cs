@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Trigger : MonoBehaviour {
 
+    public enum TriggerType { ON_CHARGE, ON_HIT };
+
     // Script that allows objects to react to the player's lightshaft. This allows it to trigger things, thus the name.
 
     public GameObject[] triggeredObjects;   // Objects that will be triggered.
+    public TriggerType type;
+    [Range(0, 10)]
+    public float triggerCharge;
 
-    public int triggerCount = 0;    //Times the trigger has been triggered
+    private int triggerCount = 0;    //Times the trigger has been triggered
     public int maxTriggers = 1;     //Maximum ammount of times it can be triggered
 
-    public float triggerDelay;      //Delay before next trigger usage
+    private float triggerDelay;      //Delay before next trigger usage
     private float timer = 0;        //Time since the trigger was last triggered
     private bool canBeTriggered = true; //If timeSinceLastTrigger surpasses triggerDelay, this is set to true
 
@@ -51,6 +56,33 @@ public class Trigger : MonoBehaviour {
                         Door door = triggeredObjects[i].GetComponent<Door>();
                         door.getTriggered();
                         break;
+                }
+            }
+        }
+    }
+
+    public void pleaseTrigger(float currentCharge)
+    {
+        if (triggerCount < maxTriggers && canBeTriggered)
+        { //Trigger use limiter
+            for (int i = 0; i < triggeredObjects.Length; i++)   // For all the objects in the array that need to be triggered:
+            {
+                if(currentCharge > triggerCharge)
+                {
+                    triggerCount++;
+                    canBeTriggered = false;
+
+                    switch (triggeredObjects[i].tag)    // For the type of object that is triggered, we have each of the actions to be done:
+                    {
+                        case "MovingPlatform":
+                            MovingPlatform platform = triggeredObjects[i].GetComponent<MovingPlatform>();
+                            platform.getTriggered();
+                            break;
+                        case "Door":
+                            Door door = triggeredObjects[i].GetComponent<Door>();
+                            door.getTriggered();
+                            break;
+                    }
                 }
             }
         }
