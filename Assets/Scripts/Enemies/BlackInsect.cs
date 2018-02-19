@@ -6,7 +6,7 @@ public class BlackInsect : MonoBehaviour {
 
     //// Script for a basic enemy that walks between a number of set points in a cycle.
 
-    enum EnemyState { WALKING, HURTED, WAITING };
+    enum EnemyState { WALKING, HURT, WAITING };
 
     private CharacterController controller; // CharacterController that controls the enemy.
     public GameObject[] positions;          // Stores all the positions the enemy is gonna work towards to.
@@ -25,7 +25,7 @@ public class BlackInsect : MonoBehaviour {
     private float life;
 
     private EnemyState state;
-    private float[] stateDeltas = {0,0,0};  // WALKING, HURTED, WAITING
+    private float[] stateDeltas = {0,0,0};  // WALKING, HURT, WAITING
     private float[] stateSwitchTime = { 0, 0.1f, 0.5f };
 
     // FOR DEBUGGING:
@@ -67,7 +67,7 @@ public class BlackInsect : MonoBehaviour {
                     tmpVec = Vector3.Normalize((positions[(activeNode + 1) % positions.Length].transform.position - transform.position)) * speed;
                     directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
                     break;
-                case EnemyState.HURTED:
+                case EnemyState.HURT:
                     Vector3 player = FindObjectOfType<Player>().transform.position;
                     tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed+5);
                     directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
@@ -107,8 +107,12 @@ public class BlackInsect : MonoBehaviour {
         else    // If the enemy is dead:
         {
             // This is for debugging only:
-            DarkSphere.SetActive(false);
-            GetComponent<SphereCollider>().enabled = false;
+            
+            transform.parent.gameObject.SetActive(false); //Disactivate whole enemy
+            GetComponent<DropsSystem>().Drop(transform.position); //Call drops for this enemy
+
+            //DarkSphere.SetActive(false);
+            //GetComponent<SphereCollider>().enabled = false;
         }
     }
 
@@ -147,9 +151,10 @@ public class BlackInsect : MonoBehaviour {
         if(state == EnemyState.WALKING)
         {
             if (life > 0) { life -= 1; }
-            state = EnemyState.HURTED;
+            state = EnemyState.HURT;
         }
         //knockback = true;
         print("Enemy was hurt. Life is " + life);
     }
+
 }

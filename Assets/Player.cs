@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -10,18 +11,54 @@ public class Player : MonoBehaviour {
     private float minHealth = 0f; //Health at which the player dies
     public float respawnHealth = 15; //Health with which the player respawns after death
 
-    private GameObject currentArea = null; //La ultima area en la que el jugador ha entrado
+    //Player Economy:
+    public int gemstones = 0;
+    public int smallGemstones = 0;
+    public Text LargeGemstones;
+    public Text SmallGemstones;
 
-	// Use this for initialization
+    //FallDamage control:
+    private float lastPositionY = 0f;
+    private float fallDistance = 0f;
+    public float fallDamageStartDistance = 5f;
+    
+    private CharacterController controllerRef; //Own character controller
+
+    //Area control:
+    [Tooltip("Sets where the player would respawn if not assigned to any area")]
+    public Vector3 baseWorldSpawn = new Vector3(0, 0, 0);
+    private GameObject currentArea = null; //Last area where the player has entered
+
 	void Start () {
-
-	}
+        controllerRef = FindObjectOfType<CharacterController>();
+    }
 	
-	// Update is called once per frame
 	void Update () {
-        //Health limits:
-		if(health > maxHealth) { health = maxHealth; }
-        if(health < minHealth) { health = minHealth; Die(); }
+
+        //Fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
+        //Alternative: Use MoveDirection.y from PlayerController.cs as a velocity variation accounting for fall damage
+
+        if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
+        {
+            fallDistance += lastPositionY - transform.position.y;
+        }
+
+        lastPositionY = transform.position.y; //Update last position as current to account for next update iteration
+
+        if (fallDistance >= fallDamageStartDistance && controllerRef.isGrounded) //Damage if we fell from high enough, according to further height
+        {
+            health -= 10 + fallDistance*10; //The higher the altitude, the higher the damage
+            ApplyNormal();
+        }
+
+        if (fallDistance <= fallDamageStartDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
+        {
+            ApplyNormal();
+        }
+
+        //Health limiters:
+        if (health > maxHealth) { health = maxHealth; }
+        if (health < minHealth) { health = minHealth; Die(); }
 	}
 
     private void OnTriggerStay(Collider other)
@@ -31,6 +68,21 @@ public class Player : MonoBehaviour {
         else if (other.gameObject.CompareTag("Lethal")) { Die(); } //Player enters lethal area, dies and respawns
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("SmallGemstone"))
+        {
+            Destroy(other.gameObject); smallGemstones += 1;
+            SmallGemstones.text = "SmallGemstones x" + smallGemstones.ToString(); //Update GUI
+        }
+        else if (other.gameObject.CompareTag("Gemstone")) {
+            Destroy(other.gameObject); gemstones += 1;
+            LargeGemstones.text = "LargeGemstones x" + gemstones.ToString(); //Update GUI
+        }
+        else if (other.gameObject.CompareTag("ManaCharge")) { Destroy(other.gameObject); health += 5; }
+    }
+    
+
     private void Die() {
         print("Player died");
         //Send to spawn point:
@@ -39,9 +91,15 @@ public class Player : MonoBehaviour {
             transform.position = currentArea.transform.GetChild(0).transform.position;
         }
         else {
-            transform.position = new Vector3(0,0,0); //Base Spawn
+            transform.position = baseWorldSpawn; //Send to central world spawn
         }
         //Reset Health:
         health = respawnHealth;
+    }
+
+    private void ApplyNormal()
+    {
+        fallDistance = 0;
+        lastPositionY = 0;
     }
 }
