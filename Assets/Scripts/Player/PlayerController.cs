@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
                                                                                                     //  }
         //transform.forward = Vector3.RotateTowards(transform.forward, moveDirection, speed, speed);
 
-        
+        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*3);   // We rotate the player towards lerpLook, applying a lerp.
 
         // I don't know what this old junk is:
 
