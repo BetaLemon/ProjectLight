@@ -48,7 +48,7 @@ public class PlayerInput : MonoBehaviour {
 
     public bool isPressed(string id)
     {
-        return (input[id] != 0);
+        return (input[id] > 0 || input[id] < 0);
     }
 
     public float getInput(string id)
