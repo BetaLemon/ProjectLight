@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     // Variables:
     CharacterController controller; // For controlling the player.
-    public float speed = 6.0f;      // Speed at which he moves.
+    public float speed = 3.0f;      // Speed at which he moves.
     public float jumpSpeed = 10f;   // Speed at which he jumps.
     public float gravity = 1.0f;    // Gravity acceleration.
     private Vector3 moveDirection;  // The direction the player is gonna move towards.
@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
     public float maxJumpTime;       // The maximum time the player will be able to be in the air.
 
     private PlayerInput input;
+
+    //Please remove this piece of shit after the alpha:
+    public GameObject playerRig; //Alpha bullshit
 
     void Start()    // When the script starts.
     {
@@ -52,8 +55,12 @@ public class PlayerController : MonoBehaviour {
 
         controller.Move(moveDirection * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
 
-        if (moveDirection.x == 0) { moveDirection.x = transform.forward.x; }
-        if(moveDirection.z == 0) { moveDirection.z = transform.forward.z; }
+        //Please remove this piece of shit after the alpha:
+        playerRig.GetComponent<Animation>().enabled = false;
+        if (moveDirection.x == 0) { moveDirection.x = transform.forward.x;  } //Last bit is Alpha bullshit
+        else { playerRig.GetComponent<Animation>().enabled = true; }
+        if (moveDirection.z == 0) { moveDirection.z = transform.forward.z;}
+        else { playerRig.GetComponent<Animation>().enabled = true; }
         //moveDirection.y = transform.forward.y;
 
        // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
