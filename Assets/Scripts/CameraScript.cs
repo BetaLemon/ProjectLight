@@ -6,7 +6,7 @@ public class CameraScript : MonoBehaviour {
 
     // This script controls camera movement
 
-    enum CameraMode { GAME_START, FOCUSED, PLAYER };
+    public enum CameraMode { GAME_START, FOCUSED, PLAYER };
     private CameraMode mode;
     private GameObject focused;
 
@@ -125,4 +125,7 @@ public class CameraScript : MonoBehaviour {
         focused = null;
         mode = CameraMode.PLAYER;
     }
+
+    public CameraMode getMode() { return mode; }
+    public void setMode(CameraMode _mode) { mode = _mode; }
 }

@@ -9,8 +9,12 @@ public class PlayerInput : MonoBehaviour {
 
     private Dictionary<string, float> input = new Dictionary<string, float>();
 
+    private GameManager gameManager;
+
 	// Use this for initialization
 	void Start () {
+        gameManager = FindObjectOfType<GameManager>();
+
         input.Add("Horizontal", 0);
         input.Add("Vertical", 0);
         input.Add("Jump", 0);
@@ -22,14 +26,17 @@ public class PlayerInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        input["Horizontal"] = Input.GetAxis("Horizontal");
-        input["Vertical"] = Input.GetAxis("Vertical");
-        //input["Jump"] = Input.GetAxis("Jump");
-        input["Jump"] = 0;  // Jump has been disabled.
+        if(gameManager.mode == GameManager.GameMode.GAME)
+        {
+            input["Horizontal"] = Input.GetAxis("Horizontal");
+            input["Vertical"] = Input.GetAxis("Vertical");
+            //input["Jump"] = Input.GetAxis("Jump");
+            input["Jump"] = 0;  // Jump has been disabled.
 
-        input["BaseInteraction"] = Input.GetAxis("BaseInteraction");
-        input["LightMax"] = Input.GetAxis("LightMax");
-        input["LightSwitch"] = Input.GetAxis("LightSwitch");
+            input["BaseInteraction"] = Input.GetAxis("BaseInteraction");
+            input["LightMax"] = Input.GetAxis("LightMax");
+            input["LightSwitch"] = Input.GetAxis("LightSwitch");
+        }
     }
 
     public bool isPressed(string id)
