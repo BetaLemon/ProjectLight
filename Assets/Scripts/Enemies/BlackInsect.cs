@@ -75,7 +75,7 @@ public class BlackInsect : MonoBehaviour {
 
                         directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
                         break;
-                    case EnemyState.HURTED:
+                    case EnemyState.HURT:
                         Vector3 player = FindObjectOfType<Player>().transform.position;
                         tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed + 5);
                         directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
