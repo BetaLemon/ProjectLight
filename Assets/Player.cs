@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
 
         if (fallDistance >= fallDamageStartDistance && controllerRef.isGrounded) //Damage if we fell from high enough, according to further height
         {
-            health -= 10 + fallDistance*10; //The higher the altitude, the higher the damage
+            health -= 40 + fallDistance*10; //The higher the altitude, the higher the damage
             ApplyNormal();
         }
 
