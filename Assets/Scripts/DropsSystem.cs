@@ -17,7 +17,9 @@ public class DropsSystem : MonoBehaviour {
             for (int j = 0; j < ammounts[i]; j++)
             {
                 justInstantiated = Instantiate(drops[i], position, rotation);
-                justInstantiated.GetComponent<Rigidbody>().AddForce(Random.Range(-3.0f, 3.0f), 0, Random.Range(-3.0f, 3.0f), ForceMode.Impulse); //Sparces the drops randomly
+                if (justInstantiated.tag == "SmallGemstone" || justInstantiated.tag == "ManaCharge") {
+                    justInstantiated.GetComponent<Rigidbody>().AddForce(Random.Range(-3.0f, 3.0f), 0, Random.Range(-3.0f, 3.0f), ForceMode.Impulse); //Sparces the drops randomly
+                }
             }
         }
     }
@@ -29,7 +31,9 @@ public class DropsSystem : MonoBehaviour {
             for (int j = 0; j < ammounts[i]; j++)
             {
                 justInstantiated = Instantiate(drops[i], position, Quaternion.identity);
-                justInstantiated.GetComponent<Rigidbody>().AddForce(Random.Range(-3.0f, 3.0f), 0, Random.Range(-3.0f, 3.0f), ForceMode.Impulse); //Sparces the drops randomly
+                if (justInstantiated.tag == "SmallGemstone" || justInstantiated.tag == "ManaCharge") {
+                    justInstantiated.GetComponent<Rigidbody>().AddForce(Random.Range(-3.0f, 3.0f), 0, Random.Range(-3.0f, 3.0f), ForceMode.Impulse); //Sparces the drops randomly
+                }
             }
         }
     }
