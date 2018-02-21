@@ -13,6 +13,7 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         input.Add("Horizontal", 0);
         input.Add("Vertical", 0);
+        input.Add("Run", 0);
         input.Add("Jump", 0);
 
         input.Add("BaseInteraction", 0);
@@ -24,6 +25,7 @@ public class PlayerInput : MonoBehaviour {
 	void Update () {
         input["Horizontal"] = Input.GetAxis("Horizontal");
         input["Vertical"] = Input.GetAxis("Vertical");
+        input["Run"] = Input.GetAxis("Run");
         //input["Jump"] = Input.GetAxis("Jump");
         input["Jump"] = 0;  // Jump has been disabled.
 

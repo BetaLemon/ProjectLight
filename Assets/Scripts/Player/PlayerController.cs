@@ -5,15 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     // Variables:
-    CharacterController controller; // For controlling the player.
-    public float speed = 3.0f;      // Speed at which he moves.
-    public float jumpSpeed = 10f;   // Speed at which he jumps.
-    public float gravity = 1.0f;    // Gravity acceleration.
-    private Vector3 moveDirection;  // The direction the player is gonna move towards.
-    private Quaternion lerpLook;    // The direction at which the player is gonna look.
+    CharacterController controller;       // For controlling the player.
+    public float speed = 3.0f;            // Base speed at which the character walks.
+    public float runSpeed = 6.0f;         // Character run speed.
+    private float movementMultiplier = 0; // Value per which the player will actually be moved. Will be either speed or runSpeed
+    private bool runModeActive = false;   // Should the player run instead of walk on move input?
+    public float jumpSpeed = 10f;         // Speed at which he jumps.
+    public float gravity = 1.0f;          // Gravity acceleration.
+    private Vector3 moveDirection;        // The direction the player is gonna move towards.
+    private Quaternion lerpLook;          // The direction at which the player is gonna look.
 
-    private float prevJumpTime;     // For controlling the time the player spends in the air.
-    public float maxJumpTime;       // The maximum time the player will be able to be in the air.
+    private float prevJumpTime;           // For controlling the time the player spends in the air.
+    public float maxJumpTime;             // The maximum time the player will be able to be in the air.
 
     private PlayerInput input;
 
@@ -29,8 +32,41 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
-        moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
-        moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
+
+        //Run system (Speed filter according to if running): //You can run by pressing L-SHIFT or Double tapping: W,A,S,D buttons
+
+        movementMultiplier = 0; //No movement unless further said otherwise
+
+        if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) runModeActive = false; //No movement, stop run mode
+        else if ( input.getInput("Run") != 0 ) runModeActive = true; //Run mode if input for running
+
+        if (!runModeActive) //The player should walk, run mode is inactive
+        {
+            movementMultiplier = speed;
+        }
+        else //Run mode is active, apply run speed
+        {
+            movementMultiplier = runSpeed;
+        }
+
+       /*if (input.getInput("Horizontal") != 0 && input.getInput("Vertical") != 0 && !runModeActive) //The player should walk
+       {
+           movementMultiplier = speed;
+       }
+       else if (input.getInput("Run") != 0 && !runModeActive) //The player started running through left shift mode specifier input
+       {
+           runModeActive = true;
+           movementMultiplier = runSpeed;
+       }
+       else //The player stopped moving. Guarantee walk movement speed as long as he doesn't start running.
+       {
+           runModeActive = false;
+           movementMultiplier = 0;
+       }*/
+
+       //Basic movement system:
+       moveDirection.x = input.getInput("Horizontal") * movementMultiplier;  // The player's x movement is the Horizontal Input (0-1) * speed.
+       moveDirection.z = input.getInput("Vertical") * movementMultiplier;    // The player's y movement is the Vertical Input (0-1) * speed.
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
