@@ -13,7 +13,7 @@ public class BlackInsect : MonoBehaviour {
 
     public float speed = 5.0f;          // Speed at which it moves.
     public float rotationSpeed = 0.05f; // Speed at which he rotates over the 'y' axis when changing target position.
-    public float gravity = 2.0f;               // Stores gravity applied.
+    public float gravity = 2.0f;        // Stores gravity applied.
 
     private bool alive;                 // Stores whether the enemy is alive or not.
     public bool isAMovingEnemy = true;
@@ -21,6 +21,8 @@ public class BlackInsect : MonoBehaviour {
 
     private Vector3 directionVector;    // Vector of direction in which it is gonna move.
     private int activeNode;             // The current node it moves towards.
+
+    public float damageDeal = 0.5f;     // Ammount of damage dealt on contact with player. The player looks for this damage.
 
     public int maxLife = 5;
     private float life;
@@ -165,5 +167,7 @@ public class BlackInsect : MonoBehaviour {
         //knockback = true;
         print("Enemy was hurt. Life is " + life);
     }
+
+    public float getDamageDealt() { return damageDeal; } //Used by the player for on contact with insect dark area damage dealing
 
 }

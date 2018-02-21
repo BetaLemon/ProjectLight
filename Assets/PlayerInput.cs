@@ -49,7 +49,7 @@ public class PlayerInput : MonoBehaviour {
         input["LightMax"] = Input.GetAxis("LightMax");
         input["LightSwitch"] = Input.GetAxis("LightSwitch");
 
-        print("D: " + doubleInput["doubleClickD"] + " A: " + doubleInput["doubleClickA"] + " W: " + doubleInput["doubleClickW"] + " S: " + doubleInput["doubleClickS"]);
+        //print("D: " + doubleInput["doubleClickD"] + " A: " + doubleInput["doubleClickA"] + " W: " + doubleInput["doubleClickW"] + " S: " + doubleInput["doubleClickS"]);
 
         //Assign double click checkings statuses to dictionary indexes (Double click confirming):
         doubleInput["doubleClickD"] = false;
@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour {
             if (Time.time - lastClickD < doubleClickDelay)
             {
                 doubleInput["doubleClickD"] = true;
-                print("Double D input");
+                //print("Double D input");
             }
             lastClickD = Time.time;
         }
@@ -68,7 +68,7 @@ public class PlayerInput : MonoBehaviour {
             if (Time.time - lastClickA < doubleClickDelay)
             {
                 doubleInput["doubleClickA"] = true;
-                print("Double A input");
+                //print("Double A input");
             }
             lastClickA = Time.time;
         }
@@ -78,7 +78,7 @@ public class PlayerInput : MonoBehaviour {
             if (Time.time - lastClickW < doubleClickDelay)
             {
                 doubleInput["doubleClickW"] = true;
-                print("Double W input");
+                //print("Double W input");
             }
             lastClickW = Time.time;
         }
@@ -88,7 +88,7 @@ public class PlayerInput : MonoBehaviour {
             if (Time.time - lastClickS < doubleClickDelay)
             {
                 doubleInput["doubleClickS"] = true;
-                print("Double S input");
+                //print("Double S input");
             }
             lastClickS = Time.time;
         }

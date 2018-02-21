@@ -64,7 +64,7 @@ public class Player : MonoBehaviour {
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Area")) { currentArea = other.gameObject; } //Player enters area, we save the area
-        else if (other.gameObject.CompareTag("BlackInsect")) { health -= 1 * Time.deltaTime; } //Black insect's dark areas damage the player
+        else if (other.gameObject.CompareTag("BlackInsect")) { health -= other.gameObject.GetComponent<BlackInsect>().getDamageDealt() * Time.deltaTime; } //Black insect's dark areas damage the player
         else if (other.gameObject.CompareTag("Lethal")) { Die(); } //Player enters lethal area, dies and respawns
     }
 
