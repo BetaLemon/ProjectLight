@@ -38,7 +38,13 @@ public class PlayerController : MonoBehaviour {
         movementMultiplier = 0; //No movement unless further said otherwise
 
         if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) runModeActive = false; //No movement, stop run mode
+
         else if ( input.getInput("Run") != 0 ) runModeActive = true; //Run mode if input for running
+        //Check for a double input of: W, A, S, D, and if so, apply runModeActive true
+        else if (input.wasDoubleClicked("doubleClickD")) { runModeActive = true; }
+        else if (input.wasDoubleClicked("doubleClickA")) { runModeActive = true; }
+        else if (input.wasDoubleClicked("doubleClickW")) { runModeActive = true; }
+        else if (input.wasDoubleClicked("doubleClickS")) { runModeActive = true; }
 
         if (!runModeActive) //The player should walk, run mode is inactive
         {
@@ -48,21 +54,6 @@ public class PlayerController : MonoBehaviour {
         {
             movementMultiplier = runSpeed;
         }
-
-       /*if (input.getInput("Horizontal") != 0 && input.getInput("Vertical") != 0 && !runModeActive) //The player should walk
-       {
-           movementMultiplier = speed;
-       }
-       else if (input.getInput("Run") != 0 && !runModeActive) //The player started running through left shift mode specifier input
-       {
-           runModeActive = true;
-           movementMultiplier = runSpeed;
-       }
-       else //The player stopped moving. Guarantee walk movement speed as long as he doesn't start running.
-       {
-           runModeActive = false;
-           movementMultiplier = 0;
-       }*/
 
        //Basic movement system:
        moveDirection.x = input.getInput("Horizontal") * movementMultiplier;  // The player's x movement is the Horizontal Input (0-1) * speed.
