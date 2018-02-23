@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour {
         if(fallDistance == 0 && prevFallDistance != 0)
         {
             print(prevFallDistance);
-            if(prevFallDistance > 240)
+            if(prevFallDistance > 200)
             {
                 GetComponent<Player>().fallDamage(prevFallDistance);
             }
