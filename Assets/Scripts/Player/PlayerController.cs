@@ -132,4 +132,9 @@ public class PlayerController : MonoBehaviour {
             transform.parent = null;
         }
     }
+
+    public float getYAxisMoveDir()
+    {
+        return moveDirection.y;
+    }
 }

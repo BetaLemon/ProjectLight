@@ -20,9 +20,12 @@ public class Player : MonoBehaviour {
     //FallDamage control:
     private float lastPositionY = 0f;
     private float fallDistance = 0f;
-    public float fallDamageStartDistance = 5f;
-    
-    private CharacterController controllerRef; //Own character controller
+    //public float fallDamageStartDistance = 5f;
+    public float fallDamageStartVelocity = -15f; //Velocity from which fall damage starts to occur if on contact with floor and high enough MoveDirection.y
+    private float prevAxisMoveDir; //Previous MoveDirection.y value for variance checking
+
+    private CharacterController controllerRef; //Own character controller reference
+    private PlayerController playerControllerRef; //Own player controller script reference
 
     //Area control:
     [Tooltip("Sets where the player would respawn if not assigned to any area")]
@@ -31,14 +34,24 @@ public class Player : MonoBehaviour {
 
 	void Start () {
         controllerRef = FindObjectOfType<CharacterController>();
+        playerControllerRef = GetComponent<PlayerController>();
     }
 	
 	void Update () {
 
-        //Fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
-        //Alternative: Use MoveDirection.y from PlayerController.cs as a velocity variation accounting for fall damage
+        //Fall damage with MoveDirection.y from PlayerController.cs as accounting for fall damage
+        print(playerControllerRef.getYAxisMoveDir());
 
-        if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
+        if (prevAxisMoveDir < fallDamageStartVelocity && playerControllerRef.getYAxisMoveDir() == 0 && controllerRef.isGrounded)
+        {
+            health -= 100;
+        }
+
+        prevAxisMoveDir = playerControllerRef.getYAxisMoveDir();
+
+
+        //Old fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
+        /*if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
         {
             fallDistance += lastPositionY - transform.position.y;
         }
@@ -54,7 +67,7 @@ public class Player : MonoBehaviour {
         if (fallDistance <= fallDamageStartDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
         {
             ApplyNormal();
-        }
+        }*/
 
         //Health limiters:
         if (health > maxHealth) { health = maxHealth; }
