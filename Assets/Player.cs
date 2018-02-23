@@ -40,7 +40,9 @@ public class Player : MonoBehaviour {
 	void Update () {
 
         //Fall damage with MoveDirection.y from PlayerController.cs as accounting for fall damage
-        print(playerControllerRef.getYAxisMoveDir());
+       // print(playerControllerRef.getYAxisMoveDir());
+
+        /*
 
         if (prevAxisMoveDir < fallDamageStartVelocity && playerControllerRef.getYAxisMoveDir() == 0 && controllerRef.isGrounded)
         {
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour {
         }
 
         prevAxisMoveDir = playerControllerRef.getYAxisMoveDir();
-
+        */
 
         //Old fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
         /*if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
@@ -114,5 +116,9 @@ public class Player : MonoBehaviour {
     {
         fallDistance = 0;
         lastPositionY = 0;
+    }
+
+    public void fallDamage(float damage) {
+        health -= damage;
     }
 }

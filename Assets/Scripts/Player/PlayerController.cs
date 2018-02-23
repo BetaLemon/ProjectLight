@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour {
 
     private PlayerInput input;
 
+    private float fallDistance;
+    private float prevFallDistance;
+
     //Please remove this piece of shit after the alpha:
     public GameObject playerRig; //Alpha bullshit
 
@@ -62,17 +65,33 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
     {
-   
+        
         if (!controller.isGrounded) // If the player is not grounded / is in the air.
         {
-            moveDirection.y -= gravity; // We apply gravity.
+            moveDirection.y = -1*gravity; // We apply gravity.
+            fallDistance += Mathf.Abs(moveDirection.y);
         }
         else    // Else, the player is touching the ground.
         {
-            moveDirection.y = 0;    // His vertical (y) movement is reset.
+            //moveDirection.y = 0;    // His vertical (y) movement is reset.
             prevJumpTime = 0;       // His time in the air is 0.
+            fallDistance = 0;
         }
-        if(prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
+
+        if(fallDistance == 0 && prevFallDistance != 0)
+        {
+            print(prevFallDistance);
+            if(prevFallDistance > 240)
+            {
+                GetComponent<Player>().fallDamage(prevFallDistance);
+            }
+        }
+
+        prevFallDistance = fallDistance;
+
+        //print(controller.isGrounded);// print(moveDirection.y);
+
+        if (prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
         {
             if (input.isPressed("Jump"))        // ... the Jump button is pressed...
                 moveDirection.y += jumpSpeed;   // ... add JumpSpeed to the vertical movement (y).
