@@ -61,7 +61,7 @@ public class LightOrb : MonoBehaviour {
     public void ChargeOrb()
     {
             float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
-            print("Increasing orb charge by: " + exchange);
+            //print("Increasing orb charge by: " + exchange);
             orbCharge += exchange; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
     }
 
