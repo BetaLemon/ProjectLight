@@ -6,7 +6,7 @@ public class CameraScript : MonoBehaviour {
 
     // This script controls camera movement
 
-    enum CameraMode { GAME_START, FOCUSED, PLAYER };
+    public enum CameraMode { GAME_START, FOCUSED, PLAYER };
     private CameraMode mode;
     private GameObject focused;
 
@@ -18,6 +18,9 @@ public class CameraScript : MonoBehaviour {
     public GameObject lookAtPoint;
     private int currentNode;
     public float tolerance; //needs to be private.
+
+    // FOR ALPHA ONLY:
+    private bool finishedTransition = false;
 
 	// Use this for initialization
 	void Start () {
@@ -52,6 +55,10 @@ public class CameraScript : MonoBehaviour {
 
     void PlayerCamera()
     {
+        //if(transform.rotation != Quaternion.LookRotation(player.transform.position) && !finishedTransition) { transform.LookAt(player.transform.position); }
+        //else { finishedTransition = true; }
+        transform.LookAt(player.transform.position);
+
         float interpolation = speed * Time.deltaTime;   // Calculates the interpolation for a smooth lerp.
 
         Vector3 position = transform.position;  // stores the camera's position.
@@ -91,7 +98,7 @@ public class CameraScript : MonoBehaviour {
 
         //transform.Translate(moveVec.normalized * 10);
 
-        transform.position = Vector3.MoveTowards(transform.position, panNodes[currentNode].transform.position, 0.2f);
+        transform.position = Vector3.MoveTowards(transform.position, panNodes[currentNode].transform.position, 0.1f);
         transform.LookAt(lookAtPoint.transform.position);
 
         //Vector3 middlePointBetweenNodes = panNodes[currentNode].transform.position + panNodes[currentNode + 1].transform.position;
@@ -101,6 +108,8 @@ public class CameraScript : MonoBehaviour {
         {
             currentNode = (currentNode + 1) % panNodes.Length;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space)) { mode = CameraMode.PLAYER; }
         //if(Vector3.Distance(transform.position, middlePointBetweenNodes) < tolerance)
         //{
         //    currentNode = (currentNode + 1) % panNodes.Length;
@@ -125,4 +134,7 @@ public class CameraScript : MonoBehaviour {
         focused = null;
         mode = CameraMode.PLAYER;
     }
+
+    public CameraMode getMode() { return mode; }
+    public void setMode(CameraMode _mode) { mode = _mode; }
 }
