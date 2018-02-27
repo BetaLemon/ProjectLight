@@ -5,11 +5,13 @@ using UnityEngine;
 public class DialogueLaunch : MonoBehaviour
 {
     bool nowInteract = false;
+    //GameObject playerRef;
 
     private void OnTriggerEnter(Collider other) //Función que ejecuta la caja de texto al triggear la colision del npc
     {
         if (other.gameObject.tag == "Player") //Si el objeto que ha causado la colision es el mago
         {
+            //playerRef = other.gameObject;
             nowInteract = true; //Ahora si podemos pulsar enter para activar el dialogo desde el update
         }
     }
@@ -28,7 +30,6 @@ public class DialogueLaunch : MonoBehaviour
         {
             Conversation conversation = GetComponentInChildren<Conversation>(); //Recoge el elemento de conversacion del npc al qual va adjudicado este script
             Panel.instance.PlayConversation(conversation); //Ejecuta la funcion de reproducir conversacion en el Panel con la conversacion que hemos recogido
-
         }
     }
 

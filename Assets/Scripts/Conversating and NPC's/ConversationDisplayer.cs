@@ -31,7 +31,7 @@ public class ConversationDisplayer : MonoBehaviour
 
     public float SecondsBetweenCharacters = 0.03f; //Delay between character's being shown on the text display.
 
-    public KeyCode DialogueInput = KeyCode.Z;
+    //public KeyCode DialogueInput = KeyCode.Z;
     bool startTheDialogue = false;
 
     public GameObject ContinueIcon;
@@ -147,10 +147,6 @@ public class ConversationDisplayer : MonoBehaviour
 //        Debug.Log("Movimiento: true");
         //PlayerController.instance.startStopMovement(true); //REACTIVATE MOVEMENT?
         Panel.instance.PanelActivation(false);
-
-        //trashy as hell, but tries to find intro manager, if success, notifies that dialogue is done. could be applied to something else if necessary
-        /*GameObject introSeq = GameObject.Find("intromanager");
-        if (introSeq != null) introSeq.GetComponent<IntroManager>().DialogueDone();*/
     }
 
     public void StartTheDialogue()
