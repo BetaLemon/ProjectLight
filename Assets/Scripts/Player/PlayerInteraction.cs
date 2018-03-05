@@ -60,6 +60,7 @@ public class PlayerInteraction : MonoBehaviour {
 
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit);} //Reflect mirror light
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
@@ -79,6 +80,13 @@ public class PlayerInteraction : MonoBehaviour {
         Vector3 inVec = mirrorHit.point - StaffLight.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
         Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
+    }
+
+    void Filter(RaycastHit filterHit)
+    {
+        Vector3 inVec = filterHit.point - StaffLight.transform.position;
+        filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
+        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(filterHit.point, Kamehameha.transform.position) / 2);
     }
 
     void TriggerTrigger(RaycastHit rh)
