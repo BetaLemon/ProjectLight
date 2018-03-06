@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour {
 
-    public Light StaffLight;
+    public GameObject CylindricLight;
     public GameObject Kamehameha;
 
     private RaycastHit rayHit;
@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour {
         pressedBaseInteraction = input.getInput("BaseInteraction");
 
         /// PASSIVE INTERACTION (Sphere Light)
-        Collider[] hitColliders = Physics.OverlapSphere(StaffLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
+        Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
         int tmp = 0;
         for (int i = 0; i < hitColliders.Length; i++)
         {
@@ -51,12 +51,9 @@ public class PlayerInteraction : MonoBehaviour {
         //print("Hit " + tmp + " triggers.");
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
-            if (Physics.Raycast(StaffLight.transform.position + new Vector3(0f,-1f,0f), transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
-            {   //debug
-                Vector3 reflectVec = Vector3.Reflect(rayHit.point - StaffLight.transform.position, rayHit.normal);  // For drawing the reflected line. (only debugging)
-                //print(reflectVec.x + " " + reflectVec.y + " " + reflectVec.z);
-                Debug.DrawRay(rayHit.point, reflectVec * 1000, Color.green); //Drawing the reflection ray as debug
-                //end debug
+            if (Physics.Raycast(CylindricLight.transform.position, transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            {
+                Debug.DrawRay(CylindricLight.transform.position, transform.forward * 1000, Color.green);
 
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit);} //Reflect mirror light
@@ -77,16 +74,16 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Mirror(RaycastHit mirrorHit)
     {
-        Vector3 inVec = mirrorHit.point - StaffLight.transform.position;
+        Vector3 inVec = mirrorHit.point - CylindricLight.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
-        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
+        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
     }
 
     void Filter(RaycastHit filterHit)
     {
-        Vector3 inVec = filterHit.point - StaffLight.transform.position;
+        Vector3 inVec = filterHit.point - CylindricLight.transform.position;
         filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
-        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(filterHit.point, Kamehameha.transform.position) / 2);
+        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, Kamehameha.transform.position) / 2);
     }
 
     void TriggerTrigger(RaycastHit rh)

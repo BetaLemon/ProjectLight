@@ -13,14 +13,14 @@ public class PlayerLight : MonoBehaviour {
     private float prevLightAxis = 0;
 
     //Light Orb variables
-    private float defaultLightSphereRange = 3.0f; //Orb light base extension radius to which the update tends
+    public float defaultLightSphereRange = 2.5f; //Orb light base extension radius to which the update tends
     public float lerpSpeed = 0.2f;
     public float maxExpandingLight;
     public float expandingLightSpeed;
 
     //Light Cylinder variables
-    public float lightSphereRangeInFarMode = 2.5f; //Orb light radius in far mode
-    public float maxLightCylinderScale = 8; //maximum local Z scale for the extended cylinder
+    public float lightSphereRangeInFarMode = 1.5f; //Orb light radius in far mode
+    public float maxLightCylinderScale = 6; //maximum local Z scale for the extended cylinder
     private float defaultLightCylinderScale;
 
     //Self health drainage system due to light expansion
@@ -100,11 +100,11 @@ public class PlayerLight : MonoBehaviour {
                 RaycastHit tmpHit = GetComponent<PlayerInteraction>().getRayHit();
                 if(tmpHit.collider != null) // If something was hit:
                 {
-                    lightCylinder.transform.localScale = new Vector3(16, 16, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position) / 2);
+                    lightCylinder.transform.localScale = new Vector3(8, 8, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position) / 2);
                 }
                 else    // Else, if nothing was hit:
                 {
-                    lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(maxLightCylinderScale, 2f, lightCylinder.transform.localScale.z));
+                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 2f, lightCylinder.transform.localScale.z));
                 }
 
                 break;

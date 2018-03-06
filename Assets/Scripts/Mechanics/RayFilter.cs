@@ -33,10 +33,9 @@ public class RayFilter : MonoBehaviour {
     void FixedUpdate () {
         if (processing)
         {    // If we are reflecting:
-            Kamehameha.transform.position = hitPoint;                                                                 // We set the Kamehameha's position to where the light hit.
-            processVec = incomingVec;                                                                                 // Process the light ray across the filter
-            Kamehameha.transform.forward = processVec;                                                                // We make the Kamehameha look in the direction of the reflected vector.
-            processing = false;                                                                                       // After this execution we won't be processing anymore.
+            Kamehameha.transform.position = hitPoint;                       // We set the Kamehameha's position to where the light hit.
+            Kamehameha.transform.forward = incomingVec;                     // We make the Kamehameha look in the direction of the reflected vector.
+            processing = false;                                             // After this execution we won't be processing anymore.
 
             if (Physics.Raycast(hitPoint, processVec, out rayHit))      // If our casted ray hits something:
             {
@@ -47,13 +46,13 @@ public class RayFilter : MonoBehaviour {
 
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
 
-                Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
+                Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
-                Kamehameha.transform.localScale = new Vector3(16, 16, 16);  // Set the size of our mirror's Kamehameha to the preliminary defaults: 16,16,16.
+                Kamehameha.transform.localScale = new Vector3(8, 8, 15);  // Set to max length.
             }
         }
         else    // If we're not reflecting:
@@ -66,7 +65,7 @@ public class RayFilter : MonoBehaviour {
     {
         Vector3 inVec = mirrorHit.point - hitPoint; // The incoming vector for the receiving mirror is the point where we were hit minus the point where it was hit.
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);    // We tell that mirror to reflect.
-        Kamehameha.transform.localScale = new Vector3(16, 16, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position) / 2);    // We make Kamehameha the length of the distance.
+        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position) / 2);    // We make Kamehameha the length of the distance.
     }
     // Function that is called when a trigger is hit:
     void TriggerTrigger(RaycastHit rh)
