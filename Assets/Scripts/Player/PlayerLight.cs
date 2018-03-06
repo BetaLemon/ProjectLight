@@ -20,7 +20,7 @@ public class PlayerLight : MonoBehaviour {
 
     //Light Cylinder variables
     public float lightSphereRangeInFarMode = 1.5f; //Orb light radius in far mode
-    public float maxLightCylinderScale = 6; //maximum local Z scale for the extended cylinder
+    public float maxLightCylinderScale = 6f; //maximum local Z scale for the extended cylinder
     private float defaultLightCylinderScale;
 
     //Self health drainage system due to light expansion
@@ -78,11 +78,9 @@ public class PlayerLight : MonoBehaviour {
         switch (lightMode)
         {
             case LightMode.NEAR:
-
                 lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
-                lightCylinder.transform.localScale = new Vector3(16, 16, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
+                lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                 if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
-
                 break;
             case LightMode.MAX:
                 GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
@@ -100,7 +98,17 @@ public class PlayerLight : MonoBehaviour {
                 RaycastHit tmpHit = GetComponent<PlayerInteraction>().getRayHit();
                 if(tmpHit.collider != null) // If something was hit:
                 {
-                    lightCylinder.transform.localScale = new Vector3(8, 8, Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position) / 2);
+                    //Check at what distance the intersection happened:
+                    float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
+                    if (distCylPosHitPos > maxLightCylinderScale)
+                    {
+                        lightCylinder.transform.localScale = new Vector3(8, 8, maxLightCylinderScale);
+                    }
+                    else
+                    {
+                        lightCylinder.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
+                    }
+                    
                 }
                 else    // Else, if nothing was hit:
                 {

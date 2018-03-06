@@ -48,12 +48,14 @@ public class Mirror : MonoBehaviour {
             if (Physics.Raycast(hitPoint, reflectVec, out rayHit))      // If our casted ray hits something:
             {   
                 Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);     // For debugging reasons, we display the ray.
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
+                float distCylPosHitPos = Vector3.Distance(hitPoint, Kamehameha.transform.position);
 
-                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
-
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
-
+                if (distCylPosHitPos < 15)
+                {
+                    if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
+                    if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
+                    if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
+                }
                 Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);      // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }

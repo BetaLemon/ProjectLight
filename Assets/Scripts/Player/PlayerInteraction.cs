@@ -54,13 +54,17 @@ public class PlayerInteraction : MonoBehaviour {
             if (Physics.Raycast(CylindricLight.transform.position, transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
             {
                 Debug.DrawRay(CylindricLight.transform.position, transform.forward * 1000, Color.green);
+                float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
 
                 // Specific game object interactions with light cylinder:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit);} //Reflect mirror light
-                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
-                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                if (distCylPosHitPos < 12) // Ignore if further than the max light ray length)
+                {
+                    if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
+                    if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+                    if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
+                    if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+                    if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                }
             }
         }
 
