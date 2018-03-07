@@ -5,7 +5,8 @@ using UnityEngine;
 public class LightOrb : MonoBehaviour {
 
     private GameObject thePlayer; //Reference to the player
-    private Trigger orbTrigger;     // ! We could make it so that the light orb could contain multiple triggers.
+    private Trigger orbTrigger; // ! We could make it so that the light orb could contain multiple triggers.
+    private GameObject OrbGeometry; 
     //--------
 
     public Light glow;
@@ -46,11 +47,9 @@ public class LightOrb : MonoBehaviour {
 
     void Start ()
     {
-
+        OrbGeometry = transform.GetChild(1).gameObject; // Assign Orb Geometry reference to the second child of this gameObject
         thePlayer = GameObject.Find("Player");  // Maybe use tags instead?
         orbTrigger = GetComponent<Trigger>();
-        //Assign start glow color:
-        glow.color = color;
     }
 
     public void SubtractFromOrb()
@@ -73,6 +72,10 @@ public class LightOrb : MonoBehaviour {
     {
         //DEBUG SECTION:
         //print(GetComponent<Light>().intensity);
+
+        //Update glow color:
+        glow.color = color;
+        OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
 
         //Orb energy charge limits:
         if (orbCharge > maxOrbCharge) orbCharge = maxOrbCharge;
