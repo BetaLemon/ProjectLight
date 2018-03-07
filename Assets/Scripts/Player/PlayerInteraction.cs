@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour {
 
     public GameObject CylindricLight;
-    public GameObject Kamehameha;
+    public GameObject LightRayGeometry;
 
     private RaycastHit rayHit;
     float prevBaseInteraction;
@@ -78,15 +78,15 @@ public class PlayerInteraction : MonoBehaviour {
     void Mirror(RaycastHit mirrorHit)
     {
         Vector3 inVec = mirrorHit.point - CylindricLight.transform.position;
-        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);
-        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position)/2);
+        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, Color.white);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 
     void Filter(RaycastHit filterHit)
     {
         Vector3 inVec = filterHit.point - CylindricLight.transform.position;
         filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
-        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, Kamehameha.transform.position) / 2);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 
     void TriggerTrigger(RaycastHit rh)

@@ -12,7 +12,7 @@ public class Mirror : MonoBehaviour {
     public bool movableMirror = true;
     private MirrorMode mode;
 
-    public GameObject Kamehameha;   // Stores the cylinder that represents the player's light ray. Internally called Kamehameha.
+    public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called Kamehameha.
 
     private Color color;    //The color the mirror will reflect. Depends on what it receives
     private bool reflecting;    // Controls whether it needs to make calculations and show the Kamehameha.
@@ -23,12 +23,13 @@ public class Mirror : MonoBehaviour {
     private bool hitOtherMirror = false;     // Stores specifically if a mirror has been hit.
     
     // Function that is called when a raycast has hit our mirror and a reflection is expected:
-    public void Reflect(Vector3 inVec, Vector3 normal, Vector3 point)   // Parameters actually come from the Raycast.
+    public void Reflect(Vector3 inVec, Vector3 normal, Vector3 point, Color inColor)   // Parameters actually come from the Raycast.
     {
         // We update our vector to the values of the raycastHit:
         incomingVec = inVec;
         normalVec = normal;
         hitPoint = point;
+        color = inColor;
         reflecting = true;  // We are now reflecting!
     }
 	
@@ -36,9 +37,10 @@ public class Mirror : MonoBehaviour {
 	void FixedUpdate () {
         if (reflecting)
         {
-            Kamehameha.transform.position = hitPoint;                          // We set the Kamehameha's position to where the light hit.
+            LightRayGeometry.GetComponentInParent<LightRay>().color = color;      // Assigns the color to the reflecting LightRay
+            LightRayGeometry.transform.position = hitPoint;                          // We set the Kamehameha's position to where the light hit.
             reflectVec= Vector3.Reflect(incomingVec, normalVec);               // We calculate the reflection vector, using our incoming and normal vectors.
-            Kamehameha.transform.forward = reflectVec;                         // We make the Kamehameha look in the direction of the reflected vector.
+            LightRayGeometry.transform.forward = reflectVec;                         // We make the Kamehameha look in the direction of the reflected vector.
             reflecting = false;                                                // After this execution we won't be reflecting anymore.
 
             Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);            // For debugging reasons, we display the ray.
@@ -48,19 +50,19 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color); } //Charge the light orb
 
-                Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);      // The length is the distance between the point of entering light
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);      // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
-                Kamehameha.transform.localScale = new Vector3(8, 8, 20);  // Set to max length.
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, 20);  // Set to max length.
                 hitOtherMirror = false;
             }
         }
         else    // If we're not reflecting:
         {
-            Kamehameha.transform.localScale = new Vector3(0, 0, 0); // We make the Kamehameha suuuuuuper tiny.
+            LightRayGeometry.transform.localScale = new Vector3(0, 0, 0); // We make the Kamehameha suuuuuuper tiny.
         }
         //transform.Rotate(new Vector3(0,1,0));
 
@@ -81,8 +83,8 @@ public class Mirror : MonoBehaviour {
     void OtherMirror(RaycastHit mirrorHit)
     {
         Vector3 inVec = mirrorHit.point - hitPoint; // The incoming vector for the receiving mirror is the point where we were hit minus the point where it was hit.
-        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point);    // We tell that mirror to reflect.
-        Kamehameha.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, Kamehameha.transform.position) / 2);    // We make Kamehameha the length of the distance.
+        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, color);    // We tell that mirror to reflect.
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2);    // We make Kamehameha the length of the distance.
     }
     // Function that is called when a trigger is hit:
     void TriggerTrigger(RaycastHit rh)
