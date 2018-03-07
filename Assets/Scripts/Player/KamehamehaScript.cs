@@ -6,14 +6,10 @@ public class KamehamehaScript : MonoBehaviour {
 
     public GameObject kamehameha;
     public float rotateSpeed;
+    public Color color = Color.white; //Color of the light ray, is white by default
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Update () {
+        
         kamehameha.transform.Rotate(0, 0, rotateSpeed);
 	}
 }

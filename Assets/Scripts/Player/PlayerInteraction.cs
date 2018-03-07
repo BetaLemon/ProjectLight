@@ -12,10 +12,12 @@ public class PlayerInteraction : MonoBehaviour {
     float pressedBaseInteraction;
 
     private PlayerInput input;
+    private PlayerLight light;
 
     void Start () {
         input = GetComponent<PlayerInput>();
-	}
+        light = GetComponent<PlayerLight>();
+    }
 	
 	void FixedUpdate () {
 
@@ -32,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(); //Attempt to charge the light orb if we are expanding the player light sphere radius
+                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white); //Attempt to charge the light orb if we are expanding the player light sphere radius
                         else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
@@ -51,20 +53,17 @@ public class PlayerInteraction : MonoBehaviour {
         //print("Hit " + tmp + " triggers.");
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
-            if (Physics.Raycast(CylindricLight.transform.position, transform.forward, out rayHit))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            Debug.DrawRay(CylindricLight.transform.position, transform.forward * light.maxLightCylinderScale * 2, Color.red);
+            if (Physics.Raycast(CylindricLight.transform.position, transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
             {
-                Debug.DrawRay(CylindricLight.transform.position, transform.forward * 1000, Color.green);
                 float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
 
                 // Specific game object interactions with light cylinder:
-                if (distCylPosHitPos < 12) // Ignore if further than the max light ray length)
-                {
-                    if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
-                    if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                    if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(); } //Charge the light orb
-                    if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-                    if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
-                }
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white); } //Charge the light orb
+                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             }
         }
 

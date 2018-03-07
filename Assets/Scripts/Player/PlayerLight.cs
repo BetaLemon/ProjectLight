@@ -20,7 +20,7 @@ public class PlayerLight : MonoBehaviour {
 
     //Light Cylinder variables
     public float lightSphereRangeInFarMode = 1.5f; //Orb light radius in far mode
-    public float maxLightCylinderScale = 6f; //maximum local Z scale for the extended cylinder
+    public float maxLightCylinderScale = 5f; //maximum local Z scale for the extended cylinder
     private float defaultLightCylinderScale;
 
     //Self health drainage system due to light expansion
@@ -100,7 +100,7 @@ public class PlayerLight : MonoBehaviour {
                 {
                     //Check at what distance the intersection happened:
                     float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
-                    if (distCylPosHitPos > maxLightCylinderScale)
+                    if (distCylPosHitPos / 2 > maxLightCylinderScale)
                     {
                         lightCylinder.transform.localScale = new Vector3(8, 8, maxLightCylinderScale);
                     }

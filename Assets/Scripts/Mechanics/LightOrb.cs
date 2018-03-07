@@ -26,7 +26,8 @@ public class LightOrb : MonoBehaviour {
     //Purple: Color.red + Color.blue
     //Pink: ???
 
-    public Color glowColor = Color.white; //Start orb color. Is public in order to be set up on level design
+    public Color color = Color.white; //The orb's current color. Is public in order to be set up on level design
+    public Color triggerColor = Color.white; //The color the orb should contain for it to be triggered
 
     private float Lerp(float goal, float speed, float currentVal)
     {
@@ -49,7 +50,7 @@ public class LightOrb : MonoBehaviour {
         thePlayer = GameObject.Find("Player");  // Maybe use tags instead?
         orbTrigger = GetComponent<Trigger>();
         //Assign start glow color:
-        glow.color = glowColor;
+        glow.color = color;
     }
 
     public void SubtractFromOrb()
@@ -58,11 +59,14 @@ public class LightOrb : MonoBehaviour {
             orbCharge -= exchange; //(orb subtraction)
             if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
     }
-    public void ChargeOrb()
+    public void ChargeOrb(Color enteringColor)
     {
+        if (enteringColor == color || orbCharge == 0)
+        {
+            color = enteringColor;
             float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
-            //print("Increasing orb charge by: " + exchange);
-            orbCharge += exchange; //The orb is filled with the same ammount of mana the wizard loses (orb deposition)
+            orbCharge += exchange; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
+        }
     }
 
     void Update()
