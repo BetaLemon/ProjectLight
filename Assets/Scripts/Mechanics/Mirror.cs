@@ -14,6 +14,15 @@ public class Mirror : MonoBehaviour {
 
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called Kamehameha.
 
+    //-------- COLOR RESTRICTIONS (6) ---------
+    //Red: Color.red
+    //Yellow: Color.red + Color.green
+    //Green: Color.green
+    //Blue: Color.blue
+    //Purple: Color.red + Color.blue
+    //Pink: Color.red + Color.white
+    //-----------------------------------------
+
     private Color color;    //The color the mirror will reflect. Depends on what it receives
     private bool reflecting;    // Controls whether it needs to make calculations and show the Kamehameha.
     // Vectors that store: the incoming light, the normal vector of the mirror, the position at which the light enters and leaves, the direction at which it leaves:
@@ -56,7 +65,7 @@ public class Mirror : MonoBehaviour {
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
-                LightRayGeometry.transform.localScale = new Vector3(8, 8, 20);  // Set to max length.
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, 15);  // Set to max length.
                 hitOtherMirror = false;
             }
         }

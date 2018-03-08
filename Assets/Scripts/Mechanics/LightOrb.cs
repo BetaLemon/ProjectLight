@@ -15,17 +15,17 @@ public class LightOrb : MonoBehaviour {
     public float orbCharge;                    //Current orb charge. Is public in order to be set up on level design
     private float maxOrbCharge = 10f;
     private float minOrbCharge = 0f;
-    private float orbGlowRangeFactor = 6f;    //Reduces orb glow range the higher it is
+    private float orbGlowRangeFactor = 6f;     //Reduces orb glow range the higher it is
     private float minOrbGlowRange = 1.5f;      //The orb starts to glow directly from this range
 
-    //-------- POSSIBLE ORB COLORS ---------
+    //-------- COLOR RESTRICTIONS (6) ---------
     //Red: Color.red
-    //Orange: ???
-    //Yellow: ???
-    //Green: Color.blue + Color.green
+    //Yellow: Color.red + Color.green
+    //Green: Color.green
     //Blue: Color.blue
     //Purple: Color.red + Color.blue
-    //Pink: ???
+    //Pink: Color.red + Color.white
+    //-----------------------------------------
 
     public Color color = Color.white; //The orb's current color. Is public in order to be set up on level design
     public Color triggerColor = Color.white; //The color the orb should contain for it to be triggered
@@ -70,9 +70,6 @@ public class LightOrb : MonoBehaviour {
 
     void Update()
     {
-        //DEBUG SECTION:
-        //print(GetComponent<Light>().intensity);
-
         //Update glow color:
         glow.color = color;
         OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);

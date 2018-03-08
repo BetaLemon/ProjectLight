@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RayFilter : MonoBehaviour {
+public class RayFilter : MonoBehaviour
+{
 
     // Filters process light rays and convert them to another colour
 
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called LightRay.
+
+    //-------- COLOR RESTRICTIONS (6) ---------
+    //Red: Color.red
+    //Yellow: Color.red + Color.green
+    //Green: Color.green
+    //Blue: Color.blue
+    //Purple: Color.red + Color.blue
+    //Pink: Color.red + Color.white
+    //-----------------------------------------
 
     public Color color;    //The color the filter will filter.
     private bool processing;
@@ -25,14 +35,15 @@ public class RayFilter : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         if (processing)
         {
             //print("LightRay being processed");
-            LightRayGeometry.GetComponentInParent<LightRay>().color = color;      // Assigns the color to the outputting LightRay
-            LightRayGeometry.transform.position = hitPoint;                       // We set the LightRay's position to where the light hit.
-            LightRayGeometry.transform.forward = incomingVec;                     // We make the LightRay look in the direction of the vector coming in vector.
-            processing = false;                                             // After this execution we won't be processing anymore.
+            LightRayGeometry.GetComponentInParent<LightRay>().color = color;    // Assigns the color to the outputting LightRay
+            LightRayGeometry.transform.position = hitPoint;                     // We set the LightRay's position to where the light hit.
+            LightRayGeometry.transform.forward = incomingVec;                   // We make the LightRay look in the direction of the vector coming in vector.
+            processing = false;                                                 // After this execution we won't be processing anymore.
 
             Debug.DrawRay(hitPoint, incomingVec * 1000, Color.cyan);     // For debugging reasons, we display the ray.
             if (Physics.Raycast(hitPoint, incomingVec, out rayHit))      // If our casted ray hits something:
@@ -42,7 +53,7 @@ public class RayFilter : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color); } //Charge the light orb
 
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
-                                                                                                                      // and where the raycast hits on the other object.
+                                                                                                                            // and where the raycast hits on the other object.
             }
 
             else   // If our ray didn't hit shit...
@@ -53,7 +64,6 @@ public class RayFilter : MonoBehaviour {
         }
         else    // If we're not reflecting:
         {
-            //print("back to 0");
             LightRayGeometry.transform.localScale = new Vector3(0, 0, 0); // We make the LightRay suuuuuuper tiny.
         }
     }

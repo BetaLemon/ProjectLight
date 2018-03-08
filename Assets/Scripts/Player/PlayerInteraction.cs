@@ -34,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white); //Attempt to charge the light orb if we are expanding the player light sphere radius
+                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
                         else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
@@ -49,8 +49,7 @@ public class PlayerInteraction : MonoBehaviour {
             }
         }
 
-        /// ACTIVE INTERACTION (Cylinder Light)
-        //print("Hit " + tmp + " triggers.");
+        /// ACTIVE INTERACTION (Cylinder LightRay)
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
             Debug.DrawRay(CylindricLight.transform.position, transform.forward * light.maxLightCylinderScale * 2, Color.red);
@@ -61,7 +60,7 @@ public class PlayerInteraction : MonoBehaviour {
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white); } //Charge the light orb
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white); } //Charge the light orb (Default white from player white ray)
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             }
