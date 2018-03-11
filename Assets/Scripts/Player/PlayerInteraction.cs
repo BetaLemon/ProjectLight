@@ -50,6 +50,7 @@ public class PlayerInteraction : MonoBehaviour {
                         // Charge optical fiber:
                         float amount = GetComponent<PlayerLight>().healthDrainAmmount;
                         if (input.isPressed("LightMax")) hitColliders[i].GetComponent<OpticalFiber_Node>().AddCharge(amount);
+                        else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponentInParent<OpticalFiber>().StartPlayerMode(transform);
                         break;
                     default:break;
                 }

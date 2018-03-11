@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     public float maxJumpTime;             // The maximum time the player will be able to be in the air.
 
     private PlayerInput input;
+    private bool canMove = true;
 
     public float minimumFallDamageDistance = 150;
     private float fallDistance;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
-
+        if (!canMove) return;
         //Run system (Speed filter according to if running): //You can run by pressing L-SHIFT or Double tapping: W,A,S,D buttons
 
         movementMultiplier = 0; //No movement unless further said otherwise
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
     {
-        
+        if (!canMove) { return; }
         if (!controller.isGrounded) // If the player is not grounded / is in the air.
         {
             moveDirection.y = -1*gravity; // We apply gravity.
@@ -118,23 +119,6 @@ public class PlayerController : MonoBehaviour {
 
         transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
 
-        // I don't know what this old junk is:
-
-        /*
-        if (controller.isGrounded)
-        {
-            //moveDirection.y = 0;
-            tmp = jumpSpeed *Input.GetAxis("Jump");
-            print(Input.GetAxis("Jump"));
-        }
-        moveDirection.y += tmp;
-
-        moveDirection.x = moveDirection.z = 0;
-        controller.Move(moveDirection);
-
-        //moveDirection = Vector3.zero;*/
-
-        // End of junk.
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.
@@ -152,4 +136,12 @@ public class PlayerController : MonoBehaviour {
             transform.parent = null;
         }
     }
+
+    public void AllowMovement() { canMove = true; }
+
+    public void Move(Vector3 direction) {
+        controller.Move(direction * Time.deltaTime);
+    }
+
+    public void StopMovement() { canMove = false; }
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class OpticalFiber : MonoBehaviour {
 
+    enum OF_Mode { LIGHT, PLAYER };
+
+    private OF_Mode mode;
+
     private Transform[] nodes;
     private GameObject[] cables;
     public GameObject cablePrefab;
@@ -15,22 +19,50 @@ public class OpticalFiber : MonoBehaviour {
     public bool reversed;
     private bool wasReversed;
 
+    private int nextNodeIndex;
+    private Transform player;
+    private float speed = 4;
+    private float tolerance = 0.1f;
+
 	// Use this for initialization
 	void Start () {
         OpticalSetup();
         reversed = false;
         wasReversed = false;
+        mode = OF_Mode.LIGHT;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        ChargePropagation();
-        if(wasReversed != reversed) {
-            ReverseNodes();
-            ReverseCables();
-            wasReversed = reversed;
+	void FixedUpdate () {
+        switch (mode)
+        {
+            case OF_Mode.LIGHT: // If we want to be propagating light, not the player (this is most of the time):
+                ChargePropagation();
+                if (wasReversed != reversed)
+                {
+                    ReverseNodes();
+                    ReverseCables();
+                    wasReversed = reversed;
+                }
+                ChargeDissipation();
+                break;
+            case OF_Mode.PLAYER:
+                if (nextNodeIndex + 1 >= nodes.Length) { StopPlayerMode(); break; }
+
+                Vector3 direction = nodes[nextNodeIndex+1].position - player.position;
+                //direction.y = 0;
+
+                 //Debug.DrawRay(player.position, direction.normalized * 10, Color.red);
+                
+                player.GetComponent<PlayerController>().Move(direction.normalized*speed);
+
+                //Vector2 nodev = new Vector2(nodes[nextNodeIndex + 1].position.x, nodes[nextNodeIndex + 1].position.z);
+                //Vector2 playv = new Vector2(player.position.x, player.position.z);
+                // if (Vector2.Distance(nodev, playv) < tolerance) { nextNodeIndex++; }
+               if(Vector3.Distance(player.position, nodes[nextNodeIndex+1].position) < tolerance) { nextNodeIndex++; }
+
+                break;
         }
-        ChargeDissipation();
 	}
 
     void OpticalSetup()
@@ -158,5 +190,36 @@ public class OpticalFiber : MonoBehaviour {
             if(index < 0) { break; }
         }
         cables = rev;
+    }
+
+    public void StartPlayerMode(Transform _player)
+    {
+        mode = OF_Mode.PLAYER;
+        player = _player;
+        player.parent = transform;
+        player.gameObject.GetComponent<PlayerController>().StopMovement();
+        nextNodeIndex = 0;
+        player.position = nodes[nextNodeIndex].position;
+        //player.position = new Vector3(player.position.x, player.position.y + 1, player.position.z);
+        player.localScale = new Vector3(0, 0, 0);
+        ToggleColliders(false);
+    }
+
+    void StopPlayerMode()
+    {
+        mode = OF_Mode.LIGHT;
+        player.parent = null;
+        player.gameObject.GetComponent<PlayerController>().AllowMovement();
+        player.localScale = new Vector3(1, 1, 1);
+        ToggleColliders(true);
+    }
+
+    void ToggleColliders(bool enable)
+    {
+        SphereCollider[] colliders = GetComponentsInChildren<SphereCollider>();
+        foreach(SphereCollider col in colliders)
+        {
+            col.enabled = enable;
+        }
     }
 }
