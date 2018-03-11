@@ -43,6 +43,14 @@ public class PlayerInteraction : MonoBehaviour {
                     case "Mirror":
                         if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
                         break;
+                    case "OpticalFiber":
+                        // Make closest node work (switching reverse or not):
+                        hitColliders[i].GetComponentInParent<OpticalFiber>().SetClosestNode(transform);
+
+                        // Charge optical fiber:
+                        float amount = GetComponent<PlayerLight>().healthDrainAmmount;
+                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<OpticalFiber_Node>().AddCharge(amount);
+                        break;
                     default:break;
                 }
                 tmp++;

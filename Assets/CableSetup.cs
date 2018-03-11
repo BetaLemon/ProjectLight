@@ -9,6 +9,7 @@ public class CableSetup : MonoBehaviour {
 
     public float charge;
     private float maxCharge = 100;
+    public Transform cylinder;
 
     // Use this for initialization
     public void Setup () {
@@ -29,5 +30,7 @@ public class CableSetup : MonoBehaviour {
     {
         if (charge > maxCharge) { charge = maxCharge; }
         if (charge < 0) { charge = 0; }
+
+        cylinder.localScale = new Vector3(charge / 10, 1, charge/10);
     }
 }
