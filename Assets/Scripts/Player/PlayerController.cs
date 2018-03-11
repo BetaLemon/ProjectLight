@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 
     private PlayerInput input;
 
+    public float minimumFallDamageDistance = 150;
     private float fallDistance;
     private float prevFallDistance;
 
@@ -80,8 +81,8 @@ public class PlayerController : MonoBehaviour {
 
         if(fallDistance == 0 && prevFallDistance != 0)
         {
-            print(prevFallDistance);
-            if(prevFallDistance > 200)
+            //print(prevFallDistance);
+            if(prevFallDistance > minimumFallDamageDistance)
             {
                 GetComponent<Player>().fallDamage(prevFallDistance);
             }
@@ -150,10 +151,5 @@ public class PlayerController : MonoBehaviour {
         {
             transform.parent = null;
         }
-    }
-
-    public float getYAxisMoveDir()
-    {
-        return moveDirection.y;
     }
 }

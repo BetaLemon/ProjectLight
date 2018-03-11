@@ -17,11 +17,6 @@ public class Player : MonoBehaviour {
     public Text LargeGemstones;
     public Text SmallGemstones;
 
-    //FallDamage control:
-    private float lastPositionY = 0f;
-    private float fallDistance = 0f;
-    //public float fallDamageStartDistance = 5f;
-    public float fallDamageStartVelocity = -15f; //Velocity from which fall damage starts to occur if on contact with floor and high enough MoveDirection.y
     private float prevAxisMoveDir; //Previous MoveDirection.y value for variance checking
 
     private CharacterController controllerRef; //Own character controller reference
@@ -38,38 +33,6 @@ public class Player : MonoBehaviour {
     }
 	
 	void Update () {
-
-        //Fall damage with MoveDirection.y from PlayerController.cs as accounting for fall damage
-       // print(playerControllerRef.getYAxisMoveDir());
-
-        /*
-
-        if (prevAxisMoveDir < fallDamageStartVelocity && playerControllerRef.getYAxisMoveDir() == 0 && controllerRef.isGrounded)
-        {
-            health -= 100;
-        }
-
-        prevAxisMoveDir = playerControllerRef.getYAxisMoveDir();
-        */
-
-        //Old fall damage system through: HeightControl Also causes player health to deplete below y0 if on ground It's kind of a bug, 
-        /*if (lastPositionY > transform.position.y) //Sums the descending altitude variation to the fall distance
-        {
-            fallDistance += lastPositionY - transform.position.y;
-        }
-
-        lastPositionY = transform.position.y; //Update last position as current to account for next update iteration
-
-        if (fallDistance >= fallDamageStartDistance && controllerRef.isGrounded) //Damage if we fell from high enough, according to further height
-        {
-            health -= 40 + fallDistance*10; //The higher the altitude, the higher the damage
-            ApplyNormal();
-        }
-
-        if (fallDistance <= fallDamageStartDistance && controllerRef.isGrounded) //Resets calculation values because we touched the floor and the distance wasn't enough for damage
-        {
-            ApplyNormal();
-        }*/
 
         //Health limiters:
         if (health > maxHealth) { health = maxHealth; }
@@ -110,12 +73,6 @@ public class Player : MonoBehaviour {
         }
         //Reset Health:
         health = respawnHealth;
-    }
-
-    private void ApplyNormal()
-    {
-        fallDistance = 0;
-        lastPositionY = 0;
     }
 
     public void fallDamage(float damage) {
