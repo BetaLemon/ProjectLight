@@ -20,6 +20,8 @@ public class RayFilter : MonoBehaviour
 
     public Color color;    //The color the filter will filter.
     private bool processing;
+    public float filterWidth = 0.5f;
+
     // Vectors that store: the incoming light, the normal vector of the mirror, the position at which the light enters and leaves, the direction at which it leaves:
     private Vector3 incomingVec, hitPoint;
 
@@ -39,6 +41,8 @@ public class RayFilter : MonoBehaviour
     {
         if (processing)
         {
+            hitPoint = hitPoint + (incomingVec.normalized) * filterWidth;
+
             //print("LightRay being processed");
             LightRayGeometry.GetComponentInParent<LightRay>().color = color;    // Assigns the color to the outputting LightRay
             LightRayGeometry.transform.position = hitPoint;                     // We set the LightRay's position to where the light hit.
@@ -52,6 +56,7 @@ public class RayFilter : MonoBehaviour
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color); } //Charge the light orb
 
+                print(rayHit.collider.gameObject.name);
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
                                                                                                                             // and where the raycast hits on the other object.
             }
