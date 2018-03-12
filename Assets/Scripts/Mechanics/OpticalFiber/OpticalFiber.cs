@@ -21,7 +21,7 @@ public class OpticalFiber : MonoBehaviour {
 
     private int nextNodeIndex;
     private Transform player;
-    private float speed = 4;
+    private float speed = 10;
     private float tolerance = 0.1f;
 
 	// Use this for initialization
@@ -47,6 +47,7 @@ public class OpticalFiber : MonoBehaviour {
                 ChargeDissipation();
                 break;
             case OF_Mode.PLAYER:
+                ChargePropagation();
                 if (nextNodeIndex + 1 >= nodes.Length) { StopPlayerMode(); break; }
 
                 Vector3 direction = nodes[nextNodeIndex+1].position - player.position;
@@ -60,7 +61,7 @@ public class OpticalFiber : MonoBehaviour {
                 //Vector2 playv = new Vector2(player.position.x, player.position.z);
                 // if (Vector2.Distance(nodev, playv) < tolerance) { nextNodeIndex++; }
                if(Vector3.Distance(player.position, nodes[nextNodeIndex+1].position) < tolerance) { nextNodeIndex++; }
-
+                ChargeDissipation();
                 break;
         }
 	}
@@ -203,6 +204,7 @@ public class OpticalFiber : MonoBehaviour {
         //player.position = new Vector3(player.position.x, player.position.y + 1, player.position.z);
         player.localScale = new Vector3(0, 0, 0);
         ToggleColliders(false);
+        nodes[0].GetComponent<OpticalFiber_Node>().AddCharge(5);
     }
 
     void StopPlayerMode()
