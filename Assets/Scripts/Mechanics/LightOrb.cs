@@ -58,13 +58,13 @@ public class LightOrb : MonoBehaviour {
             orbCharge -= exchange; //(orb subtraction)
             if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
     }
-    public void ChargeOrb(Color enteringColor)
+    public void ChargeOrb(Color enteringColor, float amount)
     {
         if (enteringColor == color || orbCharge == 0)
         {
             color = enteringColor;
-            float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
-            orbCharge += exchange; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
+            //float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
+            orbCharge += amount; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
         }
     }
 
