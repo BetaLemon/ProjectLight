@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour {
     private float fallDistance;
     private float prevFallDistance;
 
+    private Vector3 forward;
+
     //Please remove this piece of shit after the alpha:
     public GameObject playerRig; //Alpha bullshit
 
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour {
         if (moveDirection.z == 0) { moveDirection.z = transform.forward.z;}
         else { playerRig.GetComponent<Animation>().enabled = true; }
         //moveDirection.y = transform.forward.y;
-
+        /*
        // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
        // {
             lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
@@ -118,7 +120,9 @@ public class PlayerController : MonoBehaviour {
         //transform.forward = Vector3.RotateTowards(transform.forward, moveDirection, speed, speed);
 
         transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
-
+        */
+        if(moveDirection.x != 0 && moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
+        controller.gameObject.transform.forward = forward;
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.

@@ -49,12 +49,14 @@ public class RayFilter : MonoBehaviour
             LightRayGeometry.transform.forward = incomingVec;                   // We make the LightRay look in the direction of the vector coming in vector.
             processing = false;                                                 // After this execution we won't be processing anymore.
 
+            float amount = FindObjectOfType<PlayerLight>().healthDrainAmmount;
+
             Debug.DrawRay(hitPoint, incomingVec * 1000, Color.cyan);     // For debugging reasons, we display the ray.
             if (Physics.Raycast(hitPoint, incomingVec, out rayHit))      // If our casted ray hits something:
             {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }   // If we have hit a Mirror -> Mirror(). Hit mirror!
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color); } //Charge the light orb
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
 
                 print(rayHit.collider.gameObject.name);
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light

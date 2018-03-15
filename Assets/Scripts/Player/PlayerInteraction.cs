@@ -23,6 +23,8 @@ public class PlayerInteraction : MonoBehaviour {
 
         pressedBaseInteraction = input.getInput("BaseInteraction");
 
+        float amount = GetComponent<PlayerLight>().healthDrainAmmount;
+
         /// PASSIVE INTERACTION (Sphere Light)
         Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
         int tmp = 0;
@@ -34,7 +36,7 @@ public class PlayerInteraction : MonoBehaviour {
                 switch (hitColliders[i].gameObject.tag)
                 {
                     case "LightOrb":
-                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
+                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white, amount); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
                         else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
                         break;
                     case "BlackInsect":
@@ -48,7 +50,7 @@ public class PlayerInteraction : MonoBehaviour {
                         hitColliders[i].GetComponentInParent<OpticalFiber>().SetClosestNode(transform);
 
                         // Charge optical fiber:
-                        float amount = GetComponent<PlayerLight>().healthDrainAmmount;
+                        
                         if (input.isPressed("LightMax")) hitColliders[i].GetComponent<OpticalFiber_Node>().AddCharge(amount);
                         else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponentInParent<OpticalFiber>().StartPlayerMode(transform);
                         break;
@@ -69,7 +71,7 @@ public class PlayerInteraction : MonoBehaviour {
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white); } //Charge the light orb (Default white from player white ray)
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white,amount); } //Charge the light orb (Default white from player white ray)
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             }

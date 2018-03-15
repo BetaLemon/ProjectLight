@@ -42,6 +42,17 @@ public class OpticalFiber_Node : MonoBehaviour {
         else { currentDelay = 0; }
         if(currentDelay > stoppedReceivingDelay) { receivingLight = false; }
         prevCharge = charge;
+
+        if(light != null)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, light.range - 5); //(Sphere center, Radius)
+            foreach(Collider col in hitColliders)
+            {
+                if (!col.isTrigger) { continue; }
+                if (col.CompareTag("OpticalFiber")) { continue; }
+                if (col.CompareTag("LightOrb")) { if(charge != 0) col.GetComponent<LightOrb>().ChargeOrb(Color.white, charge/10); }
+            }
+        }
 	}
 
     public void AddCharge(float amount)
