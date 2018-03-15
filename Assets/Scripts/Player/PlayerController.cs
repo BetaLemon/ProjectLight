@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour {
 
     private Vector3 forward;
 
+    public Camera camera;
+    private Vector3 camForward;
+    private Vector3 camRight;
+
     //Please remove this piece of shit after the alpha:
     public GameObject playerRig; //Alpha bullshit
 
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour {
         controller = GetComponent<CharacterController>();   // We get the player's CharacterController.
         moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
         input = GetComponent<PlayerInput>();
+        camera = Camera.main;
     }
 
     void Update()
@@ -103,14 +108,24 @@ public class PlayerController : MonoBehaviour {
 
         prevJumpTime += Time.deltaTime;     // We add the deltaTime to the time in the air (if he is on the ground, it will be reset to 0 in the next execution).
 
-        controller.Move(moveDirection * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
+        camForward = camera.transform.forward;
+        camRight = camera.transform.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward = camForward.normalized;
+        camRight = camRight.normalized;
 
+        Vector3 move = moveDirection.x * camRight + moveDirection.z * camForward;
+        move.y = moveDirection.y;
+
+        controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
+        /*
         //Please remove this piece of shit after the alpha:
         playerRig.GetComponent<Animation>().enabled = false;
         if (moveDirection.x == 0) { moveDirection.x = transform.forward.x;  } //Last bit is Alpha bullshit
         else { playerRig.GetComponent<Animation>().enabled = true; }
         if (moveDirection.z == 0) { moveDirection.z = transform.forward.z;}
-        else { playerRig.GetComponent<Animation>().enabled = true; }
+        else { playerRig.GetComponent<Animation>().enabled = true; }*/
         //moveDirection.y = transform.forward.y;
         /*
        // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
@@ -121,7 +136,7 @@ public class PlayerController : MonoBehaviour {
 
         transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
         */
-        if(moveDirection.x != 0 && moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
+        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
         controller.gameObject.transform.forward = forward;
     }
 

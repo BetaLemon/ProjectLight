@@ -26,7 +26,7 @@ public class PlayerInteraction : MonoBehaviour {
         float amount = GetComponent<PlayerLight>().healthDrainAmmount;
 
         /// PASSIVE INTERACTION (Sphere Light)
-        Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
+        Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-3); //(Sphere center, Radius)
         int tmp = 0;
         for (int i = 0; i < hitColliders.Length; i++)
         {
