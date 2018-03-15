@@ -35,6 +35,10 @@ public class BlackInsect : MonoBehaviour {
     public GameObject DarkSphere;
 
 
+    Quaternion lerpLook;
+
+
+
             // Would be nice to add the functionality so that it can walk back and forwards, instead of in a cycle.
 
     // Use this for initialization
@@ -98,7 +102,7 @@ public class BlackInsect : MonoBehaviour {
                 directionVector.y -= gravity * Time.deltaTime;
 
                 // We want the enemy to look in the direction it's moving:
-                Quaternion lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
+                if (directionVector != Vector3.zero) { lerpLook = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z)); }
                 transform.rotation = Quaternion.Slerp(transform.rotation, lerpLook, rotationSpeed);
 
                 // We move the enemy:

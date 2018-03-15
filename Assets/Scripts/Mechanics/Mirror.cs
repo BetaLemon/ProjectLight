@@ -80,7 +80,16 @@ public class Mirror : MonoBehaviour {
             switch (mode)
             {
                 case MirrorMode.MOVING:
-                    transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0)*Time.deltaTime*50);
+                    if(Input.GetAxis("Mouse X") != 0)
+                    {
+                        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X")*Time.deltaTime*20, 0));
+                    }
+                    else if(Input.GetAxis("Mouse Y") != 0)
+                    {
+                        transform.Rotate(new Vector3(Input.GetAxis("Mouse Y")*Time.deltaTime*20, 0, 0));
+                    }
+
+                   // transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0)*Time.deltaTime*50);
                     break;
                 case MirrorMode.STILL:
                     break;
