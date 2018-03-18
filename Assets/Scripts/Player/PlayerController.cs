@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    #region Variables
     // Variables:
     CharacterController controller;       // For controlling the player.
     public float speed = 3.0f;            // Base speed at which the character walks.
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour {
     public Camera camera;
     private Vector3 camForward;
     private Vector3 camRight;
+    #endregion
 
     //Please remove this piece of shit after the alpha:
     public GameObject playerRig; //Alpha bullshit
