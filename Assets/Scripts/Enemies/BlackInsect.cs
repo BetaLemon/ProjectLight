@@ -34,6 +34,9 @@ public class BlackInsect : MonoBehaviour {
     // FOR DEBUGGING:
     public GameObject DarkSphere;
 
+    private Transform defaultTransform;
+
+    public EnemySpawner enemySpawner;
 
     Quaternion lerpLook;
 
@@ -53,6 +56,8 @@ public class BlackInsect : MonoBehaviour {
         activeNode = getActiveNode();       // We set the activeNode to the one we are approaching.
 
         life = maxLife; // We set its initial life to be the maximum life it can have.
+
+        defaultTransform = transform;
 	}
 
     void Update()
@@ -122,9 +127,15 @@ public class BlackInsect : MonoBehaviour {
         else    // If the enemy is dead:
         {
             // This is for debugging only:
-            
-            transform.parent.gameObject.SetActive(false); //Disactivate whole enemy
-            GetComponent<DropsSystem>().Drop(transform.position); //Call drops for this enemy
+
+            //transform.parent.gameObject.SetActive(false); //Disactivate whole enemy
+            if(transform.localScale != Vector3.zero)
+            {
+                GetComponent<DropsSystem>().Drop(transform.position); //Call drops for this enemy
+                transform.localScale = new Vector3(0, 0, 0);
+                enemySpawner.PleaseRespawn(this);
+            }
+                        
 
             //DarkSphere.SetActive(false);
             //GetComponent<SphereCollider>().enabled = false;
@@ -170,6 +181,16 @@ public class BlackInsect : MonoBehaviour {
         }
         //knockback = true;
         print("Enemy was hurt. Life is " + life);
+    }
+
+    public void Spawn(Vector3 where)
+    {
+        transform.position = where;
+        life = maxLife;
+        alive = true;
+        //transform.parent.gameObject.SetActive(true);
+        state = EnemyState.WALKING;
+        transform.localScale = new Vector3(1, 1, 1);
     }
 
     public float getDamageDealt() { return damageDeal; } //Used by the player for on contact with insect dark area damage dealing
