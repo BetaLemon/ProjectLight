@@ -133,7 +133,8 @@ public class BlackInsect : MonoBehaviour {
             {
                 GetComponent<DropsSystem>().Drop(transform.position); //Call drops for this enemy
                 transform.localScale = new Vector3(0, 0, 0);
-                enemySpawner.PleaseRespawn(this);
+                if (enemySpawner != null) { enemySpawner.PleaseRespawn(this); }
+                else { transform.parent.gameObject.SetActive(false); }//Disactivate whole enemy
             }
                         
 
