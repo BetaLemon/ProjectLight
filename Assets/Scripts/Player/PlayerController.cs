@@ -36,32 +36,44 @@ public class PlayerController : MonoBehaviour {
         moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
         input = GetComponent<PlayerInput>();                // We get the player's input controller.
         camera = Camera.main;                               // We fetch the main camera.
+        state = PlayerState.STANDING;
     }
 
     void Update()
     {
         if (!canMove) return;   // If the player can't move then the following code shouldn't be executed.
-        
+
         if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) { state = PlayerState.STANDING; }
-        else if ( input.getInput("Run") != 0 ) state = PlayerState.RUNNING; //Run mode if input for running
+        else
+        {
+            state = PlayerState.WALKING;
+            if (input.getInput("Run") != 0) { state = PlayerState.RUNNING; }
+        }
+
         //Check for a double input of: W, A, S, D, and if so, apply runModeActive true
-        else if (input.wasDoubleClicked("doubleClickD")) { state = PlayerState.RUNNING; }
+        if (input.wasDoubleClicked("doubleClickD")) { state = PlayerState.RUNNING; }
         else if (input.wasDoubleClicked("doubleClickA")) { state = PlayerState.RUNNING; }
         else if (input.wasDoubleClicked("doubleClickW")) { state = PlayerState.RUNNING; }
         else if (input.wasDoubleClicked("doubleClickS")) { state = PlayerState.RUNNING; }
 
-        if (!(state == PlayerState.RUNNING)) //The player should walk, run mode is inactive
+        if (state == PlayerState.RUNNING) //The player should walk, run mode is inactive
         {
-            speed += ;
+            speed += runSpeed * Time.deltaTime * 1.5f;
+            if (speed > runSpeed) { speed = runSpeed; }
         }
-        else //Run mode is active, apply run speed
+        else if (state == PlayerState.WALKING) //Run mode is active, apply run speed
         {
-            movementMultiplier = runSpeed;
+            speed += walkSpeed * Time.deltaTime * 1.5f;
+            if (speed > walkSpeed) { speed = walkSpeed; }
         }
+        else if (state == PlayerState.STANDING) { speed = 0; }
 
-       //Basic movement system:
-       moveDirection.x = input.getInput("Horizontal") * movementMultiplier;  // The player's x movement is the Horizontal Input (0-1) * speed.
-       moveDirection.z = input.getInput("Vertical") * movementMultiplier;    // The player's y movement is the Vertical Input (0-1) * speed.
+        //print("State: " + state + ", Speed: " + speed);
+
+        //Basic movement system:
+        moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
+        moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
+
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
@@ -75,7 +87,6 @@ public class PlayerController : MonoBehaviour {
         else    // Else, the player is touching the ground.
         {
             //moveDirection.y = 0;    // His vertical (y) movement is reset.
-            prevJumpTime = 0;       // His time in the air is 0.
             fallDistance = 0;
         }
 
@@ -89,16 +100,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         prevFallDistance = fallDistance;
-
-        //print(controller.isGrounded);// print(moveDirection.y);
-
-        if (prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
-        {
-            if (input.isPressed("Jump"))        // ... the Jump button is pressed...
-                moveDirection.y += jumpSpeed;   // ... add JumpSpeed to the vertical movement (y).
-        }
-
-        prevJumpTime += Time.deltaTime;     // We add the deltaTime to the time in the air (if he is on the ground, it will be reset to 0 in the next execution).
 
         camForward = camera.transform.forward;
         camRight = camera.transform.right;
