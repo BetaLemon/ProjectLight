@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/ASSETS/Environment.meta
 guid: 5c6562abb7848434ea06401e91eb3a8d
 folderAsset: yes
 timeCreated: 1513551328
 licenseType: Free
+=======
+guid: 3f66eeca8ac36914e9ec9a716a9d9f73
+folderAsset: yes
+timeCreated: 1436977288
+licenseType: Pro
+>>>>>>> lemon:Assets/Standard Assets/CrossPlatformInput/Scripts.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
