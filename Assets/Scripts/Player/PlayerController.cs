@@ -58,12 +58,12 @@ public class PlayerController : MonoBehaviour {
 
         if (state == PlayerState.RUNNING) //The player should walk, run mode is inactive
         {
-            speed += runSpeed * Time.deltaTime * 1.5f;
+            speed += runSpeed * Time.deltaTime * 2f;
             if (speed > runSpeed) { speed = runSpeed; }
         }
         else if (state == PlayerState.WALKING) //Run mode is active, apply run speed
         {
-            speed += walkSpeed * Time.deltaTime * 1.5f;
+            speed += walkSpeed * Time.deltaTime * 2f;
             if (speed > walkSpeed) { speed = walkSpeed; }
         }
         else if (state == PlayerState.STANDING) { speed = 0; }
@@ -130,7 +130,8 @@ public class PlayerController : MonoBehaviour {
         transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
         */
         if(moveDirection.x != 0 || moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
-        controller.gameObject.transform.forward = forward;
+        //controller.gameObject.transform.forward = forward;
+        controller.gameObject.transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.
