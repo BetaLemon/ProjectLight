@@ -83,8 +83,23 @@ public class Trigger : MonoBehaviour {
                             door.getTriggered();
                             break;
                     }
+
+                    PuzzleCompletionController puzCon = triggeredObjects[i].GetComponent<PuzzleCompletionController>();
+                    if (puzCon != null && puzCon.getState() != PuzzleCompletionController.PuzzleState.COMPLETED) {
+                        puzCon.getTriggered();
+                    }
                 }
             }
         }
+    }
+
+    public bool HasPuzzleCompletionTrigger()
+    {
+        bool has = false;
+        foreach(GameObject obj in triggeredObjects)
+        {
+            if(obj.GetComponent<PuzzleCompletionController>() != null) { has = true; }
+        }
+        return has;
     }
 }

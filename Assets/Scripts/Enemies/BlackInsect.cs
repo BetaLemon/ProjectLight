@@ -182,7 +182,7 @@ public class BlackInsect : MonoBehaviour {
         for(int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].CompareTag("BlackInsect")) { continue; }
-            if (hitColliders[i].CompareTag("LightOrb")) { print("touched"); }//hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); }
+            //if (hitColliders[i].CompareTag("LightOrb")) { print("touched"); }//hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); }
         }
     }
 
@@ -194,7 +194,7 @@ public class BlackInsect : MonoBehaviour {
             state = EnemyState.HURT;
         }
         //knockback = true;
-        print("Enemy was hurt. Life is " + life);
+        //print("Enemy was hurt. Life is " + life);
     }
 
     public void Spawn(Vector3 where)
