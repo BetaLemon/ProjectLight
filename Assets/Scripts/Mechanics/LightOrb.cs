@@ -28,7 +28,6 @@ public class LightOrb : MonoBehaviour {
     //-----------------------------------------
 
     public Color color = Color.white; //The orb's current color. Is public in order to be set up on level design
-    public Color triggerColor = Color.white; //The color the orb should contain for it to be triggered
 
     private float Lerp(float goal, float speed, float currentVal)
     {
@@ -85,6 +84,12 @@ public class LightOrb : MonoBehaviour {
         else orbIntensity = Lerp(0, 1, orbIntensity);
         glow.intensity = orbIntensity;
 
-        if(orbTrigger != null) { orbTrigger.pleaseTrigger(orbCharge); }
+        if(orbTrigger != null) {
+            if (orbTrigger.type == Trigger.TriggerType.ON_COLOUR)
+            {
+                orbTrigger.pleaseTrigger(orbCharge, color);
+            }
+            else { orbTrigger.pleaseTrigger(orbCharge); }
+        }
     }
 }
