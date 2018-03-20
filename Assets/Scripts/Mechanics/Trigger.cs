@@ -44,6 +44,7 @@ public class Trigger : MonoBehaviour {
 
     void TriggerAllObjects()
     {
+        Debug.Log("Triggered All Objects!");
         for (int i = 0; i < triggeredObjects.Length; i++)   // For all the objects in the array that need to be triggered:
         {
             switch (triggeredObjects[i].tag)    // For the type of object that is triggered, we have each of the actions to be done:
@@ -57,12 +58,12 @@ public class Trigger : MonoBehaviour {
                     door.getTriggered();
                     break;
             }
-        }
 
-        PuzzleCompletionController puzCon = triggeredObjects[i].GetComponent<PuzzleCompletionController>();
-        if (puzCon != null && puzCon.getState() != PuzzleCompletionController.PuzzleState.COMPLETED)
-        {
-            puzCon.getTriggered();
+            PuzzleCompletionController puzCon = triggeredObjects[i].GetComponent<PuzzleCompletionController>();
+            if (puzCon != null && puzCon.getState() != PuzzleCompletionController.PuzzleState.COMPLETED)
+            {
+                puzCon.getTriggered();
+            }
         }
     }
 

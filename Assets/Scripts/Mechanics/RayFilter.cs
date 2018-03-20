@@ -55,8 +55,10 @@ public class RayFilter : MonoBehaviour
             if (Physics.Raycast(hitPoint, incomingVec, out rayHit))      // If our casted ray hits something:
             {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }   // If we have hit a Mirror -> Mirror(). Hit mirror!
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
+                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
                 //print(rayHit.collider.gameObject.name);
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
@@ -74,6 +76,12 @@ public class RayFilter : MonoBehaviour
             LightRayGeometry.transform.localScale = new Vector3(0, 0, 0); // We make the LightRay suuuuuuper tiny.
         }
     }
+
+    void BlackInsect(Collider col)
+    {
+        col.gameObject.GetComponent<BlackInsect>().Hurt();
+    }
+
     // Function that is called when a mirror is hit:
     void Mirror(RaycastHit mirrorHit)
     {
@@ -86,5 +94,12 @@ public class RayFilter : MonoBehaviour
     void TriggerTrigger(RaycastHit rh)
     {
         rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger(); // Tell the trigger to please trigger. Thanks.
+    }
+
+    void Filter(RaycastHit filterHit)
+    {
+        Vector3 inVec = filterHit.point - LightRayGeometry.transform.position;
+        filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 }
