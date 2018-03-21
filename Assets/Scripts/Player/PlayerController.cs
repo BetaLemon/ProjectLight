@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    enum PlayerState { STANDING, WALKING, RUNNING};
+    public enum PlayerState { STANDING, WALKING, RUNNING, FALLING };
 
     #region Variables
     // Variables:
@@ -83,11 +83,13 @@ public class PlayerController : MonoBehaviour {
         {
             moveDirection.y = -1*gravity; // We apply gravity.
             fallDistance += Mathf.Abs(moveDirection.y);
+            state = PlayerState.FALLING;
         }
         else    // Else, the player is touching the ground.
         {
             //moveDirection.y = 0;    // His vertical (y) movement is reset.
             fallDistance = 0;
+            state = PlayerState.STANDING;
         }
 
         if(fallDistance == 0 && prevFallDistance != 0)
@@ -157,4 +159,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void StopMovement() { canMove = false; }
+
+    public PlayerState GetState() { return state; }
 }
