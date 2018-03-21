@@ -112,7 +112,7 @@ public class PlayerLight : MonoBehaviour {
                 }
                 else    // Else, if nothing was hit:
                 {
-                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 2f, lightCylinder.transform.localScale.z));
+                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
                 }
 
                 break;

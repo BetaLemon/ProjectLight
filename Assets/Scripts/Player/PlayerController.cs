@@ -4,74 +4,76 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    enum PlayerState { STANDING, WALKING, RUNNING};
+
     #region Variables
     // Variables:
     CharacterController controller;       // For controlling the player.
-    public float speed = 3.0f;            // Base speed at which the character walks.
-    public float runSpeed = 6.0f;         // Character run speed.
-    private float movementMultiplier = 0; // Value per which the player will actually be moved. Will be either speed or runSpeed
-    private bool runModeActive = false;   // Should the player run instead of walk on move input?
-    public float jumpSpeed = 10f;         // Speed at which he jumps.
-    public float gravity = 1.0f;          // Gravity acceleration.
-    private Vector3 moveDirection;        // The direction the player is gonna move towards.
-    private Quaternion lerpLook;          // The direction at which the player is gonna look.
-
-    private float prevJumpTime;           // For controlling the time the player spends in the air.
-    public float maxJumpTime;             // The maximum time the player will be able to be in the air.
-
-    private PlayerInput input;
-    private bool canMove = true;
-
+    PlayerState state;
+    // Player movement variables:
+    public float walkSpeed = 3.0f;        // Maximal speed when walking.
+    public float runSpeed = 6.0f;         // Maximal speed when running.
+    public float gravity = 1.0f;          // Gravity (unfortunately, it's linear for the moment being).
     public float minimumFallDamageDistance = 150;
+    // Intern player variables:
+    private float speed;                  // Speed applied to player.
+    private Vector3 moveDirection;        // The direction the player is gonna move towards.
+    private Vector3 forward;
     private float fallDistance;
     private float prevFallDistance;
-
-    private Vector3 forward;
-
-    public Camera camera;
+    // Used for controlling the player:
+    private PlayerInput input;
+    private bool canMove = true;
+    // Used for making the player move where the camera is looking at:
+    private Camera camera;
     private Vector3 camForward;
     private Vector3 camRight;
     #endregion
-
-    //Please remove this piece of shit after the alpha:
-    public GameObject playerRig; //Alpha bullshit
 
     void Start()    // When the script starts.
     {
         controller = GetComponent<CharacterController>();   // We get the player's CharacterController.
         moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
-        input = GetComponent<PlayerInput>();
-        camera = Camera.main;
+        input = GetComponent<PlayerInput>();                // We get the player's input controller.
+        camera = Camera.main;                               // We fetch the main camera.
+        state = PlayerState.STANDING;
     }
 
     void Update()
     {
-        if (!canMove) return;
-        //Run system (Speed filter according to if running): //You can run by pressing L-SHIFT or Double tapping: W,A,S,D buttons
+        if (!canMove) return;   // If the player can't move then the following code shouldn't be executed.
 
-        movementMultiplier = 0; //No movement unless further said otherwise
+        if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) { state = PlayerState.STANDING; }
+        else
+        {
+            state = PlayerState.WALKING;
+            if (input.getInput("Run") != 0) { state = PlayerState.RUNNING; }
+        }
 
-        if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) runModeActive = false; //No movement, stop run mode
-
-        else if ( input.getInput("Run") != 0 ) runModeActive = true; //Run mode if input for running
         //Check for a double input of: W, A, S, D, and if so, apply runModeActive true
-        else if (input.wasDoubleClicked("doubleClickD")) { runModeActive = true; }
-        else if (input.wasDoubleClicked("doubleClickA")) { runModeActive = true; }
-        else if (input.wasDoubleClicked("doubleClickW")) { runModeActive = true; }
-        else if (input.wasDoubleClicked("doubleClickS")) { runModeActive = true; }
+        if (input.wasDoubleClicked("doubleClickD")) { state = PlayerState.RUNNING; }
+        else if (input.wasDoubleClicked("doubleClickA")) { state = PlayerState.RUNNING; }
+        else if (input.wasDoubleClicked("doubleClickW")) { state = PlayerState.RUNNING; }
+        else if (input.wasDoubleClicked("doubleClickS")) { state = PlayerState.RUNNING; }
 
-        if (!runModeActive) //The player should walk, run mode is inactive
+        if (state == PlayerState.RUNNING) //The player should walk, run mode is inactive
         {
-            movementMultiplier = speed;
+            speed += runSpeed * Time.deltaTime * 2f;
+            if (speed > runSpeed) { speed = runSpeed; }
         }
-        else //Run mode is active, apply run speed
+        else if (state == PlayerState.WALKING) //Run mode is active, apply run speed
         {
-            movementMultiplier = runSpeed;
+            speed += walkSpeed * Time.deltaTime * 2f;
+            if (speed > walkSpeed) { speed = walkSpeed; }
         }
+        else if (state == PlayerState.STANDING) { speed = 0; }
 
-       //Basic movement system:
-       moveDirection.x = input.getInput("Horizontal") * movementMultiplier;  // The player's x movement is the Horizontal Input (0-1) * speed.
-       moveDirection.z = input.getInput("Vertical") * movementMultiplier;    // The player's y movement is the Vertical Input (0-1) * speed.
+        //print("State: " + state + ", Speed: " + speed);
+
+        //Basic movement system:
+        moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
+        moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
+
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
@@ -85,7 +87,6 @@ public class PlayerController : MonoBehaviour {
         else    // Else, the player is touching the ground.
         {
             //moveDirection.y = 0;    // His vertical (y) movement is reset.
-            prevJumpTime = 0;       // His time in the air is 0.
             fallDistance = 0;
         }
 
@@ -99,16 +100,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         prevFallDistance = fallDistance;
-
-        //print(controller.isGrounded);// print(moveDirection.y);
-
-        if (prevJumpTime < maxJumpTime)  // If the player has been in the air less than Max, and...
-        {
-            if (input.isPressed("Jump"))        // ... the Jump button is pressed...
-                moveDirection.y += jumpSpeed;   // ... add JumpSpeed to the vertical movement (y).
-        }
-
-        prevJumpTime += Time.deltaTime;     // We add the deltaTime to the time in the air (if he is on the ground, it will be reset to 0 in the next execution).
 
         camForward = camera.transform.forward;
         camRight = camera.transform.right;
@@ -139,7 +130,8 @@ public class PlayerController : MonoBehaviour {
         transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
         */
         if(moveDirection.x != 0 || moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
-        controller.gameObject.transform.forward = forward;
+        //controller.gameObject.transform.forward = forward;
+        controller.gameObject.transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.

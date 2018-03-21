@@ -33,6 +33,7 @@ public class BlackInsect : MonoBehaviour {
 
     // FOR DEBUGGING:
     public GameObject DarkSphere;
+    public float LightInteractionRadius = 8;
 
     private Transform defaultTransform;
 
@@ -63,6 +64,7 @@ public class BlackInsect : MonoBehaviour {
     void Update()
     {
         if (life <= 0) { life = 0; alive = false; }   // If its life is below or equal 0, it's considered dead.
+        LightInteraction();
     }
 	
 	// Update is called once per frame
@@ -173,6 +175,17 @@ public class BlackInsect : MonoBehaviour {
         return tmp; // Return the found node.
     }
 
+    void LightInteraction()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, LightInteractionRadius/2);
+        if(hitColliders.Length == 0) { return; }
+        for(int i = 0; i < hitColliders.Length; i++)
+        {
+            if (hitColliders[i].CompareTag("BlackInsect")) { continue; }
+            //if (hitColliders[i].CompareTag("LightOrb")) { print("touched"); }//hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); }
+        }
+    }
+
     public void Hurt()
     {
         if(state == EnemyState.WALKING)
@@ -181,7 +194,7 @@ public class BlackInsect : MonoBehaviour {
             state = EnemyState.HURT;
         }
         //knockback = true;
-        print("Enemy was hurt. Life is " + life);
+        //print("Enemy was hurt. Life is " + life);
     }
 
     public void Spawn(Vector3 where)

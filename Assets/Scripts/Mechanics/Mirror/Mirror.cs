@@ -58,10 +58,12 @@ public class Mirror : MonoBehaviour {
             if (Physics.Raycast(hitPoint, reflectVec, out rayHit))      // If our casted ray hits something:
             {   
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
+                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
-                LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);      // The length is the distance between the point of entering light
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point)/2);      // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
@@ -110,5 +112,17 @@ public class Mirror : MonoBehaviour {
     void TriggerTrigger(RaycastHit rh)
     {
         rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger(); // Tell the trigger to please trigger. Thanks.
+    }
+
+    void BlackInsect(Collider col)
+    {
+        col.gameObject.GetComponent<BlackInsect>().Hurt();
+    }
+
+    void Filter(RaycastHit filterHit)
+    {
+        Vector3 inVec = filterHit.point - LightRayGeometry.transform.position;
+        filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 }
