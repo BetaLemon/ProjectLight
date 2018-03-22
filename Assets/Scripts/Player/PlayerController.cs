@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     private Camera camera;
     private Vector3 camForward;
     private Vector3 camRight;
+    private Animator animator;
     #endregion
 
     void Start()    // When the script starts.
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour {
         input = GetComponent<PlayerInput>();                // We get the player's input controller.
         camera = Camera.main;                               // We fetch the main camera.
         state = PlayerState.STANDING;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour {
         moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
         moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
 
+        AnimatorUpdate();
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
@@ -118,6 +121,8 @@ public class PlayerController : MonoBehaviour {
         if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move; forward.y = 0; }
         //controller.gameObject.transform.forward = forward;
         transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+
+        AnimatorUpdate();
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.
@@ -134,6 +139,34 @@ public class PlayerController : MonoBehaviour {
         {
             transform.parent = null;
         }
+    }
+
+    void AnimatorUpdate()
+    {
+        switch (state)
+        {
+            case PlayerState.FALLING:
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isGrounded", false);
+                animator.SetBool("isRunning", false);
+                break;
+            case PlayerState.RUNNING:
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", true);
+                break;
+            case PlayerState.STANDING:
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", false);
+                break;
+            case PlayerState.WALKING:
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", false);
+                break;
+        }
+        Debug.Log(state);
     }
 
     public void AllowMovement() { canMove = true; }
