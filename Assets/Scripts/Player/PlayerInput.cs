@@ -18,6 +18,8 @@ public class PlayerInput : MonoBehaviour {
     private float lastClickD;
     private float lastClickW;
 
+    private Vector2 mousePos;
+
     void Start () {
         //Add INPUTS to input dictionary, current status of which we may be interested in:
         input.Add("Horizontal", 0);
@@ -92,6 +94,8 @@ public class PlayerInput : MonoBehaviour {
             }
             lastClickS = Time.time;
         }
+
+        mousePos = Input.mousePosition;
     }
 
     public bool isPressed(string id)
@@ -108,4 +112,6 @@ public class PlayerInput : MonoBehaviour {
     {
         return doubleInput[id];
     }
+
+    public Vector2 getMousePos() { return mousePos; }
 }

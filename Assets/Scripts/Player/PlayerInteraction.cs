@@ -63,8 +63,8 @@ public class PlayerInteraction : MonoBehaviour {
         /// ACTIVE INTERACTION (Cylinder LightRay)
         if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
-            Debug.DrawRay(CylindricLight.transform.position, transform.forward * light.maxLightCylinderScale * 2, Color.red);
-            if (Physics.Raycast(CylindricLight.transform.position, transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
+            if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry .transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
             {
                 float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
 

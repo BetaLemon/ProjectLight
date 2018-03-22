@@ -114,26 +114,10 @@ public class PlayerController : MonoBehaviour {
         move.y = moveDirection.y;
 
         controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
-        /*
-        //Please remove this piece of shit after the alpha:
-        playerRig.GetComponent<Animation>().enabled = false;
-        if (moveDirection.x == 0) { moveDirection.x = transform.forward.x;  } //Last bit is Alpha bullshit
-        else { playerRig.GetComponent<Animation>().enabled = true; }
-        if (moveDirection.z == 0) { moveDirection.z = transform.forward.z;}
-        else { playerRig.GetComponent<Animation>().enabled = true; }*/
-        //moveDirection.y = transform.forward.y;
-        /*
-       // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
-       // {
-            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
-                                                                                                    //  }
-        //transform.forward = Vector3.RotateTowards(transform.forward, moveDirection, speed, speed);
 
-        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
-        */
-        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
+        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move; forward.y = 0; }
         //controller.gameObject.transform.forward = forward;
-        controller.gameObject.transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+        transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.

@@ -28,6 +28,8 @@ public class PlayerLight : MonoBehaviour {
     private int drainDelay = 10000; //Time between health drain losses
 
     private PlayerInput input;
+    private Vector2 mousePos;
+    private Vector2 prevMousePos;
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -56,13 +58,15 @@ public class PlayerLight : MonoBehaviour {
 
         if(input.getInput("LightSwitch") != 0 && prevLightAxis == 0)
         {
-            if(lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; }
-            else if(lightMode == LightMode.MAX) { lightMode = LightMode.FAR; }
+            if(lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
+            else if(lightMode == LightMode.MAX) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
             else if(lightMode == LightMode.FAR) { lightMode = LightMode.NEAR; }
             //print(lightMode);
         }
 
         prevLightAxis = input.getInput("LightSwitch");
+
+        mousePos = input.getMousePos();
 
         /* To be done:
          * - Millorar els noms de les variables.
@@ -114,14 +118,20 @@ public class PlayerLight : MonoBehaviour {
                 {
                     lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
                 }
-
+                LightMouseMovement(prevMousePos, mousePos);
                 break;
         default:
                 print("Error: wrong light mode.");
                 break;
         }
-        
+        prevMousePos = mousePos;
 	}
+
+    private void LightMouseMovement(Vector2 prevMouse, Vector2 mouse)
+    {
+        Vector2 mouseMove = prevMouse - mouse;
+        lightCylinder.transform.Rotate(0, mouseMove.x/30, 0);
+    }
 
     public LightMode getLightMode() { return lightMode; }
 }
