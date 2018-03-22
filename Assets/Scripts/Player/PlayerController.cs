@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
                 animator.SetBool("isRunning", false);
                 break;
         }
-        Debug.Log(state);
+        //Debug.Log(state);
     }
 
     public void AllowMovement() { canMove = true; }

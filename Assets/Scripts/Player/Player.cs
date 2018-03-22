@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     public Text SmallGemstones;
 
     private float prevAxisMoveDir; //Previous MoveDirection.y value for variance checking
+    public Transform lifeBar;
 
     private CharacterController controllerRef; //Own character controller reference
     private PlayerController playerControllerRef; //Own player controller script reference
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour {
         //Health limiters:
         if (health > maxHealth) { health = maxHealth; }
         if (health < minHealth) { health = minHealth; Die(); }
+
+        LifeBarAdjustment();
 	}
 
     private void OnTriggerStay(Collider other)
@@ -59,7 +62,12 @@ public class Player : MonoBehaviour {
         }
         else if (other.gameObject.CompareTag("ManaCharge")) { Destroy(other.gameObject); health += 5; }
     }
-    
+
+    void LifeBarAdjustment()
+    {
+        if(lifeBar == null) { Debug.Log("Please add lifebar object to Player Script."); }
+        lifeBar.localScale = new Vector3(lifeBar.localScale.x, health / maxHealth, lifeBar.localScale.z);
+    }    
 
     private void Die() {
         print("Player died");
