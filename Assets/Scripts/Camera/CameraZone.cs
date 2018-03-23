@@ -5,19 +5,24 @@ using UnityEngine;
 public class CameraZone : MonoBehaviour
 {
     public Cinemachine.CinemachineVirtualCamera virtualCameraToSet;
+    public Cinemachine.CinemachineFreeLook freeLookCameraToSet;
     public int priorityOnEnter = 10;
     public int priorityOnExit = 1;
 
     private void Start()
     {
-        virtualCameraToSet.Priority = priorityOnExit;
+        if (freeLookCameraToSet != null) freeLookCameraToSet.Priority = priorityOnExit;
+        else
+            virtualCameraToSet.Priority = priorityOnExit;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            virtualCameraToSet.Priority = priorityOnEnter;
+            if (freeLookCameraToSet != null) freeLookCameraToSet.Priority = priorityOnEnter;
+            else
+                virtualCameraToSet.Priority = priorityOnEnter;
         }
     }
 
@@ -25,7 +30,9 @@ public class CameraZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            virtualCameraToSet.Priority = priorityOnExit;
+            if (freeLookCameraToSet != null) freeLookCameraToSet.Priority = priorityOnExit;
+            else
+                virtualCameraToSet.Priority = priorityOnExit;
         }
     }
 }
