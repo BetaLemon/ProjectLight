@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    enum PlayerState { STANDING, WALKING, RUNNING};
+    public enum PlayerState { STANDING, WALKING, RUNNING, FALLING };
 
     #region Variables
     // Variables:
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     private Camera camera;
     private Vector3 camForward;
     private Vector3 camRight;
+    private Animator animator;
     #endregion
 
     void Start()    // When the script starts.
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour {
         input = GetComponent<PlayerInput>();                // We get the player's input controller.
         camera = Camera.main;                               // We fetch the main camera.
         state = PlayerState.STANDING;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour {
         moveDirection.x = input.getInput("Horizontal") * speed;  // The player's x movement is the Horizontal Input (0-1) * speed.
         moveDirection.z = input.getInput("Vertical") * speed;    // The player's y movement is the Vertical Input (0-1) * speed.
 
+        AnimatorUpdate();
     }
 
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
@@ -83,11 +86,13 @@ public class PlayerController : MonoBehaviour {
         {
             moveDirection.y = -1*gravity; // We apply gravity.
             fallDistance += Mathf.Abs(moveDirection.y);
+            state = PlayerState.FALLING;
         }
         else    // Else, the player is touching the ground.
         {
             //moveDirection.y = 0;    // His vertical (y) movement is reset.
             fallDistance = 0;
+            state = PlayerState.STANDING;
         }
 
         if(fallDistance == 0 && prevFallDistance != 0)
@@ -112,26 +117,12 @@ public class PlayerController : MonoBehaviour {
         move.y = moveDirection.y;
 
         controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
-        /*
-        //Please remove this piece of shit after the alpha:
-        playerRig.GetComponent<Animation>().enabled = false;
-        if (moveDirection.x == 0) { moveDirection.x = transform.forward.x;  } //Last bit is Alpha bullshit
-        else { playerRig.GetComponent<Animation>().enabled = true; }
-        if (moveDirection.z == 0) { moveDirection.z = transform.forward.z;}
-        else { playerRig.GetComponent<Animation>().enabled = true; }*/
-        //moveDirection.y = transform.forward.y;
-        /*
-       // if (moveDirection.x != 0 || moveDirection.z != 0)   // If the player is moving...
-       // {
-            lerpLook = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));   // ... the direction is gonna be in the direction of movement.
-                                                                                                    //  }
-        //transform.forward = Vector3.RotateTowards(transform.forward, moveDirection, speed, speed);
 
-        transform.rotation = Quaternion.Slerp (transform.rotation, lerpLook, Time.deltaTime*4);   // We rotate the player towards lerpLook, applying a lerp.
-        */
-        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = moveDirection; forward.y = 0; }
+        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move; forward.y = 0; }
         //controller.gameObject.transform.forward = forward;
-        controller.gameObject.transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+        transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+
+        AnimatorUpdate();
     }
 
     void OnTriggerStay(Collider other)  // If entering a Trigger Collider.
@@ -150,6 +141,34 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void AnimatorUpdate()
+    {
+        switch (state)
+        {
+            case PlayerState.FALLING:
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isGrounded", false);
+                animator.SetBool("isRunning", false);
+                break;
+            case PlayerState.RUNNING:
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", true);
+                break;
+            case PlayerState.STANDING:
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", false);
+                break;
+            case PlayerState.WALKING:
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isGrounded", true);
+                animator.SetBool("isRunning", false);
+                break;
+        }
+        //Debug.Log(state);
+    }
+
     public void AllowMovement() { canMove = true; }
 
     public void Move(Vector3 direction) {
@@ -157,4 +176,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void StopMovement() { canMove = false; }
+
+    public PlayerState GetState() { return state; }
 }

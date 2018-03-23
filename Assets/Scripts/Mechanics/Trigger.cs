@@ -44,7 +44,7 @@ public class Trigger : MonoBehaviour {
 
     void TriggerAllObjects()
     {
-        Debug.Log("Triggered All Objects!");
+        //Debug.Log("Triggered All Objects!");
         for (int i = 0; i < triggeredObjects.Length; i++)   // For all the objects in the array that need to be triggered:
         {
             switch (triggeredObjects[i].tag)    // For the type of object that is triggered, we have each of the actions to be done:
