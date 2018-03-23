@@ -44,7 +44,7 @@ public class Trigger : MonoBehaviour {
 
     void TriggerAllObjects()
     {
-        //Debug.Log("Triggered All Objects!");
+        //sDebug.Log("Triggered All Objects!");
         for (int i = 0; i < triggeredObjects.Length; i++)   // For all the objects in the array that need to be triggered:
         {
             switch (triggeredObjects[i].tag)    // For the type of object that is triggered, we have each of the actions to be done:
@@ -54,6 +54,7 @@ public class Trigger : MonoBehaviour {
                     platform.getTriggered();
                     break;
                 case "Door":
+                    Debug.Log("Triggered Door.");
                     Door door = triggeredObjects[i].GetComponent<Door>();
                     door.getTriggered();
                     break;
@@ -79,11 +80,14 @@ public class Trigger : MonoBehaviour {
 
     public void pleaseTrigger(float currentCharge)
     {
-        if (triggerCount < maxTriggers && canBeTriggered)
-        { //Trigger use limiter
-            triggerCount++;
-            canBeTriggered = false;
-            TriggerAllObjects();
+        if(currentCharge > triggerCharge)
+        {
+            if (triggerCount < maxTriggers && canBeTriggered)
+            { //Trigger use limiter
+                triggerCount++;
+                canBeTriggered = false;
+                TriggerAllObjects();
+            }
         }
     }
 

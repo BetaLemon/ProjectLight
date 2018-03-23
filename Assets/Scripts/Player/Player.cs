@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
     void LifeBarAdjustment()
     {
         if(lifeBar == null) { Debug.Log("Please add lifebar object to Player Script."); }
-        lifeBar.localScale = new Vector3(lifeBar.localScale.x, health / maxHealth, lifeBar.localScale.z);
+        lifeBar.localScale = new Vector3(health / maxHealth, health / maxHealth, health / maxHealth);
     }    
 
     private void Die() {
