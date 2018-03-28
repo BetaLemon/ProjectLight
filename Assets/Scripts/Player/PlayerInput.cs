@@ -26,10 +26,10 @@ public class PlayerInput : MonoBehaviour {
         input.Add("Vertical", 0);
         input.Add("Run", 0);
         input.Add("Jump", 0);
-
         input.Add("BaseInteraction", 0);
         input.Add("LightMax", 0);
         input.Add("LightSwitch", 0);
+        input.Add("Pause", 0);
 
         //Add DOUBLE CLICK INPUTS to doubleInput dictionary, current status of which we may be interested in:
 
@@ -46,15 +46,15 @@ public class PlayerInput : MonoBehaviour {
         input["Run"] = Input.GetAxis("Run");
         //input["Jump"] = Input.GetAxis("Jump");
         input["Jump"] = 0;  // Jump has been disabled.
-
         input["BaseInteraction"] = Input.GetAxis("BaseInteraction");
         input["LightMax"] = Input.GetAxis("LightMax");
         input["LightSwitch"] = Input.GetAxis("LightSwitch");
-
-        //print("D: " + doubleInput["doubleClickD"] + " A: " + doubleInput["doubleClickA"] + " W: " + doubleInput["doubleClickW"] + " S: " + doubleInput["doubleClickS"]);
+        input["Pause"] = Input.GetAxis("Pause");
 
         //Assign double click checkings statuses to dictionary indexes (Double click confirming):
         doubleInput["doubleClickD"] = false;
+        //print("D: " + doubleInput["doubleClickD"] + " A: " + doubleInput["doubleClickA"] + " W: " + doubleInput["doubleClickW"] + " S: " + doubleInput["doubleClickS"]);
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             if (Time.time - lastClickD < doubleClickDelay)
