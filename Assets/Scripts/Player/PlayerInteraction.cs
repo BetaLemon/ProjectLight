@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour {
 
+    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
+
     public GameObject CylindricLight;
     public GameObject LightRayGeometry;
 
@@ -15,11 +17,21 @@ public class PlayerInteraction : MonoBehaviour {
     private PlayerLight light;
 
     void Start () {
+        //Reference Initializations:
+        gameStateDataScriptRef = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateScript>();
+
         input = GetComponent<PlayerInput>();
         light = GetComponent<PlayerLight>();
     }
 	
 	void FixedUpdate () {
+
+        //Pause input:
+        if (input.getInput("Pause") != 0)
+        {
+            gameStateDataScriptRef.PauseGame(true);
+            gameStateDataScriptRef.SetSceneState(2);
+        }
 
         pressedBaseInteraction = input.getInput("BaseInteraction");
 

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class OptionsScript : MonoBehaviour {
 
+    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
     public GameObject MainMenuRef;
     public GameObject MainMenuCanvasRef;
+
+    void Start()
+    {
+        //Reference Initializations:
+        gameStateDataScriptRef = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateScript>();
+    }
 
     public void GoToMainMenu()
     {

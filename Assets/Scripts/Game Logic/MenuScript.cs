@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class MenuScript : MonoBehaviour {
 
-    public GameObject OptionsRef;
-    public GameObject PlayerRef;
+    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
+    public GameObject OptionsRef; //Options menu object reference
 
     void Start() //The following always happens when the main menu appears:
     {
         //Reference Initializations:
-        PlayerRef = GameObject.FindGameObjectWithTag("Player");
-
-        //Player gets disabled
-        PlayerRef.SetActive(false);
+        gameStateDataScriptRef = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateScript>();
     }
 
+    public void ActiveSelf(bool what)
+    {
+        gameObject.SetActive(what);
+    }
     public void FileSelectionMode()
     {
-        gameObject.SetActive(false);
-        //Player activation and file selector coordinates:
-        PlayerRef.SetActive(true);
+        gameStateDataScriptRef.SetSceneState(3); //Informs the GameState that we are now heading to file selector
+
     }
     public void GoToOptions()
     {
+
         gameObject.transform.GetChild(2).gameObject.SetActive(false);
         OptionsRef.SetActive(true);
     }
