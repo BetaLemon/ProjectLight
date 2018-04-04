@@ -26,9 +26,12 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	void FixedUpdate () {
 
+        //print(input.getInput("Pause"));
+
         //Pause input:
         if (input.getInput("Pause") != 0)
         {
+            print("PausingGame");
             gameStateDataScriptRef.PauseGame(true);
             gameStateDataScriptRef.SetSceneState(1);
         }
