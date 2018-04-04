@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Start () {
         //Reference Initializations:
-        gameStateDataScriptRef = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateScript>();
+        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
 
         input = GetComponent<PlayerInput>();
         light = GetComponent<PlayerLight>();
@@ -30,7 +30,7 @@ public class PlayerInteraction : MonoBehaviour {
         if (input.getInput("Pause") != 0)
         {
             gameStateDataScriptRef.PauseGame(true);
-            gameStateDataScriptRef.SetSceneState(2);
+            gameStateDataScriptRef.SetSceneState(1);
         }
 
         pressedBaseInteraction = input.getInput("BaseInteraction");

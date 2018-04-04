@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
 
     //Area control:
     [Tooltip("Sets where the player would respawn if not assigned to any area")]
-    public Vector3 baseWorldSpawn = new Vector3(0, 0, 0);
+    public GameObject baseWorldSpawn;
     private GameObject currentArea = null; //Last area where the player has entered
 
 	void Start () {
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour {
             transform.position = currentArea.transform.GetChild(0).transform.position;
         }
         else {
-            transform.position = baseWorldSpawn; //Send to central world spawn
+            transform.position = baseWorldSpawn.transform.position; //Send to central world spawn
         }
         //Reset Health:
         health = respawnHealth;
