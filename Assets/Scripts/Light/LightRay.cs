@@ -13,4 +13,9 @@ public class LightRay : MonoBehaviour {
         LightRayGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
         LightRayGeometry.transform.Rotate(0, 0, rotateSpeed);
 	}
+
+    public void SetRayScale(Vector3 newScale)
+    {
+        LightRayGeometry.transform.localScale = newScale;
+    }
 }

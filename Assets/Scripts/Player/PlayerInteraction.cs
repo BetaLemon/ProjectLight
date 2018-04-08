@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Start () {
         //Reference Initializations:
-        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+        //gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
 
         input = GetComponent<PlayerInput>();
         light = GetComponent<PlayerLight>();
@@ -28,6 +28,8 @@ public class PlayerInteraction : MonoBehaviour {
 
         //print(input.getInput("Pause"));
 
+        if(input == null) { Debug.Log("Shit happening."); }
+
         //Pause input:
         if (input.getInput("Pause") != 0)
         {
@@ -35,7 +37,7 @@ public class PlayerInteraction : MonoBehaviour {
             gameStateDataScriptRef.PauseGame(true);
             gameStateDataScriptRef.SetSceneState(1);
         }
-
+        
         pressedBaseInteraction = input.getInput("BaseInteraction");
 
         float amount = GetComponent<PlayerLight>().healthDrainAmmount;
@@ -89,6 +91,7 @@ public class PlayerInteraction : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white,amount); } //Charge the light orb (Default white from player white ray)
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                if(rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
             }
         }
 
@@ -117,6 +120,13 @@ public class PlayerInteraction : MonoBehaviour {
     void TriggerTrigger(RaycastHit rh)
     {
         rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger();
+    }
+
+    void Prism(RaycastHit rh)
+    {
+        Vector3 inVec = rh.point - CylindricLight.transform.position;
+        rh.collider.GetComponentInParent<Prism>().Process(inVec, rh.point, rh.normal);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));
     }
 
     public RaycastHit getRayHit()
