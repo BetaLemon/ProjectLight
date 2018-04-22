@@ -29,6 +29,8 @@ public class LightOrb : MonoBehaviour {
 
     public Color color = Color.white; //The orb's current color. Is public in order to be set up on level design
 
+    public GameObject chargeSphere;
+
     private float Lerp(float goal, float speed, float currentVal)
     {
         if (currentVal > goal)
@@ -73,9 +75,10 @@ public class LightOrb : MonoBehaviour {
 
     void Update()
     {
+        OrbChargeSphere();
         //Update glow color:
         glow.color = color;
-        OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
+        //OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
 
         //Orb energy charge limits:
         if (orbCharge > maxOrbCharge) orbCharge = maxOrbCharge;
@@ -95,5 +98,11 @@ public class LightOrb : MonoBehaviour {
             }
             else { orbTrigger.pleaseTrigger(orbCharge); }
         }
+    }
+
+    void OrbChargeSphere()
+    {
+        chargeSphere.transform.localScale = new Vector3(orbCharge / maxOrbCharge, orbCharge / maxOrbCharge, orbCharge / maxOrbCharge);
+        chargeSphere.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
     }
 }

@@ -204,6 +204,13 @@ public class PlayerInteraction : MonoBehaviour {
         rh.collider.gameObject.GetComponentInParent<Trigger>().pleaseTrigger();
     }
 
+    void Prism(RaycastHit rh)
+    {
+        Vector3 inVec = rh.point - CylindricLight.transform.position;
+        rh.collider.GetComponentInParent<Prism>().Process(inVec, rh.point, rh.normal);
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));
+    }
+
     public RaycastHit getRayHit()
     {
         return rayHit;
