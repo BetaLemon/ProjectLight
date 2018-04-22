@@ -9,6 +9,18 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject CylindricLight;
     public GameObject LightRayGeometry;
 
+    public GameObject BaseWorldSpawnRef;
+
+    float timer = 0;
+    float selectDelay = 20; //Change highlighted file delay in frames
+    int highlightedFilenum; //File 1 to 4 index
+    private bool[] highlightedFile = new bool[2]; //The file selector is treated as a very simple 2x2 boolean slot matrix: Left slot = false means left column, Right slot = false means higher row
+    public GameObject SelectorEnvironment;
+    public GameObject FileSelectorBoat1;
+    public GameObject FileSelectorBoat2;
+    public GameObject FileSelectorBoat3;
+    public GameObject FileSelectorBoat4;
+
     private RaycastHit rayHit;
     float prevBaseInteraction;
     float pressedBaseInteraction;
@@ -17,82 +29,155 @@ public class PlayerInteraction : MonoBehaviour {
     private PlayerLight light;
 
     void Start () {
+
         //Reference Initializations:
         gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+        BaseWorldSpawnRef = GameObject.Find("BaseWorldSpawn");
+
+        //File selector: Default upper left boat selected
+        highlightedFilenum = 1;
+        highlightedFile[0] = false;
+        highlightedFile[1] = false;
+
+        SelectorEnvironment = GameObject.Find("MENU_PORT");
+        FileSelectorBoat1 = SelectorEnvironment.transform.GetChild(0).gameObject;
+        FileSelectorBoat2 = SelectorEnvironment.transform.GetChild(1).gameObject;
+        FileSelectorBoat3 = SelectorEnvironment.transform.GetChild(2).gameObject;
+        FileSelectorBoat4 = SelectorEnvironment.transform.GetChild(3).gameObject;
 
         input = GetComponent<PlayerInput>();
         light = GetComponent<PlayerLight>();
     }
-	
-	void FixedUpdate () {
 
-        //print(input.getInput("Pause"));
+    void FixedUpdate()
+    {
 
-        //Pause input:
-        if (input.getInput("Pause") != 0)
+        if (gameStateDataScriptRef.GetSceneState() == GameStateScript.SceneState.INGAME) //This update section only works if we're INGAME:
         {
-            print("PausingGame");
-            gameStateDataScriptRef.PauseGame(true);
-            gameStateDataScriptRef.SetSceneState(1);
-        }
+            //print(input.getInput("Pause"));
 
-        pressedBaseInteraction = input.getInput("BaseInteraction");
-
-        float amount = GetComponent<PlayerLight>().healthDrainAmmount;
-
-        /// PASSIVE INTERACTION (Sphere Light)
-        Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-5); //(Sphere center, Radius)
-        int tmp = 0;
-        for (int i = 0; i < hitColliders.Length; i++)
-        {
-            if (hitColliders[i].isTrigger)
+            //Pause input:
+            if (input.getInput("Pause") != 0)
             {
-                if (hitColliders[i].gameObject.CompareTag("PlayerLight")) { continue; }
-                switch (hitColliders[i].gameObject.tag)
+                gameStateDataScriptRef.PauseGame(!gameStateDataScriptRef.gamePaused);
+                gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.OPTIONS);
+            }
+
+            pressedBaseInteraction = input.getInput("BaseInteraction");
+
+            float amount = GetComponent<PlayerLight>().healthDrainAmmount;
+
+            /// PASSIVE INTERACTION (Sphere Light)
+            Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range - 5); //(Sphere center, Radius)
+            int tmp = 0;
+            for (int i = 0; i < hitColliders.Length; i++)
+            {
+                if (hitColliders[i].isTrigger)
                 {
-                    case "LightOrb":
-                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white, amount); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
-                        else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
-                        break;
-                    case "BlackInsect":
-                        BlackInsect(hitColliders[i]);
-                        break;
-                    case "Mirror":
-                        if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
-                        break;
-                    case "OpticalFiber":
-                        // Make closest node work (switching reverse or not):
-                        hitColliders[i].GetComponentInParent<OpticalFiber>().SetClosestNode(transform);
+                    if (hitColliders[i].gameObject.CompareTag("PlayerLight")) { continue; }
+                    switch (hitColliders[i].gameObject.tag)
+                    {
+                        case "LightOrb":
+                            if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white, amount); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
+                            else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
+                            break;
+                        case "BlackInsect":
+                            BlackInsect(hitColliders[i]);
+                            break;
+                        case "Mirror":
+                            if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
+                            break;
+                        case "OpticalFiber":
+                            // Make closest node work (switching reverse or not):
+                            hitColliders[i].GetComponentInParent<OpticalFiber>().SetClosestNode(transform);
 
-                        // Charge optical fiber:
-                        
-                        if (input.isPressed("LightMax")) hitColliders[i].GetComponent<OpticalFiber_Node>().AddCharge(amount);
-                        else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponentInParent<OpticalFiber>().StartPlayerMode(transform);
-                        break;
-                    default:break;
+                            // Charge optical fiber:
+
+                            if (input.isPressed("LightMax")) hitColliders[i].GetComponent<OpticalFiber_Node>().AddCharge(amount);
+                            else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponentInParent<OpticalFiber>().StartPlayerMode(transform);
+                            break;
+                        default: break;
+                    }
+                    tmp++;
                 }
-                tmp++;
             }
-        }
 
-        /// ACTIVE INTERACTION (Cylinder LightRay)
-        if(GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
-        {
-            Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
-            if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry .transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            /// ACTIVE INTERACTION (Cylinder LightRay)
+            if (GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
             {
-                float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
+                Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
+                if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+                {
+                    float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
 
-                // Specific game object interactions with light cylinder:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
-                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white,amount); } //Charge the light orb (Default white from player white ray)
-                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                    // Specific game object interactions with light cylinder:
+                    if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
+                    if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+                    if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white, amount); } //Charge the light orb (Default white from player white ray)
+                    if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+                    if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                }
+            }
+
+            prevBaseInteraction = pressedBaseInteraction;
+        }
+        else if (gameStateDataScriptRef.GetSceneState() == GameStateScript.SceneState.FILESELECT) //This update section only works if we're in FILESELECT:
+        {
+            ++timer;
+
+            if (input.getInput("Horizontal") != 0 && timer > selectDelay)
+            {
+                highlightedFile[0] = !highlightedFile[0];
+                timer = 0;
+            }
+            else if (input.getInput("Vertical") != 0 && timer > selectDelay)
+            {
+                highlightedFile[1] = !highlightedFile[1];
+                timer = 0;
+            }
+
+            boatOutlinesOff();
+
+            //FILE SELECTOR:
+            if (highlightedFile[0] == false && highlightedFile[1] == false)
+            {
+                highlightedFilenum = 1;
+                FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+            }
+            else if (highlightedFile[0] == true && highlightedFile[1] == false)
+            {
+                highlightedFilenum = 2;
+                FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+            }
+            else if (highlightedFile[0] == false && highlightedFile[1] == true)
+            {
+                highlightedFilenum = 3;
+                FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+            }
+            else if (highlightedFile[0] == true && highlightedFile[1] == true)
+            {
+                highlightedFilenum = 4;
+                FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+            }
+
+            //INSERT LOAD SELECTED FILE HERE:
+            if (input.getInput("Submit") != 0)
+            {
+                //Provisional stuff for now:
+                boatOutlinesOff();
+                gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.INGAME);
+
+                transform.position = BaseWorldSpawnRef.transform.position;
             }
         }
+    }
 
-        prevBaseInteraction = pressedBaseInteraction;
+    void boatOutlinesOff()
+    {
+        FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
+        FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
+        FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
+        FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
     }
 
     void BlackInsect(Collider col)

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     #region Variables
     // Variables:
     CharacterController controller;       // For controlling the player.
+    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
     PlayerState state;
     // Player movement variables:
     public float walkSpeed = 3.0f;        // Maximal speed when walking.
@@ -33,17 +34,18 @@ public class PlayerController : MonoBehaviour {
 
     void Start()    // When the script starts.
     {
-        controller = GetComponent<CharacterController>();   // We get the player's CharacterController.
-        moveDirection = Vector3.zero;                       // We set the player's direction to (0,0,0).
-        input = GetComponent<PlayerInput>();                // We get the player's input controller.
-        camera = Camera.main;                               // We fetch the main camera.
+        controller = GetComponent<CharacterController>();                                           // We get the player's CharacterController.
+        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();      // Game State Script ref
+        moveDirection = Vector3.zero;                                                               // We set the player's direction to (0,0,0).
+        input = GetComponent<PlayerInput>();                                                        // We get the player's input controller.
+        camera = Camera.main;                                                                       // We fetch the main camera.
         state = PlayerState.STANDING;
         animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
-        if (!canMove) return;   // If the player can't move then the following code shouldn't be executed.
+        if (!canMove || gameStateDataScriptRef.GetSceneState() != GameStateScript.SceneState.INGAME) return;   // If the player can't move or isn't on GameStateScript.cs INGAME mode, then the following code shouldn't be executed.
 
         if (input.getInput("Horizontal") == 0 && input.getInput("Vertical") == 0) { state = PlayerState.STANDING; }
         else

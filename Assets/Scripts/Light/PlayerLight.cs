@@ -8,9 +8,12 @@ public class PlayerLight : MonoBehaviour {
 
     public Light lightSphere;
     public GameObject lightCylinder;
+    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
 
     private LightMode lightMode; //Near or Far light modes
     private float prevLightAxis = 0;
+
+    private bool canUseLight = true;
 
     //Light Orb variables
     public float defaultLightSphereRange = 2.5f; //Orb light base extension radius to which the update tends
@@ -48,6 +51,8 @@ public class PlayerLight : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+
         lightMode = LightMode.NEAR;
         defaultLightCylinderScale = lightCylinder.transform.localScale.z;
         input = GetComponent<PlayerInput>();
@@ -56,75 +61,74 @@ public class PlayerLight : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(input.getInput("LightSwitch") != 0 && prevLightAxis == 0)
+        if (gameStateDataScriptRef.GetSceneState() == GameStateScript.SceneState.INGAME)  //This update section only works if we're INGAME:
         {
-            if(lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
-            else if(lightMode == LightMode.MAX) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
-            else if(lightMode == LightMode.FAR) { lightMode = LightMode.NEAR; }
-            //print(lightMode);
-        }
 
-        prevLightAxis = input.getInput("LightSwitch");
+            if (input.getInput("LightSwitch") != 0 && prevLightAxis == 0 && canUseLight)
+            {
+                if (lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
+                else if (lightMode == LightMode.MAX) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
+                else if (lightMode == LightMode.FAR) { lightMode = LightMode.NEAR; }
+                //print(lightMode);
+            }
 
-        mousePos = input.getMousePos();
+            prevLightAxis = input.getInput("LightSwitch");
 
-        /* To be done:
-         * - Millorar els noms de les variables.
-         * 
-         */
+            mousePos = input.getMousePos();
 
-        if (input.isPressed("LightMax"))
-        {
-            if (lightMode == LightMode.NEAR || lightMode == LightMode.MAX) { lightMode = LightMode.MAX; }
-        }
-        else if (lightMode != LightMode.FAR) { lightMode = LightMode.NEAR; }
+            if (input.isPressed("LightMax") && canUseLight)
+            {
+                if (lightMode == LightMode.NEAR || lightMode == LightMode.MAX) { lightMode = LightMode.MAX; }
+            }
+            else if (lightMode != LightMode.FAR) { lightMode = LightMode.NEAR; }
 
-        switch (lightMode)
-        {
-            case LightMode.NEAR:
-                lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
-                lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
-                if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
-                break;
-            case LightMode.MAX:
-                GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
-                lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
-                if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
-                break;
-            case LightMode.FAR:
+            switch (lightMode)
+            {
+                case LightMode.NEAR:
+                    lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
+                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
+                    if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
+                    break;
+                case LightMode.MAX:
+                    GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for doing this action
+                    lightSphere.range += expandingLightSpeed; //Expand the light on input at expansion speed
+                    if (lightSphere.range > maxExpandingLight) { lightSphere.range = maxExpandingLight; } //Light orb expansion limit
+                    break;
+                case LightMode.FAR:
 
-                GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for being in this mode
+                    GetComponent<Player>().health -= healthDrainAmmount; //Decrease player health for being in this mode
 
-                lightCylinder.SetActive(true);
+                    lightCylinder.SetActive(true);
 
-                lightSphere.range = Lerp(lightSphereRangeInFarMode, lerpSpeed, lightSphere.range);
+                    lightSphere.range = Lerp(lightSphereRangeInFarMode, lerpSpeed, lightSphere.range);
 
-                RaycastHit tmpHit = GetComponent<PlayerInteraction>().getRayHit();
-                if(tmpHit.collider != null) // If something was hit:
-                {
-                    //Check at what distance the intersection happened:
-                    float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
-                    if (distCylPosHitPos / 2 > maxLightCylinderScale)
+                    RaycastHit tmpHit = GetComponent<PlayerInteraction>().getRayHit();
+                    if (tmpHit.collider != null) // If something was hit:
                     {
-                        lightCylinder.transform.localScale = new Vector3(8, 8, maxLightCylinderScale);
+                        //Check at what distance the intersection happened:
+                        float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
+                        if (distCylPosHitPos / 2 > maxLightCylinderScale)
+                        {
+                            lightCylinder.transform.localScale = new Vector3(8, 8, maxLightCylinderScale);
+                        }
+                        else
+                        {
+                            lightCylinder.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
+                        }
+
                     }
-                    else
+                    else    // Else, if nothing was hit:
                     {
-                        lightCylinder.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
+                        lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
                     }
-                    
-                }
-                else    // Else, if nothing was hit:
-                {
-                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
-                }
-                LightMouseMovement(prevMousePos, mousePos);
-                break;
-        default:
-                print("Error: wrong light mode.");
-                break;
+                    LightMouseMovement(prevMousePos, mousePos);
+                    break;
+                default:
+                    print("Error: wrong light mode.");
+                    break;
+            }
+            prevMousePos = mousePos;
         }
-        prevMousePos = mousePos;
 	}
 
     private void LightMouseMovement(Vector2 prevMouse, Vector2 mouse)
@@ -134,5 +138,9 @@ public class PlayerLight : MonoBehaviour {
     }
 
     public LightMode getLightMode() { return lightMode; }
+
+    public void AllowLightUsage() { canUseLight = true; }
+
+    public void StopLightUsage() { canUseLight = false; }
 }
 

@@ -6,7 +6,14 @@ using UnityEngine.UI;
 
 public class ConversationDisplayer : MonoBehaviour
 {
-    
+
+    //Some references for external interaction
+    public GameStateScript gameStateDataScriptRef;
+    public GameObject playerRef;
+    public Cinemachine.CinemachineVirtualCamera npcCamRef;
+    public Cinemachine.CinemachineBrain brainCamRef;
+    public int priorityOnExit = 1;
+
     public static ConversationDisplayer displayerInstance;
 
     private Text _textComponent; //We save the text we want to write to the text component here
@@ -29,9 +36,8 @@ public class ConversationDisplayer : MonoBehaviour
 
     State currentState = State.RevealingText;
 
-    public float SecondsBetweenCharacters = 0.03f; //Delay between character's being shown on the text display.
+    public static float SecondsBetweenCharacters = 0.01f; //Delay between character's being shown on the text display.
 
-    //public KeyCode DialogueInput = KeyCode.Z;
     bool startTheDialogue = false;
 
     public GameObject ContinueIcon;
@@ -45,6 +51,9 @@ public class ConversationDisplayer : MonoBehaviour
     //INICIAIZATION
     void Start()
     {
+        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+        playerRef = GameObject.FindWithTag("Player");
+
         displayerInstance = this;
 
         access = Name.GetComponent<NameDisplay>();
@@ -144,9 +153,13 @@ public class ConversationDisplayer : MonoBehaviour
 
     private void KillTheFuckingBox() //Hace desaparecer el panel y termina la conversacion
     {
-//        Debug.Log("Movimiento: true");
-        //PlayerController.instance.startStopMovement(true); //REACTIVATE MOVEMENT?
+        // Debug.Log("Movimiento: true");
+        playerRef.GetComponent<PlayerController>().AllowMovement(); //REACTIVATE MOVEMENT
+        playerRef.GetComponent<PlayerLight>().AllowLightUsage();
         Panel.instance.PanelActivation(false);
+        brainCamRef.m_DefaultBlend.m_Time = 0;
+        if (npcCamRef != null) npcCamRef.Priority = priorityOnExit;
+        gameStateDataScriptRef.cameraCoroutine(0.1f);
     }
 
     public void StartTheDialogue()
