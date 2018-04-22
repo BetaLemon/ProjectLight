@@ -75,7 +75,9 @@ public class LightOrb : MonoBehaviour {
 
     void Update()
     {
-        OrbChargeSphere();
+        if (chargeSphere != null) { OrbChargeSphere(); }
+        else { OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color); }
+
         //Update glow color:
         glow.color = color;
         //OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
