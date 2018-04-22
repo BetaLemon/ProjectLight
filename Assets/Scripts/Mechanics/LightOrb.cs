@@ -66,6 +66,10 @@ public class LightOrb : MonoBehaviour {
             orbCharge += amount; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
         }
     }
+    public void SetOrbCharge(float amount)
+    {
+        orbCharge = amount;
+    }
 
     void Update()
     {

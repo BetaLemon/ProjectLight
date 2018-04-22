@@ -54,7 +54,6 @@ public class Trigger : MonoBehaviour {
                     platform.getTriggered();
                     break;
                 case "Door":
-                    Debug.Log("Triggered Door.");
                     Door door = triggeredObjects[i].GetComponent<Door>();
                     door.getTriggered();
                     break;

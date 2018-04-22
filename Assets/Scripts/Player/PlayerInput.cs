@@ -30,6 +30,7 @@ public class PlayerInput : MonoBehaviour {
         input.Add("LightMax", 0);
         input.Add("LightSwitch", 0);
         input.Add("Pause", 0);
+        input.Add("Submit", 0);
 
         //Add DOUBLE CLICK INPUTS to doubleInput dictionary, current status of which we may be interested in:
 
@@ -50,6 +51,7 @@ public class PlayerInput : MonoBehaviour {
         input["LightMax"] = Input.GetAxis("LightMax");
         input["LightSwitch"] = Input.GetAxis("LightSwitch");
         input["Pause"] = Input.GetAxis("Pause");
+        input["Submit"] = Input.GetAxis("Submit");
 
         //Assign double click checkings statuses to dictionary indexes (Double click confirming):
         doubleInput["doubleClickD"] = false;

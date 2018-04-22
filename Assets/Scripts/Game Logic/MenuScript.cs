@@ -14,12 +14,11 @@ public class MenuScript : MonoBehaviour {
 
     public void FileSelectionMode()
     {
-        gameObject.SetActive(false);
-        gameStateDataScriptRef.SetSceneState(2); //Informs the GameState that we are now heading to file selector
+        gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.FILESELECT); //Informs the GameState that we are now heading to file selector
     }
     public void GoToOptions()
     {
-        gameStateDataScriptRef.SetSceneState(1);
+        gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.OPTIONS);
     }
     public void Quit()
     {

@@ -24,7 +24,7 @@ public class PortalScript : MonoBehaviour {
             //TODO ESTO HABRÍA QUE QUITARLO MAS ADELANTE, ES UN APAÑO PARA PODER DECIDIR SI EL PORTAL LLEVA A INGAME (DESDE EL FILE SELECTOR), ES PROVISIONAL
             if (sendsIngame)
             {
-                gameStateDataScriptRef.SetSceneState(3);
+                gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.INGAME);
             }
             //-----------------------------------------------------------------------------------------------------------------------------------------------
         }
