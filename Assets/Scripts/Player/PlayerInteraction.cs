@@ -116,6 +116,7 @@ public class PlayerInteraction : MonoBehaviour {
                     if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white, amount); } //Charge the light orb (Default white from player white ray)
                     if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                     if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                    if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
                 }
             }
 

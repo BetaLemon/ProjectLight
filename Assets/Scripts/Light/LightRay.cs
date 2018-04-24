@@ -15,7 +15,7 @@ public class LightRay : MonoBehaviour {
 
     void Start()
     {
-        amount = FindObjectOfType<PlayerLight>().healthDrainAmmount; //GetComponent<PlayerLight>().healthDrainAmmount;
+        amount = 0.05f; //GetComponent<PlayerLight>().healthDrainAmmount;
     }
 
     void Update () {
