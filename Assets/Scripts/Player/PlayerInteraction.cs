@@ -22,8 +22,8 @@ public class PlayerInteraction : MonoBehaviour {
     public GameObject FileSelectorBoat4;
 
     private RaycastHit rayHit;
-    float prevBaseInteraction;
-    float pressedBaseInteraction;
+    bool prevBaseInteraction;
+    bool pressedBaseInteraction;
 
     private PlayerInput input;
     private PlayerLight light;
@@ -63,7 +63,7 @@ public class PlayerInteraction : MonoBehaviour {
                 gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.OPTIONS);
             }
 
-            pressedBaseInteraction = input.getInput("BaseInteraction");
+            pressedBaseInteraction = input.isPressed("BaseInteraction");
 
             float amount = GetComponent<PlayerLight>().healthDrainAmmount;
 
@@ -85,7 +85,8 @@ public class PlayerInteraction : MonoBehaviour {
                             BlackInsect(hitColliders[i]);
                             break;
                         case "Mirror":
-                            if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
+                            //if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
+                            if (pressedBaseInteraction && !prevBaseInteraction) { hitColliders[i].GetComponentInParent<MirrorRotateController>().Toggle(); }
                             break;
                         case "OpticalFiber":
                             // Make closest node work (switching reverse or not):
