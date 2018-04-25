@@ -2,81 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MirrorRotation : MonoBehaviour {
+public class MirrorRotation : MonoBehaviour
+{
+    private bool receivingInput = true; /// !!! THIS NEEDS TO BE MODIFIED!!
 
-    public Transform[] MirrorCenter;
-    public Transform[] Frame;
-    public Transform[] BottomGear;
-    public Transform[] SideGear;
+    public Transform MirrorCenter;
 
-    private Vector2 currentAngle;
-    private float frameYAngle;
-
-    private Vector2 angleLimitX;
-    private Vector2 angleLimitY;
-
-    private Vector3 sideGearRotCenter;
-
-    enum RotatingAxis { X, Y};
-    private RotatingAxis axis;
+    public bool forw = true;
+    public float test = 0;
+    private float[] verticalClamp = { -80, 80};
 
     void Start()
     {
-        currentAngle = new Vector2(transform.localEulerAngles.x, transform.localEulerAngles.y);
-        angleLimitY = new Vector2(-80 + currentAngle.y, 80 + currentAngle.y);
-        angleLimitX = new Vector2(-40 + currentAngle.x, -40 + currentAngle.x);
-        sideGearRotCenter = MirrorCenter[0].position;
-        frameYAngle = Frame[0].localEulerAngles.y;
+        verticalClamp[0] += MirrorCenter.localEulerAngles.y;
+        verticalClamp[1] += MirrorCenter.localEulerAngles.y;
     }
 
     void Update()
     {
-        float InputX = Input.GetAxis("Mouse Y");
-        float InputY = Input.GetAxis("Mouse X");
-        if (Mathf.Abs(InputY) > Mathf.Abs(InputX)) RotateY(InputY);
-        if (Mathf.Abs(InputX) > Mathf.Abs(InputY)) RotateX(InputX);
+        //RotateVerticalAxis(forw);
+        MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, test, MirrorCenter.localEulerAngles.z);
+        Debug.Log(MirrorCenter.localEulerAngles.y);
     }
 
-    public void RotateY(float angle)
+    public void RotateVerticalAxis(bool forward)
     {
-        float clamp = angle + currentAngle.y;
-        clamp = Mathf.Clamp(clamp, angleLimitY.x, angleLimitY.y);
-
-        foreach(Transform t in MirrorCenter)
+        float angle = 0.5f;
+        if (forward)
         {
-            t.localEulerAngles = new Vector3(t.localEulerAngles.x, clamp, t.localEulerAngles.z);
+            float clamp = Clamp(MirrorCenter.localEulerAngles.y + angle, verticalClamp[0], verticalClamp[1]);
+            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
+            //Debug.Log(clamp);
         }
-        foreach (Transform t in Frame)
+        else
         {
-            t.localEulerAngles = new Vector3(t.localEulerAngles.x, clamp, t.localEulerAngles.z);
+            float clamp = Clamp(MirrorCenter.localEulerAngles.y - angle, verticalClamp[0], verticalClamp[1]);
+            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
+            //Debug.Log(clamp);
         }
-        foreach (Transform t in BottomGear)
-        {
-            t.localEulerAngles = new Vector3(t.localEulerAngles.x, clamp, t.localEulerAngles.z);
-        }
-        foreach (Transform t in SideGear)
-        {
-            t.RotateAround(sideGearRotCenter, Vector3.up, clamp - frameYAngle);
-        }
-        currentAngle.y = MirrorCenter[0].localEulerAngles.y;
-        frameYAngle = Frame[0].localEulerAngles.y;
     }
 
-    public void RotateX(float angle)
+    float Clamp(float value, float min, float max)
     {
-        float clamp = angle + currentAngle.x;
-        //clamp = Mathf.Clamp(clamp, angleLimitX.x, angleLimitX.y);
-
-        foreach (Transform t in MirrorCenter)
-        {
-            //t.localEulerAngles = new Vector3(clamp, t.localEulerAngles.y, t.localEulerAngles.z);
-            //t.RotateAroundLocal(t.position, angle);
-        }
-       /* foreach (Transform t in SideGear)
-        {
-            t.localEulerAngles = new Vector3(clamp, t.localEulerAngles.y, t.localEulerAngles.z);
-        }
-        */
-        currentAngle.x = MirrorCenter[0].localEulerAngles.x;
+        if(value > max) { value = max; }
+        if(value < min) { value = min; }
+        return value;
     }
 }
