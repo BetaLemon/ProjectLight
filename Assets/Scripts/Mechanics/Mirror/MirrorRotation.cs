@@ -2,38 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MirrorRotation : MonoBehaviour {
+public class MirrorRotation : MonoBehaviour
+{
+    private bool receivingInput = true; /// !!! THIS NEEDS TO BE MODIFIED!!
 
-    public Transform[] VerticalAxisRotator;
-    public Transform[] HorizontalAxisRotator;
-    public Transform[] CrankRotator;
-    public Transform[] SideGearRotator;
+    public Transform MirrorCenter;
 
-    public float VerticalAngle;
-    public float HorizontalAngle;
+    public bool forw = true;
+    public float test = 0;
+    private float[] verticalClamp = { -80, 80};
 
-    // Use this for initialization
-    void Start () {
-        VerticalAngle = HorizontalAngle = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		for(int i = 0; i < VerticalAxisRotator.Length; i++)
+    void Start()
+    {
+        verticalClamp[0] += MirrorCenter.localEulerAngles.y;
+        verticalClamp[1] += MirrorCenter.localEulerAngles.y;
+    }
+
+    void Update()
+    {
+        //RotateVerticalAxis(forw);
+        MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, test, MirrorCenter.localEulerAngles.z);
+        Debug.Log(MirrorCenter.localEulerAngles.y);
+    }
+
+    public void RotateVerticalAxis(bool forward)
+    {
+        float angle = 0.5f;
+        if (forward)
         {
-            VerticalAxisRotator[i].Rotate(new Vector3(0, 0, VerticalAngle));
+            float clamp = Clamp(MirrorCenter.localEulerAngles.y + angle, verticalClamp[0], verticalClamp[1]);
+            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
+            //Debug.Log(clamp);
         }
-        for (int i = 0; i < HorizontalAxisRotator.Length; i++)
+        else
         {
-            HorizontalAxisRotator[i].Rotate(new Vector3(HorizontalAngle, 0, 0));
+            float clamp = Clamp(MirrorCenter.localEulerAngles.y - angle, verticalClamp[0], verticalClamp[1]);
+            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
+            //Debug.Log(clamp);
         }
-        for(int i = 0; i < CrankRotator.Length; i++)
-        {
-            CrankRotator[i].Rotate(new Vector3(VerticalAngle, 0, 0));
-        }
-        for (int i = 0; i < SideGearRotator.Length; i++)
-        {
-            SideGearRotator[i].Rotate(new Vector3(0, 0, -VerticalAngle));
-        }
+    }
+
+    float Clamp(float value, float min, float max)
+    {
+        if(value > max) { value = max; }
+        if(value < min) { value = min; }
+        return value;
     }
 }
