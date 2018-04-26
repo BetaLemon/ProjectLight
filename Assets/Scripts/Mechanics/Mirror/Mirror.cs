@@ -22,7 +22,9 @@ public class Mirror : MonoBehaviour {
     private Color color;    //The color the mirror will reflect. Depends on what it receives
     private bool reflecting;    // Controls whether it needs to make calculations and show the Kamehameha.
     // Vectors that store: the incoming light, the normal vector of the mirror, the position at which the light enters and leaves, the direction at which it leaves:
-    private Vector3 incomingVec, normalVec, hitPoint, reflectVec;   
+    private Vector3 incomingVec, normalVec, hitPoint, reflectVec;
+
+    public LayerMask raycastLayer;
     
     private RaycastHit rayHit;               // Saves the hit when the raycast intersects with a collider.
     private bool hitOtherMirror = false;     // Stores specifically if a mirror has been hit.
@@ -51,7 +53,7 @@ public class Mirror : MonoBehaviour {
             float amount = FindObjectOfType<PlayerLight>().healthDrainAmmount;
 
             Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);            // For debugging reasons, we display the ray.
-            if (Physics.Raycast(hitPoint, reflectVec, out rayHit))      // If our casted ray hits something:
+            if (Physics.Raycast(hitPoint, reflectVec, out rayHit, raycastLayer))      // If our casted ray hits something:
             {   
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray

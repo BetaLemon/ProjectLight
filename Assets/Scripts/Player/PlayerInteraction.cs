@@ -6,6 +6,8 @@ public class PlayerInteraction : MonoBehaviour {
 
     public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
 
+    public LayerMask raycastLayers;
+
     public GameObject CylindricLight;
     public GameObject LightRayGeometry;
 
@@ -45,7 +47,7 @@ public class PlayerInteraction : MonoBehaviour {
         FileSelectorBoat3 = SelectorEnvironment.transform.GetChild(2).gameObject;
         FileSelectorBoat4 = SelectorEnvironment.transform.GetChild(3).gameObject;
 
-        input = GetComponent<PlayerInput>();
+        input = PlayerInput.instance;
         light = GetComponent<PlayerLight>();
     }
 
@@ -86,7 +88,7 @@ public class PlayerInteraction : MonoBehaviour {
                             break;
                         case "Mirror":
                             //if (pressedBaseInteraction != 0 && prevBaseInteraction == 0) { FindObjectOfType<CameraScript>().setFocus(hitColliders[i].gameObject); }
-                            if (pressedBaseInteraction && !prevBaseInteraction) { hitColliders[i].GetComponentInParent<MirrorRotateController>().Toggle(); }
+                            //if (pressedBaseInteraction && !prevBaseInteraction) { hitColliders[i].GetComponentInParent<MirrorRotateController>().Toggle(); }
                             break;
                         case "OpticalFiber":
                             // Make closest node work (switching reverse or not):
@@ -107,7 +109,7 @@ public class PlayerInteraction : MonoBehaviour {
             if (GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
             {
                 Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
-                if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+                if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2, raycastLayers))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
                 {
                     float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
 

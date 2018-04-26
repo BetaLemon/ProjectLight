@@ -55,7 +55,7 @@ public class PlayerLight : MonoBehaviour {
 
         lightMode = LightMode.NEAR;
         defaultLightCylinderScale = lightCylinder.transform.localScale.z;
-        input = GetComponent<PlayerInput>();
+        input = PlayerInput.instance;
 	}
 	
 	// Update is called once per frame

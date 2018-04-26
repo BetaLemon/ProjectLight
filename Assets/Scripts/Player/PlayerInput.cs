@@ -18,7 +18,11 @@ public class PlayerInput : MonoBehaviour {
     private float lastClickD;
     private float lastClickW;
 
+    public static PlayerInput instance;
+
     private Vector2 mousePos;
+
+    void Awake() { if (instance == null) instance = this; }
 
     void Start () {
         //Add INPUTS to input dictionary, current status of which we may be interested in:

@@ -5,44 +5,80 @@ using UnityEngine;
 public class LightRay : MonoBehaviour {
 
     public GameObject LightRayGeometry;
-    public float rotateSpeed;
     public Color color = Color.white; //Color of the light ray, is white by default
     public bool Interactive = false;
+    public bool active = false;
+
+    public LayerMask raycastLayer;
 
     private RaycastHit rayHit;
+    private Color prevColor;
 
     float amount;
+    float maxLength = 15f;
+    MeshRenderer mr;
 
     void Start()
     {
         amount = 0.05f; //GetComponent<PlayerLight>().healthDrainAmmount;
+        mr = LightRayGeometry.GetComponent<MeshRenderer>();
+        ChangeColor();
     }
 
-    void Update () {
+    void FixedUpdate () {
         //renderer.material.SetFloat("_Blend", someFloatValue);
-        LightRayGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
-        LightRayGeometry.transform.Rotate(0, 0, rotateSpeed);
+        if (prevColor != color) ChangeColor();
 
-        if (Interactive)
+        if (!Interactive) return;
+        if (!active)
         {
-            Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
-            if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            LightRayGeometry.transform.localScale = Vector3.zero;
+            return;
+        }
+        
+        // INTERACTION:
+        Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
+        if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2, raycastLayer))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+        {
+            // Specific game object interactions with light cylinder:
+            if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
+            if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+            if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color, amount); } //Charge the light orb (Default white from player white ray)
+            if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+            if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+            //if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
+
+            float distCylPosHitPos = Vector3.Distance(rayHit.point, LightRayGeometry.transform.position);
+            if (distCylPosHitPos / 2 > maxLength)
             {
-                // Specific game object interactions with light cylinder:
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
-                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color, amount); } //Charge the light orb (Default white from player white ray)
-                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
-                if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength);
+            }
+            else
+            {
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
             }
         }
+        //else { LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength); }
 	}
+
+    void ChangeColor()
+    {
+        mr.materials[0].SetColor("_MKGlowColor", color);
+        prevColor = color;
+    }
+
+    public void SetColor(Color col)
+    {
+        color = col;
+        ChangeColor();
+    }
 
     public void SetRayScale(Vector3 newScale)
     {
         LightRayGeometry.transform.localScale = newScale;
     }
+
+    public void SetActive(bool isIt) { active = isIt; }
 
     #region InteractionFunctions
     void BlackInsect(Collider col)
@@ -53,7 +89,7 @@ public class LightRay : MonoBehaviour {
     void Mirror(RaycastHit mirrorHit)
     {
         Vector3 inVec = mirrorHit.point - LightRayGeometry.transform.position;
-        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, Color.white);
+        mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, color);
         LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 
