@@ -7,12 +7,13 @@ public class LightRay : MonoBehaviour {
     public GameObject LightRayGeometry;
     public Color color = Color.white; //Color of the light ray, is white by default
     public bool Interactive = false;
+    public bool active = false;
 
     private RaycastHit rayHit;
     private Color prevColor;
 
     float amount;
-    float maxLength = 5f;
+    float maxLength = 15f;
     MeshRenderer mr;
 
     void Start()
@@ -22,11 +23,16 @@ public class LightRay : MonoBehaviour {
         ChangeColor();
     }
 
-    void Update () {
+    void FixedUpdate () {
         //renderer.material.SetFloat("_Blend", someFloatValue);
         if (prevColor != color) ChangeColor();
 
         if (!Interactive) return;
+        if (!active)
+        {
+            LightRayGeometry.transform.localScale = Vector3.zero;
+            return;
+        }
         
         // INTERACTION:
         Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
@@ -40,9 +46,17 @@ public class LightRay : MonoBehaviour {
             if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             //if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
 
-            LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rayHit.point, LightRayGeometry.transform.position) / 2);
+            float distCylPosHitPos = Vector3.Distance(rayHit.point, LightRayGeometry.transform.position);
+            if (distCylPosHitPos / 2 > maxLength)
+            {
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength);
+            }
+            else
+            {
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
+            }
         }
-        else { LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength); }
+        //else { LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength); }
 	}
 
     void ChangeColor()
@@ -61,6 +75,8 @@ public class LightRay : MonoBehaviour {
     {
         LightRayGeometry.transform.localScale = newScale;
     }
+
+    public void SetActive(bool isIt) { active = isIt; }
 
     #region InteractionFunctions
     void BlackInsect(Collider col)

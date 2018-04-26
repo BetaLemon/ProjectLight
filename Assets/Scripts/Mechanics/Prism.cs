@@ -24,7 +24,7 @@ public class Prism : MonoBehaviour {
     private Vector3 normal;
 
     private bool processing;
-    private float spreadAngle = 15f;
+    private float spreadAngle = 20f;
     private float rayMaxLength = 15f;
     private float rayRadius = 5f;
 
@@ -51,48 +51,55 @@ public class Prism : MonoBehaviour {
             colorRays["Red"].gameObject.transform.position = hitPoint;
             colorRays["Red"].gameObject.transform.forward = incomingVec;
             colorRays["Red"].gameObject.transform.Rotate(0, -spreadAngle * 3, 0);
+            colorRays["Red"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             colorRays["Orange"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Orange"].gameObject.transform.position = hitPoint;
             colorRays["Orange"].gameObject.transform.forward = incomingVec;
             colorRays["Orange"].gameObject.transform.Rotate(0, -spreadAngle * 2, 0);
+            colorRays["Orange"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             colorRays["Yellow"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Yellow"].gameObject.transform.position = hitPoint;
             colorRays["Yellow"].gameObject.transform.forward = incomingVec;
             colorRays["Yellow"].gameObject.transform.Rotate(0, -spreadAngle * 1, 0);
+            colorRays["Yellow"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             colorRays["Green"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Green"].gameObject.transform.position = hitPoint;
             colorRays["Green"].gameObject.transform.forward = incomingVec;
+            colorRays["Green"].gameObject.GetComponent<LightRay>().SetActive(true);
             //colorRays["Green"].gameObject.transform.Rotate(0, 0, 0);
 
             colorRays["Blue"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Blue"].gameObject.transform.position = hitPoint;
             colorRays["Blue"].gameObject.transform.forward = incomingVec;
             colorRays["Blue"].gameObject.transform.Rotate(0, spreadAngle * 1, 0);
+            colorRays["Blue"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             colorRays["Violet"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Violet"].gameObject.transform.position = hitPoint;
             colorRays["Violet"].gameObject.transform.forward = incomingVec;
             colorRays["Violet"].gameObject.transform.Rotate(0, spreadAngle * 2, 0);
+            colorRays["Violet"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             colorRays["Pink"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
             colorRays["Pink"].gameObject.transform.position = hitPoint;
             colorRays["Pink"].gameObject.transform.forward = incomingVec;
             colorRays["Pink"].gameObject.transform.Rotate(0, spreadAngle * 3, 0);
+            colorRays["Pink"].gameObject.GetComponent<LightRay>().SetActive(true);
 
             processing = false;
         }
         else
         {
-            colorRays["Red"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Orange"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Yellow"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Green"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Blue"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Violet"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
-            colorRays["Pink"].gameObject.GetComponent<LightRay>().SetRayScale(Vector3.zero);
+            colorRays["Red"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Orange"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Yellow"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Green"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Blue"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Violet"].gameObject.GetComponent<LightRay>().SetActive(false);
+            colorRays["Pink"].gameObject.GetComponent<LightRay>().SetActive(false);
         }
 	}
 
