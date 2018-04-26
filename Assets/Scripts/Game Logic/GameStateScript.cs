@@ -45,7 +45,7 @@ public class GameStateScript : MonoBehaviour {
 
     void Update()
     {
-        print("Current Scene State: " + state);
+        //print("Current Scene State: " + state);
 
         prevFrameState = state; //Reference to current state for next frame
     }

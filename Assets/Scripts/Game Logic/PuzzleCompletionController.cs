@@ -16,6 +16,8 @@ public class PuzzleCompletionController : MonoBehaviour {
     private PuzzleState state;
     private int completedTriggers;
     private int neededTriggers;
+    public bool shouldTriggerSomething = false;
+    public GameObject[] something;
     #endregion
 
     // Use this for initialization
@@ -34,10 +36,38 @@ public class PuzzleCompletionController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(completedTriggers >= neededTriggers && state != PuzzleState.COMPLETED) { state = PuzzleState.COMPLETED; }
+		if(completedTriggers >= neededTriggers && state != PuzzleState.COMPLETED) {
+            state = PuzzleState.COMPLETED;
+            if(shouldTriggerSomething) TriggerAllObjects();
+        }
 	}
 
     public void getTriggered() { completedTriggers++; }
 
     public PuzzleState getState() { return state; }
+
+    void TriggerAllObjects()
+    {
+        //sDebug.Log("Triggered All Objects!");
+        for (int i = 0; i < something.Length; i++)   // For all the objects in the array that need to be triggered:
+        {
+            switch (something[i].tag)    // For the type of object that is triggered, we have each of the actions to be done:
+            {
+                case "MovingPlatform":
+                    MovingPlatform platform = something[i].GetComponent<MovingPlatform>();
+                    platform.getTriggered();
+                    break;
+                case "Door":
+                    Door door = something[i].GetComponent<Door>();
+                    door.getTriggered();
+                    break;
+            }
+
+            PuzzleCompletionController puzCon = something[i].GetComponent<PuzzleCompletionController>();
+            if (puzCon != null && puzCon.getState() != PuzzleCompletionController.PuzzleState.COMPLETED)
+            {
+                puzCon.getTriggered();
+            }
+        }
+    }
 }

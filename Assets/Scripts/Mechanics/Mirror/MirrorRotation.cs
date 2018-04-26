@@ -4,42 +4,73 @@ using UnityEngine;
 
 public class MirrorRotation : MonoBehaviour
 {
-    private bool receivingInput = true; /// !!! THIS NEEDS TO BE MODIFIED!!
+    /// <summary>
+    /// This script controls mirror rotation. It's very very delicate. Please don't touch the prefab much.
+    /// It has two functions for rotation, one horizontal, and one vertical.
+    /// </summary>
 
     public Transform MirrorCenter;
+    public Transform Frame;
+    public Transform[] BottomGear;
+    public Transform[] SideGear;
 
-    public bool forw = true;
-    public float test = 0;
-    private float[] verticalClamp = { -80, 80};
+    private Vector3 Rotation;
+    private Vector3 prevRotation;
+    private float[] verticalClamp = { -80, 80 };
+    private float[] horizontalClamp = { -40, 40 };
 
     void Start()
     {
         verticalClamp[0] += MirrorCenter.localEulerAngles.y;
         verticalClamp[1] += MirrorCenter.localEulerAngles.y;
+
+        horizontalClamp[0] += MirrorCenter.localEulerAngles.x;
+        horizontalClamp[1] += MirrorCenter.localEulerAngles.x;
+
+        Rotation = MirrorCenter.localEulerAngles;
     }
 
-    void Update()
+    public void RotateHorizontal(float angle)
     {
-        //RotateVerticalAxis(forw);
-        MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, test, MirrorCenter.localEulerAngles.z);
-        Debug.Log(MirrorCenter.localEulerAngles.y);
+        RotateHorizontalAxis(MirrorCenter, angle);
+        RotateHorizontalAxisGear(SideGear[0], angle);
+        RotateHorizontalAxis(SideGear[1], angle);
+        prevRotation.x = Rotation.x;
     }
 
-    public void RotateVerticalAxis(bool forward)
+    public void RotateVertical(float angle)
     {
-        float angle = 0.5f;
-        if (forward)
-        {
-            float clamp = Clamp(MirrorCenter.localEulerAngles.y + angle, verticalClamp[0], verticalClamp[1]);
-            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
-            //Debug.Log(clamp);
-        }
-        else
-        {
-            float clamp = Clamp(MirrorCenter.localEulerAngles.y - angle, verticalClamp[0], verticalClamp[1]);
-            MirrorCenter.localEulerAngles = new Vector3(MirrorCenter.localEulerAngles.x, clamp, MirrorCenter.localEulerAngles.z);
-            //Debug.Log(clamp);
-        }
+        RotateVerticalAxis(MirrorCenter, angle);
+        RotateVerticalAxis(Frame, angle);
+        foreach (Transform t in BottomGear) { RotateVerticalAxis(t, angle); }
+        foreach (Transform t in SideGear) { RotateAroundVerticalAxis(t, angle); }
+        prevRotation.y = Rotation.y;  // This NEEDS to be after the SideGear Rotation.
+    }
+
+    #region InternFunctions
+    void RotateVerticalAxis(Transform obj, float angle)
+    {
+        float clamp = Clamp(Rotation.y + angle, verticalClamp[0], verticalClamp[1]);
+        obj.localEulerAngles = new Vector3(obj.localEulerAngles.x, clamp, obj.localEulerAngles.z);
+        //Debug.Log(clamp);
+        Rotation.y = clamp;
+    }
+
+    void RotateAroundVerticalAxis(Transform obj, float angle)
+    {
+        obj.RotateAround(MirrorCenter.position, Vector3.up, Rotation.y - prevRotation.y);
+    }
+
+    void RotateHorizontalAxis(Transform obj, float angle)
+    {
+        float clamp = Clamp(Rotation.x + angle, horizontalClamp[0], horizontalClamp[1]);
+        Rotation.x = clamp;
+        obj.rotation = Quaternion.Euler(Rotation);
+    }
+
+    void RotateHorizontalAxisGear(Transform obj, float angle)
+    {
+        obj.localEulerAngles = new Vector3(obj.localEulerAngles.x, obj.localEulerAngles.y, -Rotation.x);
     }
 
     float Clamp(float value, float min, float max)
@@ -48,4 +79,5 @@ public class MirrorRotation : MonoBehaviour
         if(value < min) { value = min; }
         return value;
     }
+    #endregion
 }

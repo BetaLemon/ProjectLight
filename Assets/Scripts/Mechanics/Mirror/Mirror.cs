@@ -8,10 +8,6 @@ public class Mirror : MonoBehaviour {
     // light source from others, it is internally called Kamehameha. It owns such a Kamehameha and points it
     // in the reflected angles direction. Mirrors can reflect with each other.
 
-    enum MirrorMode { MOVING, STILL};
-    public bool movableMirror = true;
-    private MirrorMode mode;
-
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called Kamehameha.
 
     //-------- COLOR RESTRICTIONS (6) ---------
@@ -78,27 +74,6 @@ public class Mirror : MonoBehaviour {
             LightRayGeometry.transform.localScale = new Vector3(0, 0, 0); // We make the Kamehameha suuuuuuper tiny.
         }
         //transform.Rotate(new Vector3(0,1,0));
-
-        if (movableMirror)
-        {
-            switch (mode)
-            {
-                case MirrorMode.MOVING:
-                    if(Input.GetAxis("Mouse X") != 0)
-                    {
-                        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X")*Time.deltaTime*20, 0));
-                    }
-                    else if(Input.GetAxis("Mouse Y") != 0)
-                    {
-                        transform.Rotate(new Vector3(Input.GetAxis("Mouse Y")*Time.deltaTime*20, 0, 0));
-                    }
-
-                   // transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0)*Time.deltaTime*50);
-                    break;
-                case MirrorMode.STILL:
-                    break;
-            }
-        }
 	}
 
     // Function that is called when another mirror is hit:
