@@ -10,6 +10,7 @@ public class MirrorRotation : MonoBehaviour
     /// </summary>
 
     public Transform MirrorCenter;
+    public Transform VerticalCenter;
     public Transform Frame;
     public Transform[] BottomGear;
     public Transform[] SideGear;
@@ -33,14 +34,14 @@ public class MirrorRotation : MonoBehaviour
     public void RotateHorizontal(float angle)
     {
         RotateHorizontalAxis(MirrorCenter, angle);
-        RotateHorizontalAxisGear(SideGear[0], angle);
+        RotateHorizontalAxisGear(SideGear[0], -angle);
         RotateHorizontalAxis(SideGear[1], angle);
         prevRotation.x = Rotation.x;
     }
 
     public void RotateVertical(float angle)
     {
-        RotateVerticalAxis(MirrorCenter, angle);
+        RotateVerticalAxisAlt(VerticalCenter, angle);
         RotateVerticalAxis(Frame, angle);
         foreach (Transform t in BottomGear) { RotateVerticalAxis(t, angle); }
         foreach (Transform t in SideGear) { RotateAroundVerticalAxis(t, angle); }
@@ -48,10 +49,18 @@ public class MirrorRotation : MonoBehaviour
     }
 
     #region InternFunctions
-    void RotateVerticalAxis(Transform obj, float angle)
+    void RotateVerticalAxisAlt(Transform obj, float angle)
     {
         float clamp = Clamp(Rotation.y + angle, verticalClamp[0], verticalClamp[1]);
         obj.localEulerAngles = new Vector3(obj.localEulerAngles.x, clamp, obj.localEulerAngles.z);
+        //Debug.Log(clamp);
+        Rotation.y = clamp;
+    }
+
+    void RotateVerticalAxis(Transform obj, float angle)
+    {
+        float clamp = Clamp(Rotation.y + angle, verticalClamp[0], verticalClamp[1]);
+        obj.localEulerAngles = new Vector3(obj.localEulerAngles.x, obj.localEulerAngles.y, clamp);
         //Debug.Log(clamp);
         Rotation.y = clamp;
     }
@@ -64,8 +73,8 @@ public class MirrorRotation : MonoBehaviour
     void RotateHorizontalAxis(Transform obj, float angle)
     {
         float clamp = Clamp(Rotation.x + angle, horizontalClamp[0], horizontalClamp[1]);
+        obj.localEulerAngles = new Vector3(clamp, obj.localEulerAngles.y, obj.localEulerAngles.z);
         Rotation.x = clamp;
-        obj.rotation = Quaternion.Euler(Rotation);
     }
 
     void RotateHorizontalAxisGear(Transform obj, float angle)

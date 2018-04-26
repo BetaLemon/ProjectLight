@@ -8,6 +8,8 @@ public class MirrorRotateController : MonoBehaviour {
     private bool moving;
     private Vector2 rotation;
 
+    private bool baseInteractionWasAlreadyPressed = false;
+
     public Transform activeIndicator;
 
 	// Use this for initialization
@@ -30,6 +32,7 @@ public class MirrorRotateController : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        if(PlayerInput.instance.isPressed("BaseInteraction") && !baseInteractionWasAlreadyPressed) { moving = !moving; }
         if (moving)
         {
             float amount = rotation.x;
@@ -40,6 +43,7 @@ public class MirrorRotateController : MonoBehaviour {
             rot.RotateVertical(amount);
             rotation.y -= amount;
         }
+        baseInteractionWasAlreadyPressed = PlayerInput.instance.isPressed("BaseInteraction");
     }
 
     void OnTriggerExit(Collider other)
