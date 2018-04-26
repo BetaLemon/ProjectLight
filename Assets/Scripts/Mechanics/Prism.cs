@@ -24,7 +24,7 @@ public class Prism : MonoBehaviour {
     private Vector3 normal;
 
     private bool processing;
-    private float spreadAngle = 5f;
+    private float spreadAngle = 15f;
     private float rayMaxLength = 15f;
     private float rayRadius = 5f;
 
