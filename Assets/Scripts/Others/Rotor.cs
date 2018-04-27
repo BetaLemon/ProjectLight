@@ -31,4 +31,9 @@ public class Rotor : MonoBehaviour {
 
     public void EnableRotor() { isRotating = true; }
     public void DisableRotor() { isRotating = false; }
+
+    public void getTriggered()
+    {
+        isRotating = !isRotating;
+    }
 }

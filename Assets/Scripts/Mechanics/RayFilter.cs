@@ -9,6 +9,8 @@ public class RayFilter : MonoBehaviour
 
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called LightRay.
 
+    public LayerMask raycastLayer;
+
     //-------- COLOR RESTRICTIONS (6) ---------
     //Red: Color.red
     //Yellow: Color.red + Color.green
@@ -52,7 +54,7 @@ public class RayFilter : MonoBehaviour
             float amount = FindObjectOfType<PlayerLight>().healthDrainAmmount;
 
             Debug.DrawRay(hitPoint, incomingVec * 1000, Color.cyan);     // For debugging reasons, we display the ray.
-            if (Physics.Raycast(hitPoint, incomingVec, out rayHit))      // If our casted ray hits something:
+            if (Physics.Raycast(hitPoint, incomingVec, out rayHit, Mathf.Infinity, raycastLayer))      // If our casted ray hits something:
             {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }   // If we have hit a Mirror -> Mirror(). Hit mirror!
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray

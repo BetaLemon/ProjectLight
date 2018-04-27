@@ -60,7 +60,8 @@ public class OpticalFiber : MonoBehaviour {
                 //Vector2 nodev = new Vector2(nodes[nextNodeIndex + 1].position.x, nodes[nextNodeIndex + 1].position.z);
                 //Vector2 playv = new Vector2(player.position.x, player.position.z);
                 // if (Vector2.Distance(nodev, playv) < tolerance) { nextNodeIndex++; }
-               if(Vector3.Distance(player.position, nodes[nextNodeIndex+1].position) < tolerance) { nextNodeIndex++; }
+
+                if (Vector3.Distance(player.position, nodes[nextNodeIndex+1].position) < tolerance) { nextNodeIndex++; }
                 ChargeDissipation();
                 break;
         }
@@ -204,7 +205,7 @@ public class OpticalFiber : MonoBehaviour {
         //player.position = new Vector3(player.position.x, player.position.y + 1, player.position.z);
         player.localScale = new Vector3(0, 0, 0);
         ToggleColliders(false);
-        nodes[0].GetComponent<OpticalFiber_Node>().AddCharge(5);
+        //nodes[0].GetComponent<OpticalFiber_Node>().AddCharge(4);
     }
 
     void StopPlayerMode()
