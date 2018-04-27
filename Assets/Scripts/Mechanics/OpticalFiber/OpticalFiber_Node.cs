@@ -62,4 +62,13 @@ public class OpticalFiber_Node : MonoBehaviour {
     }
 
     public bool isReceivingLight() { return receivingLight; }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("OpticalFiber")) return;
+        if (other.CompareTag("Player"))
+        {
+            if (PlayerInput.instance.isPressed("BaseInteraction")) GetComponentInParent<OpticalFiber>().StartPlayerMode(other.transform);
+        }
+    }
 }
