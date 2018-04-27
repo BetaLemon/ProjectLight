@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightOrb : MonoBehaviour {
 
-    private GameObject thePlayer; //Reference to the player
+    private Player thePlayer; //Reference to the player
     private Trigger orbTrigger; // ! We could make it so that the light orb could contain multiple triggers.
     private GameObject OrbGeometry; 
     //--------
@@ -52,7 +52,7 @@ public class LightOrb : MonoBehaviour {
     void Start ()
     {
         OrbGeometry = transform.GetChild(1).gameObject; // Assign Orb Geometry reference to the second child of this gameObject
-        thePlayer = GameObject.Find("Player");  // Maybe use tags instead?
+        thePlayer = Player.instance;  // Maybe use tags instead?
         orbTrigger = GetComponent<Trigger>();
     }
 
