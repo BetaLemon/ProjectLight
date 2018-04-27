@@ -41,8 +41,6 @@ public class BlackInsect : MonoBehaviour {
 
     Quaternion lerpLook;
 
-
-
             // Would be nice to add the functionality so that it can walk back and forwards, instead of in a cycle.
 
     // Use this for initialization
@@ -182,7 +180,7 @@ public class BlackInsect : MonoBehaviour {
         for(int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].CompareTag("BlackInsect")) { continue; }
-            if (hitColliders[i].CompareTag("LightOrb")) { hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); }
+            if (hitColliders[i].CompareTag("LightOrb")) { hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); life -= 0.01f; }
         }
     }
 

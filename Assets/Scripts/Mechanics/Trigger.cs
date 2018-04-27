@@ -44,6 +44,8 @@ public class Trigger : MonoBehaviour {
 
     void TriggerAllObjects()
     {
+        if (triggeredObjects.Length == 0) return;
+        if (triggeredObjects[0] == null) return;
         //sDebug.Log("Triggered All Objects!");
         for (int i = 0; i < triggeredObjects.Length; i++)   // For all the objects in the array that need to be triggered:
         {

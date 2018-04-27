@@ -38,7 +38,7 @@ public class EnemySpawner : MonoBehaviour {
             if (insects[i].waitsForRespawn)
             {
                 insects[i].passedSpawnTime = insects[i].passedSpawnTime + Time.deltaTime;
-                print(insects[i].passedSpawnTime);
+                //print(insects[i].passedSpawnTime);
             }
 
             if(insects[i].passedSpawnTime > spawnDelay)
