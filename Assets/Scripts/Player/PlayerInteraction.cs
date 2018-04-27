@@ -146,22 +146,22 @@ public class PlayerInteraction : MonoBehaviour {
             if (highlightedFile[0] == false && highlightedFile[1] == false)
             {
                 highlightedFilenum = 1;
-                FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+                FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().enabled = true;
             }
             else if (highlightedFile[0] == true && highlightedFile[1] == false)
             {
                 highlightedFilenum = 2;
-                FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+                FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().enabled = true;
             }
             else if (highlightedFile[0] == false && highlightedFile[1] == true)
             {
                 highlightedFilenum = 3;
-                FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+                FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().enabled = true;
             }
-            else if (highlightedFile[0] == true && highlightedFile[1] == true)
+            if (highlightedFile[0] == true && highlightedFile[1] == true)
             {
                 highlightedFilenum = 4;
-                FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = false;
+                FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().enabled = true;
             }
 
             //INSERT LOAD SELECTED FILE HERE:
@@ -178,10 +178,10 @@ public class PlayerInteraction : MonoBehaviour {
 
     void boatOutlinesOff()
     {
-        FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
-        FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
-        FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
-        FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().eraseRenderer = true;
+        FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().enabled = false;
+        FileSelectorBoat2.GetComponentInChildren<cakeslice.Outline>().enabled = false;
+        FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().enabled = false;
+        FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().enabled = false;
     }
 
     void BlackInsect(Collider col)
