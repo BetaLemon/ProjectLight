@@ -14,7 +14,8 @@ public class Trigger : MonoBehaviour {
     [Range(0, 10)]
 
     private int triggerCount = 0;    //Times the trigger has been triggered
-    public int maxTriggers = 1;     //Maximum ammount of times it can be triggered
+    [Tooltip("-1 for infinite")]
+    public int maxTriggers = -1;     //Maximum ammount of times it can be triggered
 
     private float triggerDelay;      //Delay before next trigger usage
     private float timer = 0;        //Time since the trigger was last triggered
@@ -72,7 +73,8 @@ public class Trigger : MonoBehaviour {
     // Function that is called when the player hits the trigger. The player asks the Trigger object to pleaseTrigger():
     public void pleaseTrigger()
     {
-        if (triggerCount < maxTriggers && canBeTriggered) { //Trigger use limiter
+        if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
+        { //Trigger use limiter
             triggerCount++;
             canBeTriggered = false;
             TriggerAllObjects();
@@ -83,7 +85,7 @@ public class Trigger : MonoBehaviour {
     {
         if(currentCharge > triggerCharge)
         {
-            if (triggerCount < maxTriggers && canBeTriggered)
+            if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
             { //Trigger use limiter
                 triggerCount++;
                 canBeTriggered = false;
@@ -94,7 +96,7 @@ public class Trigger : MonoBehaviour {
 
     public void pleaseTrigger(float currentCharge, Color color)
     {
-        if (color == triggerColor && currentCharge > triggerCharge && canBeTriggered && triggerCount < maxTriggers)
+        if (color == triggerColor && currentCharge > triggerCharge && canBeTriggered && triggerCount < maxTriggers || color == triggerColor && currentCharge > triggerCharge && canBeTriggered && maxTriggers == -1)
         {
             triggerCount++;
             canBeTriggered = false;

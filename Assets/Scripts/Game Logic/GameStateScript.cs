@@ -100,7 +100,7 @@ public class GameStateScript : MonoBehaviour {
     public void SetSceneState(SceneState theState)
     {
         state = theState;
-        print("State Set To: " + state);
+        //print("State Set To: " + state);
 
         if (prevFrameState != state) //Scene change checker
         {
@@ -123,12 +123,12 @@ public class GameStateScript : MonoBehaviour {
             if (gamePaused)
             {
                 Time.timeScale = 0.5f;
-                print("Game Paused");
+                //print("Game Paused");
             }
             else
             {
                 Time.timeScale = 1;
-                print("Game Unpaused");
+                //print("Game Unpaused");
             }
         }
     }

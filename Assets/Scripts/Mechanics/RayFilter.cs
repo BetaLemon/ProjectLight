@@ -8,7 +8,6 @@ public class RayFilter : MonoBehaviour
     // Filters process light rays and convert them to another colour
 
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called LightRay.
-
     public LayerMask raycastLayer;
 
     //-------- COLOR RESTRICTIONS (6) ---------
@@ -56,8 +55,8 @@ public class RayFilter : MonoBehaviour
             Debug.DrawRay(hitPoint, incomingVec * 1000, Color.cyan);     // For debugging reasons, we display the ray.
             if (Physics.Raycast(hitPoint, incomingVec, out rayHit, Mathf.Infinity, raycastLayer))      // If our casted ray hits something:
             {
-                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); }   // If we have hit a Mirror -> Mirror(). Hit mirror!
-                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } // If we have hit a Mirror -> Mirror(). Hit mirror!
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } // Process light ray
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }   // If we hit a Trigger, then we trigger it -> TriggerTrigger().
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
