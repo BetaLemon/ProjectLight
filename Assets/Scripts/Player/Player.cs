@@ -10,6 +10,8 @@ public class Player : MonoBehaviour {
     public Transform damageEffect;
     Transform damageInstance;
 
+    public static Player instance;
+
     // Player Health system:
     public float health; //Current mana/health of the player. Magic and health are the same. If all health is lost, the player dies
     public float maxHealth = 100f; //Maximum playerHealth the player can reach
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour {
     public GameObject baseWorldSpawn;
     private GameObject currentArea = null; //Last area where the player has entered
 
+    void Awake() { if (instance == null) instance = this; }
+
 	void Start () {
         controllerRef = FindObjectOfType<CharacterController>();
         playerControllerRef = GetComponent<PlayerController>();
@@ -45,6 +49,8 @@ public class Player : MonoBehaviour {
         if (health < minHealth) { health = minHealth; Die(); }
 
         LifeBarAdjustment();
+
+        if (Input.GetKeyDown(KeyCode.F1)) health = maxHealth;
 	}
 
     private void OnTriggerStay(Collider other)
@@ -61,7 +67,7 @@ public class Player : MonoBehaviour {
                 damageInstance.transform.position = transform.position;
             }
 
-            health -= other.gameObject.GetComponent<BlackInsect>().getDamageDealt() * Time.deltaTime;
+            health -= other.gameObject.GetComponentInParent<BlackInsect>().getDamageDealt() * Time.deltaTime;
         }
         else if (other.gameObject.CompareTag("Lethal")) //Player enters lethal area, dies and respawns
         {

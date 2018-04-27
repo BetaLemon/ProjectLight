@@ -23,11 +23,11 @@ public class GemPickup : MonoBehaviour
         //Check if collectable tag is ManaCharge or SmallGemstone
         if (tag == "ManaCharge" || tag == "SmallGemstone")
         {
-            float distance = Vector3.Distance(transform.position, player.transform.position);
+            float distance = Vector3.Distance(transform.position, Player.instance.transform.position);
             if (distance < getDraggedRadius)
             {
                 // The thing moves towards the player:
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, dragSpeed / distance);
+                transform.position = Vector3.MoveTowards(transform.position, Player.instance.transform.position, dragSpeed / distance);
             }
         }
         transform.position = new Vector3(transform.position.x, _startPosition.y + Mathf.Sin(Time.time * 4) / 4, transform.position.z); //Sinoidal motion for position (Up and down)

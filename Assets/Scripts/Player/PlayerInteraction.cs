@@ -70,7 +70,7 @@ public class PlayerInteraction : MonoBehaviour {
             float amount = GetComponent<PlayerLight>().healthDrainAmmount;
 
             /// PASSIVE INTERACTION (Sphere Light)
-            Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range); //(Sphere center, Radius)
+            Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range-3); //(Sphere center, Radius)
             int tmp = 0;
             for (int i = 0; i < hitColliders.Length; i++)
             {
@@ -186,7 +186,7 @@ public class PlayerInteraction : MonoBehaviour {
 
     void BlackInsect(Collider col)
     {
-        col.gameObject.GetComponent<BlackInsect>().Hurt();
+        col.gameObject.GetComponentInParent<BlackInsect>().Hurt();
     }
 
     void Mirror(RaycastHit mirrorHit)
