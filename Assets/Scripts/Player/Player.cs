@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
     public float health; //Current mana/health of the player. Magic and health are the same. If all health is lost, the player dies
     public float maxHealth = 100f; //Maximum playerHealth the player can reach
     private float minHealth = 0f; //Health at which the player dies
-    public float respawnHealth = 15; //Health with which the player respawns after death
+    public float respawnHealth = 25; //Health with which the player respawns after death
 
     //Player Economy:
     public int gemstones = 0;

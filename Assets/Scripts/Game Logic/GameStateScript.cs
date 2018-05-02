@@ -27,12 +27,13 @@ public class GameStateScript : MonoBehaviour {
     void Start()
     {
         //Reference Initializations:
+        //PlayerInteraction.instance.boatOutlinesOff();
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
         PlayerRef.SetActive(false);
         PlayerCamerasRef = GameObject.Find("PlayerCameraAngles"); //All of the player camera angles inside the wrapper game object
         cinemachineBrain = PlayerCamerasRef.transform.GetChild(0).gameObject.GetComponent<Cinemachine.CinemachineBrain>(); //Cinemachine brain script reference
         MainMenuCanvasRef = MainMenuRef.transform.GetChild(2).gameObject;
-        HudRef = GameObject.Find("SimpleHud");
+        HudRef = GameObject.Find("HUD");
         FileSelectorSpawnRef = GameObject.Find("FileSelectorSpawn");
 
         //The state on the previous frame. Used for detecting state changes:
