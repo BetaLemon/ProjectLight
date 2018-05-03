@@ -6,28 +6,29 @@ using UnityEngine.UI;
 public class AreaIntroducer : MonoBehaviour {
 
     public string areaName;
-    public bool hasShownIntro = false;
+    public int areaIndex; //Used for notifying the Ingame Progress Script
 
-    private GameObject introDisplayerRef; //Intro displayer animation reference
-    private IngameProgressScript ingameProgressRef; //Progress script reference
+    public GameObject introDisplayerRef;
+    private Animator introDisplayerAnimationRef; //Intro displayer animation reference
     private Text areaTextRef;
+    private IngameProgressScript ingameProgressRef; //Progress script reference
+
 
 	// Use this for initialization
 	void Start () {
-        introDisplayerRef = GameObject.Find("HUD").transform.GetChild(4).gameObject;
-        ingameProgressRef = GameObject.Find("GameState").GetComponent<IngameProgressScript>();
+        introDisplayerAnimationRef = introDisplayerRef.GetComponent<Animator>();
         areaTextRef = introDisplayerRef.transform.GetChild(2).GetComponent<Text>();
+
+        ingameProgressRef = GameObject.Find("GameState").GetComponent<IngameProgressScript>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && ingameProgressRef.getAreaVisited(areaIndex) != true)
         {
-            if (hasShownIntro != true)
-            {
-                areaTextRef.text = areaName;
-                //introDisplayerRef.SetActive(true);
-            }
+            areaTextRef.text = areaName;
+            //introDisplayerAnimationRef.Play();
+            ingameProgressRef.setAreaVisited(true, areaIndex); //notifying the Ingame Progress Script, we visited this area according to index
         }
     }
 }
