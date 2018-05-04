@@ -27,7 +27,7 @@ public class AreaIntroducer : MonoBehaviour {
         if (other.CompareTag("Player") && ingameProgressRef.getAreaVisited(areaIndex) != true)
         {
             areaTextRef.text = areaName;
-            //introDisplayerAnimationRef.Play();
+            introDisplayerAnimationRef.SetBool("ShowAreaDisplayer", true);
             ingameProgressRef.setAreaVisited(true, areaIndex); //notifying the Ingame Progress Script, we visited this area according to index
         }
     }

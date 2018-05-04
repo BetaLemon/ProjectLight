@@ -25,7 +25,7 @@ public class BlackInsect : MonoBehaviour {
     public float damageDeal = 0.5f;     // Ammount of damage dealt on contact with player. The player looks for this damage.
 
     public int maxLife = 5;
-    private float life;
+    public float life;
 
     private EnemyState state;
     private float[] stateDeltas = {0,0,0};  // WALKING, HURT, WAITING
