@@ -24,6 +24,9 @@ public class OpticalFiber : MonoBehaviour {
     private float speed = 10;
     private float tolerance = 0.1f;
 
+    private float playerModeDelay = 2f;
+    private float currentPlayerModeDelay = 0;
+
 	// Use this for initialization
 	void Start () {
         OpticalSetup();
@@ -34,6 +37,8 @@ public class OpticalFiber : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        SetClosestNode(Player.instance.transform);  // This fixes looping Optic Fiber. I don't even know why this wasn't here in the first place...
+        currentPlayerModeDelay += Time.deltaTime; if(currentPlayerModeDelay > playerModeDelay) { currentPlayerModeDelay = playerModeDelay+1; }
         switch (mode)
         {
             case OF_Mode.LIGHT: // If we want to be propagating light, not the player (this is most of the time):
@@ -48,6 +53,7 @@ public class OpticalFiber : MonoBehaviour {
                 break;
             case OF_Mode.PLAYER:
                 ChargePropagation();
+                if(Player.instance.health <= 0) { StopPlayerMode(); break; }    // If Player Health is 0 or below, stop transportating player.
                 if (nextNodeIndex + 1 >= nodes.Length) { StopPlayerMode(); break; }
 
                 Vector3 direction = nodes[nextNodeIndex+1].position - player.position;
@@ -196,6 +202,7 @@ public class OpticalFiber : MonoBehaviour {
 
     public void StartPlayerMode(Transform _player)
     {
+        if(currentPlayerModeDelay < playerModeDelay) { return; }
         mode = OF_Mode.PLAYER;
         player = _player;
         player.parent = transform;
@@ -215,6 +222,7 @@ public class OpticalFiber : MonoBehaviour {
         player.gameObject.GetComponent<PlayerController>().AllowMovement();
         player.localScale = new Vector3(1, 1, 1);
         ToggleColliders(true);
+        currentPlayerModeDelay = 0;
     }
 
     void ToggleColliders(bool enable)

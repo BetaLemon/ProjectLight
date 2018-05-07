@@ -12,7 +12,10 @@ public class DialogueLaunch : MonoBehaviour
 
     private void Start()
     {
-        textCanvasTextRef = GameObject.Find("SimpleHud").transform.GetChild(4).gameObject.transform.GetChild(1).gameObject.GetComponent<ConversationDisplayer>();
+        // THIS. THIS IS JUST UGLY:
+        //textCanvasTextRef = GameObject.Find("SimpleHud").transform.GetChild(4).gameObject.transform.GetChild(1).gameObject.GetComponent<ConversationDisplayer>();
+        // This does the same, and actually is much more reliable:
+        textCanvasTextRef = FindObjectOfType<ConversationDisplayer>();
     }
 
     private void OnTriggerEnter(Collider other) //Función que da la oportunidad de hablar con un npc
