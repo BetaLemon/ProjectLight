@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour {
 
     #region Variables
     // Variables:
-    CharacterController controller;       // For controlling the player.
+    //CharacterController controller;       // For controlling the player.
+    private Rigidbody rb;
     public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
     PlayerState state;
     // Player movement variables:
@@ -34,7 +35,8 @@ public class PlayerController : MonoBehaviour {
 
     void Start()    // When the script starts.
     {
-        controller = GetComponent<CharacterController>();                                           // We get the player's CharacterController.
+        //controller = GetComponent<CharacterController>();                                           // We get the player's CharacterController.
+        rb = GetComponent<Rigidbody>();
         gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();      // Game State Script ref
         moveDirection = Vector3.zero;                                                               // We set the player's direction to (0,0,0).
         input = GetComponent<PlayerInput>();                                                        // We get the player's input controller.
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()  // What the script executes at a fixed framerate. Good for physics calculations. Avoids stuttering.
     {
         if (!canMove) { return; }
-        if (!controller.isGrounded) // If the player is not grounded / is in the air.
+        if (!isGrounded()) // If the player is not grounded / is in the air.
         {
             moveDirection.y = -1*gravity; // We apply gravity.
             fallDistance += Mathf.Abs(moveDirection.y);
@@ -118,7 +120,8 @@ public class PlayerController : MonoBehaviour {
         Vector3 move = moveDirection.x * camRight + moveDirection.z * camForward;
         move.y = moveDirection.y;
 
-        controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
+        //controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
+        rb.AddForce(move);
 
         if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move; forward.y = 0; }
         //controller.gameObject.transform.forward = forward;
@@ -171,10 +174,22 @@ public class PlayerController : MonoBehaviour {
         //Debug.Log(state);
     }
 
+    bool isGrounded()
+    {
+        RaycastHit rh;
+        Debug.DrawRay(transform.position, -transform.up, Color.blue, 2);
+        if(Physics.Raycast(transform.position, -transform.up, out rh, 2))
+        {
+            print("Grounded."); return true;
+        }
+        return false;
+    }
+
     public void AllowMovement() { canMove = true; }
 
     public void Move(Vector3 direction) {
-        controller.Move(direction * Time.deltaTime);
+        //controller.Move(direction * Time.deltaTime);
+        rb.AddForce(direction);
     }
 
     public void StopMovement() { canMove = false; }
