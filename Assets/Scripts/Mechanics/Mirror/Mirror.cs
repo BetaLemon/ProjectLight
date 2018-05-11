@@ -41,7 +41,7 @@ public class Mirror : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
         if (reflecting)
         {
             LightRayGeometry.GetComponentInParent<LightRay>().color = color;      // Assigns the color to the reflecting LightRay

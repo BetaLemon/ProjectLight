@@ -32,6 +32,8 @@ public class PlayerInteraction : MonoBehaviour {
     private PlayerInput input;
     private PlayerLight light;
 
+    private float amount;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -56,6 +58,8 @@ public class PlayerInteraction : MonoBehaviour {
 
         input = PlayerInput.instance;
         light = GetComponent<PlayerLight>();
+
+        amount = light.healthDrainAmmount;
     }
 
     void FixedUpdate()
@@ -73,8 +77,6 @@ public class PlayerInteraction : MonoBehaviour {
             }
 
             pressedBaseInteraction = input.isPressed("BaseInteraction");
-
-            float amount = GetComponent<PlayerLight>().healthDrainAmmount;
 
             /// PASSIVE INTERACTION (Sphere Light)
             Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range - 3); //(Sphere center, Radius)
@@ -109,24 +111,6 @@ public class PlayerInteraction : MonoBehaviour {
                         default: break;
                     }
                     tmp++;
-                }
-            }
-
-            /// ACTIVE INTERACTION (Cylinder LightRay)
-            if (GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
-            {
-                Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
-                if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2, raycastLayers))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
-                {
-                    float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
-
-                    // Specific game object interactions with light cylinder:
-                    if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
-                    if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
-                    if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white, amount); } //Charge the light orb (Default white from player white ray)
-                    if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
-                    if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
-                    if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
                 }
             }
 
@@ -179,6 +163,27 @@ public class PlayerInteraction : MonoBehaviour {
                 gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.INGAME);
 
                 transform.position = BaseWorldSpawnRef.transform.position;
+            }
+        }
+    }
+
+    void Update()
+    {
+        /// ACTIVE INTERACTION (Cylinder LightRay)
+        if (GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
+        {
+            Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
+            if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2, raycastLayers))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            {
+                float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
+
+                // Specific game object interactions with light cylinder:
+                if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
+                if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
+                if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(Color.white, amount); } //Charge the light orb (Default white from player white ray)
+                if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
+                if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
+                if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
             }
         }
     }
