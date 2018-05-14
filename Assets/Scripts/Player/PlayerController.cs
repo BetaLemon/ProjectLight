@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
     PlayerState state;
     // Player movement variables:
+    public float rotateSpeed = 10f;
     public float walkSpeed = 3.0f;        // Maximal speed when walking.
     public float runSpeed = 6.0f;         // Maximal speed when running.
     public float gravity = 1.0f;          // Gravity (unfortunately, it's linear for the moment being).
@@ -120,9 +121,10 @@ public class PlayerController : MonoBehaviour {
 
         controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
 
-        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move; forward.y = 0; }
+        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move.normalized; forward.y = 0; }
         //controller.gameObject.transform.forward = forward;
-        transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+        //transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+        transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 40f);
 
         AnimatorUpdate();
     }
