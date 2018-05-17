@@ -15,6 +15,7 @@ public class LightRay : MonoBehaviour {
     private Color prevColor;
 
     float amount;
+    float length;
     float maxLength = 15f;
     MeshRenderer mr;
 
@@ -25,7 +26,7 @@ public class LightRay : MonoBehaviour {
         ChangeColor();
     }
 
-    void FixedUpdate () {
+    void Update () {
         //renderer.material.SetFloat("_Blend", someFloatValue);
         if (prevColor != color) ChangeColor();
 
@@ -35,7 +36,7 @@ public class LightRay : MonoBehaviour {
             LightRayGeometry.transform.localScale = Vector3.zero;
             return;
         }
-        
+
         // INTERACTION:
         Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
         if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2, raycastLayer))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
@@ -46,8 +47,10 @@ public class LightRay : MonoBehaviour {
             if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color, amount); } //Charge the light orb (Default white from player white ray)
             if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
             if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
-            //if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
+            if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
 
+            length = Vector3.Distance(transform.position, rayHit.collider.transform.position);
+            /*
             float distCylPosHitPos = Vector3.Distance(rayHit.point, LightRayGeometry.transform.position);
             if (distCylPosHitPos / 2 > maxLength)
             {
@@ -56,9 +59,11 @@ public class LightRay : MonoBehaviour {
             else
             {
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
-            }
+            }*/
         }
-        //else { LightRayGeometry.transform.localScale = new Vector3(8, 8, maxLength); }
+        else length = maxLength;
+
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, length);
 	}
 
     void ChangeColor()
@@ -107,6 +112,7 @@ public class LightRay : MonoBehaviour {
 
     void Prism(RaycastHit rh)
     {
+        if (rh.collider.gameObject.transform == transform.parent) { length = maxLength; return; }
         Vector3 inVec = rh.point - LightRayGeometry.transform.position;
         rh.collider.GetComponentInParent<Prism>().Process(inVec, rh.point, rh.normal);
         LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));

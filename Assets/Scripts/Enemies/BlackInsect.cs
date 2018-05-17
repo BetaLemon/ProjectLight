@@ -49,9 +49,9 @@ public class BlackInsect : MonoBehaviour {
 
         alive = true;   // When starting we want it to be alive. We maybe could make it so could be set from Unity's editor, but it's not done.
 
-        GameObject temp = closest();    // We want the closest position.
-        directionVector = (temp.transform.position - transform.position)*speed; // We want the direction to be from where we are to the closest position. (at a speed)
-        controller.Move(directionVector);   // We move the enemy towards that first position.
+        //GameObject temp = ClosestNode();    // We want the closest position.
+        //directionVector = (temp.transform.position - transform.position)*speed; // We want the direction to be from where we are to the closest position. (at a speed)
+        //controller.Move(directionVector);   // We move the enemy towards that first position.
         activeNode = getActiveNode();       // We set the activeNode to the one we are approaching.
 
         life = maxLife; // We set its initial life to be the maximum life it can have.
@@ -144,7 +144,7 @@ public class BlackInsect : MonoBehaviour {
     }
 
     // Function that returns the closest node around:
-    GameObject closest() { //Troba el node mes proper
+    GameObject ClosestNode() { //Troba el node mes proper
         float tempDistance = 0f;    // The distance.
         int whichPoint = 0;         // The index of the node.
         tempDistance = Vector3.Distance(transform.position, positions[0].transform.position);   // Initial distance for the first node.

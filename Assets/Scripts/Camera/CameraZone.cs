@@ -16,7 +16,7 @@ public class CameraZone : MonoBehaviour
             virtualCameraToSet.Priority = priorityOnExit;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)  // Changed OnTriggerEnter to Stay, fixing wrong camera when dying. Might be less optimized though...
     {
         if (other.CompareTag("Player"))
         {

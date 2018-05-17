@@ -44,7 +44,7 @@ public class Prism : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
         if (processing)
         {
             colorRays["Red"].gameObject.GetComponent<LightRay>().SetRayScale(new Vector3(rayRadius, rayRadius, rayMaxLength));
@@ -100,6 +100,10 @@ public class Prism : MonoBehaviour {
             colorRays["Blue"].gameObject.GetComponent<LightRay>().SetActive(false);
             colorRays["Violet"].gameObject.GetComponent<LightRay>().SetActive(false);
             colorRays["Pink"].gameObject.GetComponent<LightRay>().SetActive(false);
+
+            incomingVec = Vector3.zero;
+            hitPoint = Vector3.zero;
+            normal = Vector3.zero;
         }
 	}
 

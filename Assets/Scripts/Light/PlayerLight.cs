@@ -22,6 +22,7 @@ public class PlayerLight : MonoBehaviour {
     public float expandingLightSpeed;
 
     //Light Cylinder variables
+    public float cylinderRadius = 8f;
     public float lightSphereRangeInFarMode = 1.5f; //Orb light radius in far mode
     public float maxLightCylinderScale = 5f; //maximum local Z scale for the extended cylinder
     private float defaultLightCylinderScale;
@@ -86,7 +87,7 @@ public class PlayerLight : MonoBehaviour {
             {
                 case LightMode.NEAR:
                     lightSphere.range = Lerp(defaultLightSphereRange, lerpSpeed, lightSphere.range); //Light Orb radius to it's default range at LerpSpeed
-                    lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
+                    lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, Lerp(defaultLightCylinderScale, 2f, lightCylinder.transform.localScale.z)); //Light cylinder back to 0 length
                     if (lightCylinder.transform.localScale.z == 0) { lightCylinder.SetActive(false); } //Cilinder activity off since we are on near mode
                     break;
                 case LightMode.MAX:
@@ -109,17 +110,17 @@ public class PlayerLight : MonoBehaviour {
                         float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
                         if (distCylPosHitPos / 2 > maxLightCylinderScale)
                         {
-                            lightCylinder.transform.localScale = new Vector3(8, 8, maxLightCylinderScale);
+                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, maxLightCylinderScale);
                         }
                         else
                         {
-                            lightCylinder.transform.localScale = new Vector3(8, 8, distCylPosHitPos / 2);
+                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, distCylPosHitPos / 2);
                         }
 
                     }
                     else    // Else, if nothing was hit:
                     {
-                        lightCylinder.transform.localScale = new Vector3(8, 8, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
+                        lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
                     }
                     LightMouseMovement(prevMousePos, mousePos);
                     break;
