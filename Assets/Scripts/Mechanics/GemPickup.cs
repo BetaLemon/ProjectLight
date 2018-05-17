@@ -27,7 +27,7 @@ public class GemPickup : MonoBehaviour
                 // The thing moves towards the player:
                 transform.position = Vector3.MoveTowards(transform.position, Player.instance.transform.position, dragSpeed / distance);
             }
-            transform.position = new Vector3(transform.position.x, transform.position.y + Mathf.Sin(Time.time * 4) / 10, transform.position.z); //Sinoidal motion for position (Up and down)
+            //transform.position = new Vector3(transform.position.x, transform.position.y + Mathf.Sin(Time.time * 4) / 10, transform.position.z); //Sinoidal motion for position (Up and down)
         }
     }
 }
