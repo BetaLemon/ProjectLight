@@ -121,19 +121,21 @@ public class PlayerController : MonoBehaviour {
 
         controller.Move(move * Time.deltaTime);    // We tell the CharacterController to move the player in the direction, by the Delta for smoothness.
 
-        if(moveDirection.x != 0 || moveDirection.z != 0) { forward = move.normalized; forward.y = 0; }
-        //controller.gameObject.transform.forward = forward;
-        //transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
-        float angle = Vector3.Angle(transform.forward, forward);
-        if (angle > 170)
+        if (moveDirection.x != 0 || moveDirection.z != 0)
         {
-            transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 45f);
+            forward = move.normalized; forward.y = 0;
+            //controller.gameObject.transform.forward = forward;
+            //transform.forward = Vector3.RotateTowards(transform.forward, forward, speed, speed);
+            float angle = Vector3.Angle(transform.forward, forward);
+            if (angle > 170)
+            {
+                transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 45f);
+            }
+            else
+            {
+                transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 40f);
+            }
         }
-        else
-        {
-            transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 40f);
-        }
-
         AnimatorUpdate();
     }
 
