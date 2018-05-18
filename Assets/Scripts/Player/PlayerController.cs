@@ -127,10 +127,12 @@ public class PlayerController : MonoBehaviour {
         float angle = Vector3.Angle(transform.forward, forward);
         if (angle > 170)
         {
-            transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 120f);
+            transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 45f);
         }
-
-        transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 40f);
+        else
+        {
+            transform.forward = Vector3.Lerp(transform.forward, new Vector3(forward.x, 0, forward.z), Time.deltaTime * 40f);
+        }
 
         AnimatorUpdate();
     }
