@@ -7,10 +7,12 @@ public class LightOrb : MonoBehaviour {
     private Player thePlayer; //Reference to the player
     private Trigger orbTrigger; // ! We could make it so that the light orb could contain multiple triggers.
     private GameObject OrbGeometry;
-    private GameObject AbsorbEffect;
-    private GameObject ChargeEffect;
+    public GameObject AbsorbEffect;
+    public GameObject ChargeEffect;
     //--------
     public bool isCharging = false;
+    private float chargeAmount = 0.0f;
+    private Color lastEnteringColor = Color.white;
 
     public Light glow;
 
@@ -21,16 +23,7 @@ public class LightOrb : MonoBehaviour {
     private float orbGlowRangeFactor = 6f;     //Reduces orb glow range the higher it is
     private float minOrbGlowRange = 1.5f;      //The orb starts to glow directly from this range
 
-    //-------- COLOR RESTRICTIONS (6) ---------
-    //Red: Color.red
-    //Yellow: Color.red + Color.green
-    //Green: Color.green
-    //Blue: Color.blue
-    //Purple: Color.red + Color.blue
-    //Pink: Color.red + Color.white
-    //-----------------------------------------
-
-    public Color color = Color.white; //The orb's current color. Is public in order to be set up on level design
+    public Color color = Color.white;          //The orb's current color. Is public in order to be set up on level design
     public float autoRefillAmount = 0;
     public float refillDelay = 10;
     private float currentRefillDelay = 0;
@@ -57,8 +50,8 @@ public class LightOrb : MonoBehaviour {
         OrbGeometry = transform.GetChild(1).gameObject; // Assign Orb Geometry reference to the second child of this gameObject
         thePlayer = Player.instance;  // Maybe use tags instead?
         orbTrigger = GetComponent<Trigger>();
-        AbsorbEffect = transform.GetChild(1).gameObject;//.GetComponent<ParticleSystem>();
-        ChargeEffect = transform.GetChild(2).gameObject;//.GetComponent<ParticleSystem>();
+        AbsorbEffect.SetActive(false);
+        ChargeEffect.SetActive(false);
     }
 
     public void SubtractFromOrb()
@@ -67,14 +60,13 @@ public class LightOrb : MonoBehaviour {
         orbCharge -= exchange; //(orb subtraction)
         if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
     }
-    public void ChargeOrb(Color enteringColor, float amount)
+    public void ChargeOrb(Color theEnteringColor, float theAmount)
     {
-        if (enteringColor == color || orbCharge == 0)
+        if (theEnteringColor == color && orbCharge != maxOrbCharge || orbCharge == 0 && orbCharge != maxOrbCharge)
         {
-            color = enteringColor;
-            //float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
-            orbCharge += amount; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
             isCharging = true;
+            lastEnteringColor = theEnteringColor;
+            chargeAmount = theAmount;
         }
         currentRefillDelay = 0;
     }
@@ -85,7 +77,18 @@ public class LightOrb : MonoBehaviour {
 
     void Update()
     {
-        //isCharging = false;
+        if (isCharging) //Charging check
+        {
+            ChargeEffect.SetActive(true);
+            color = lastEnteringColor;
+            orbCharge += chargeAmount; //The orb is filled with the standard ammount, which should/could be the same the wizard loses from his mana (orb deposition) for balance purposes
+        }
+        else if (!isCharging) //Not charging check
+        {
+            ChargeEffect.SetActive(false);
+        }
+        isCharging = false;
+        chargeAmount = 0.0f;
 
         if (chargeSphere != null) { OrbChargeSphere(); }
         else { OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color); }
@@ -113,15 +116,6 @@ public class LightOrb : MonoBehaviour {
                 orbTrigger.pleaseTrigger(orbCharge, color);
             }
             else { orbTrigger.pleaseTrigger(orbCharge); }
-        }
-
-        if (isCharging) //Charging check
-        {
-            ChargeEffect.SetActive(true);
-        }
-        else if (!isCharging) //Not charging check
-        {
-            ChargeEffect.SetActive(false);
         }
     }
 
