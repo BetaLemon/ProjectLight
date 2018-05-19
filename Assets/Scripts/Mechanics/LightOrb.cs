@@ -6,8 +6,11 @@ public class LightOrb : MonoBehaviour {
 
     private Player thePlayer; //Reference to the player
     private Trigger orbTrigger; // ! We could make it so that the light orb could contain multiple triggers.
-    private GameObject OrbGeometry; 
+    private GameObject OrbGeometry;
+    private GameObject AbsorbEffect;
+    private GameObject ChargeEffect;
     //--------
+    public bool isCharging = false;
 
     public Light glow;
 
@@ -54,6 +57,8 @@ public class LightOrb : MonoBehaviour {
         OrbGeometry = transform.GetChild(1).gameObject; // Assign Orb Geometry reference to the second child of this gameObject
         thePlayer = Player.instance;  // Maybe use tags instead?
         orbTrigger = GetComponent<Trigger>();
+        AbsorbEffect = transform.GetChild(1).gameObject;//.GetComponent<ParticleSystem>();
+        ChargeEffect = transform.GetChild(2).gameObject;//.GetComponent<ParticleSystem>();
     }
 
     public void SubtractFromOrb()
@@ -69,6 +74,7 @@ public class LightOrb : MonoBehaviour {
             color = enteringColor;
             //float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount;
             orbCharge += amount; //The orb is filled with the standard ammount, which is the same the wizard loses from straignin his mana (orb deposition)
+            isCharging = true;
         }
         currentRefillDelay = 0;
     }
@@ -79,6 +85,8 @@ public class LightOrb : MonoBehaviour {
 
     void Update()
     {
+        //isCharging = false;
+
         if (chargeSphere != null) { OrbChargeSphere(); }
         else { OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color); }
 
@@ -106,6 +114,15 @@ public class LightOrb : MonoBehaviour {
             }
             else { orbTrigger.pleaseTrigger(orbCharge); }
         }
+
+        if (isCharging) //Charging check
+        {
+            ChargeEffect.SetActive(true);
+        }
+        else if (!isCharging) //Not charging check
+        {
+            ChargeEffect.SetActive(false);
+        }
     }
 
     void OrbChargeSphere()
@@ -119,6 +136,6 @@ public class LightOrb : MonoBehaviour {
         if (autoRefillAmount <= 0) return;
         if (orbCharge <= 0) { waitingRefill = true; }
         if (waitingRefill) { currentRefillDelay += Time.deltaTime; }
-        if (waitingRefill && currentRefillDelay > refillDelay) orbCharge += autoRefillAmount * Time.deltaTime;
+        if (waitingRefill && currentRefillDelay > refillDelay) { orbCharge += autoRefillAmount * Time.deltaTime; }
     }
 }
