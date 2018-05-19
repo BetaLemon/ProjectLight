@@ -93,15 +93,15 @@ public class LightOrb : MonoBehaviour {
         if (chargeSphere != null) { OrbChargeSphere(); }
         else { OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color); }
 
+        //Orb energy charge limits:
+        if (orbCharge >= maxOrbCharge) { orbCharge = maxOrbCharge; waitingRefill = false; currentRefillDelay = 0.0f; }
+        else if (orbCharge <= minOrbCharge) { orbCharge = minOrbCharge; waitingRefill = true; }
+
         RefillSystem();
 
         //Update glow color:
         glow.color = color;
         //OrbGeometry.GetComponent<MeshRenderer>().materials[0].SetColor("_MKGlowColor", color);
-
-        //Orb energy charge limits:
-        if (orbCharge > maxOrbCharge) { orbCharge = maxOrbCharge; waitingRefill = false; }
-        else if (orbCharge < minOrbCharge) orbCharge = minOrbCharge;
 
         glow.range = minOrbGlowRange + orbCharge / orbGlowRangeFactor; //Orb light extension radius starts at a minimum, and extends the same as the current charge divided by a decreasing factor
 
@@ -127,9 +127,8 @@ public class LightOrb : MonoBehaviour {
 
     void RefillSystem()
     {
-        if (autoRefillAmount <= 0) return;
-        if (orbCharge <= 0) { waitingRefill = true; }
+        if (autoRefillAmount <= 0 || refillDelay < 0) return;
         if (waitingRefill) { currentRefillDelay += Time.deltaTime; }
-        if (waitingRefill && currentRefillDelay > refillDelay) { orbCharge += autoRefillAmount * Time.deltaTime; }
+        if (waitingRefill && currentRefillDelay > refillDelay) { orbCharge += autoRefillAmount; isCharging = true; }
     }
 }
