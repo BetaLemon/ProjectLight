@@ -14,6 +14,8 @@ public class LightOrb : MonoBehaviour {
     private float chargeAmount = 0.0f;
     private Color lastEnteringColor = Color.white;
 
+    public bool isSubtracting = false;
+
     public Light glow;
 
     private float orbIntensity;                //Either: 10(has charge enrgy) or 0(no charge enrgy), defined on startup according to orbCharge.
@@ -54,23 +56,32 @@ public class LightOrb : MonoBehaviour {
         ChargeEffect.SetActive(false);
     }
 
-    public void SubtractFromOrb()
+    public void SubtractFromOrb() //Interaction function: Can, and is, used by Wizard interaction in order to absorb energy from the orb towards the wizard
     {
-        float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount; //Is the same equivalent value for subtracting as for charging (You give what you can take)
-        orbCharge -= exchange; //(orb subtraction)
-        if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
+        if (orbCharge > minOrbCharge) //Priority for charging (Stops subtraction and charging at the same time)
+        { 
+            isSubtracting = true;
+
+            //Interrupt natural refill:
+            waitingRefill = false;
+            currentRefillDelay = 0.0f;
+        }
     }
-    public void ChargeOrb(Color theEnteringColor, float theAmount)
+    public void ChargeOrb(Color theEnteringColor, float theAmount) //Interaction function: Can, and is, used by Wizard interaction in order to charge the orb with the wizard's own mana
     {
         if (theEnteringColor == color && orbCharge != maxOrbCharge || orbCharge == 0 && orbCharge != maxOrbCharge)
         {
             isCharging = true;
             lastEnteringColor = theEnteringColor;
             chargeAmount = theAmount;
+
+            //Interrupt natural refill:
+            waitingRefill = false;
+            currentRefillDelay = 0.0f;
         }
         currentRefillDelay = 0;
     }
-    public void SetOrbCharge(float amount)
+    public void SetOrbCharge(float amount) // You can directly set the orb's charge with this to a certain amount.
     {
         orbCharge = amount;
     }
@@ -87,6 +98,21 @@ public class LightOrb : MonoBehaviour {
         {
             ChargeEffect.SetActive(false);
         }
+
+        if (isSubtracting)
+        {
+            float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount; //Is the same equivalent value for subtracting as for charging (You give what you can take)
+            orbCharge -= exchange; //(orb subtraction)
+            if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
+            AbsorbEffect.SetActive(true);
+        }
+        else if (!isSubtracting)
+        {
+            AbsorbEffect.SetActive(false);
+        }
+
+        //This boolean reset section guarantees positive boolean effects whont take place next frame unless explicitly toggled by public interaction functions 
+        isSubtracting = false;
         isCharging = false;
         chargeAmount = 0.0f;
 
