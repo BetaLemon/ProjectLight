@@ -135,6 +135,7 @@ public class BlackInsect : MonoBehaviour {
                 transform.localScale = new Vector3(0, 0, 0);
                 if (enemySpawner != null) { enemySpawner.PleaseRespawn(this); }
                 else { transform.parent.gameObject.SetActive(false); }//Disactivate whole enemy
+                Player.instance.DestroyDamageInstance();
             }
                         
 
@@ -180,7 +181,13 @@ public class BlackInsect : MonoBehaviour {
         for(int i = 0; i < hitColliders.Length; i++)
         {
             if (hitColliders[i].CompareTag("BlackInsect")) { continue; }
-            if (hitColliders[i].CompareTag("LightOrb")) { hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); life -= 0.01f; }
+            if (hitColliders[i].CompareTag("LightOrb")) {
+                if (hitColliders[i].GetComponent<LightOrb>().orbCharge > 0)
+                {
+                    hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb();
+                    life -= 0.01f;
+                }
+            }
         }
     }
 

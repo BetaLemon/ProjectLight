@@ -106,6 +106,11 @@ public class Player : MonoBehaviour {
             Destroy(damageInstance.gameObject);
         }
     }
+    
+    public void DestroyDamageInstance()
+    {
+        if(damageInstance != null) Destroy(damageInstance.gameObject);
+    }
 
     void LifeBarAdjustment()
     {

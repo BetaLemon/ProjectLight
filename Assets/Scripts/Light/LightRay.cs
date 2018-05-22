@@ -39,7 +39,7 @@ public class LightRay : MonoBehaviour {
 
         // INTERACTION:
         Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
-        if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2, raycastLayer))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+        if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
         {
             // Specific game object interactions with light cylinder:
             if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light

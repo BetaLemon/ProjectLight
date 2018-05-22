@@ -53,7 +53,7 @@ public class RayFilter : MonoBehaviour
             float amount = FindObjectOfType<PlayerLight>().healthDrainAmmount;
 
             Debug.DrawRay(hitPoint, incomingVec * 1000, Color.cyan);     // For debugging reasons, we display the ray.
-            if (Physics.Raycast(hitPoint, incomingVec, out rayHit, Mathf.Infinity, raycastLayer))      // If our casted ray hits something:
+            if (Physics.Raycast(hitPoint, incomingVec, out rayHit, Mathf.Infinity))      // If our casted ray hits something:
             {
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } // If we have hit a Mirror -> Mirror(). Hit mirror!
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } // Process light ray
