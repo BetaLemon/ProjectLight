@@ -34,6 +34,8 @@ public class PlayerLight : MonoBehaviour {
     private PlayerInput input;
     private Vector2 mousePos;
     private Vector2 prevMousePos;
+    private float lightCylinderAngle = 0;
+    private float playerCylAngleOffset = 0;
 
     float Lerp(float goal, float speed, float currentVal)
     {
@@ -57,6 +59,8 @@ public class PlayerLight : MonoBehaviour {
         lightMode = LightMode.NEAR;
         defaultLightCylinderScale = lightCylinder.transform.localScale.z;
         input = PlayerInput.instance;
+
+        playerCylAngleOffset = Vector3.Angle(transform.forward, lightCylinder.transform.forward);
 	}
 	
 	// Update is called once per frame
@@ -67,8 +71,8 @@ public class PlayerLight : MonoBehaviour {
 
             if (input.getInput("LightSwitch") != 0 && prevLightAxis == 0 && canUseLight)
             {
-                if (lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
-                else if (lightMode == LightMode.MAX) { lightMode = LightMode.FAR; lightCylinder.transform.forward = transform.forward; }
+                if (lightMode == LightMode.NEAR) { lightMode = LightMode.FAR; lightCylinderAngle = 0; }
+                else if (lightMode == LightMode.MAX) { lightMode = LightMode.FAR; lightCylinderAngle = 0; }
                 else if (lightMode == LightMode.FAR) { lightMode = LightMode.NEAR; }
                 //print(lightMode);
             }
@@ -135,7 +139,9 @@ public class PlayerLight : MonoBehaviour {
     private void LightMouseMovement(Vector2 prevMouse, Vector2 mouse)
     {
         Vector2 mouseMove = prevMouse - mouse;
-        lightCylinder.transform.Rotate(0, mouseMove.x/30, 0);
+        //lightCylinder.transform.Rotate(0, mouseMove.x/30, 0);
+        lightCylinderAngle += mouseMove.x/30;
+        lightCylinder.transform.localRotation = Quaternion.Euler(0, lightCylinderAngle - playerCylAngleOffset, 0);
     }
 
     public LightMode getLightMode() { return lightMode; }
