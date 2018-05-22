@@ -17,7 +17,7 @@ public class QuickUICameraLook : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         cam = Camera.main;
-        transform.forward = cam.transform.forward;
+        uiElement.transform.forward = cam.transform.forward;
 	}
 
     private void OnTriggerEnter(Collider other)

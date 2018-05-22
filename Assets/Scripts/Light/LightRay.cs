@@ -108,14 +108,14 @@ public class LightRay : MonoBehaviour {
     {
         Vector3 inVec = mirrorHit.point - LightRayGeometry.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, color);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position)); // Limit the light ray's length to the object
     }
 
     void Filter(RaycastHit filterHit)
     {
         Vector3 inVec = filterHit.point - LightRayGeometry.transform.position;
         filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position)); // Limit the light ray's length to the object
     }
 
     void TriggerTrigger(RaycastHit rh)

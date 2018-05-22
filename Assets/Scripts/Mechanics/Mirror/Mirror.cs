@@ -61,7 +61,7 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
-                LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point)/2);      // The length is the distance between the point of entering light
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point));      // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
@@ -83,7 +83,7 @@ public class Mirror : MonoBehaviour {
     {
         Vector3 inVec = mirrorHit.point - hitPoint; // The incoming vector for the receiving mirror is the point where we were hit minus the point where it was hit.
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, color);    // We tell that mirror to reflect.
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2);    // We make Kamehameha the length of the distance.
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position));    // We make Kamehameha the length of the distance.
     }
     // Function that is called when a trigger is hit:
     void TriggerTrigger(RaycastHit rh)
@@ -100,6 +100,6 @@ public class Mirror : MonoBehaviour {
     {
         Vector3 inVec = filterHit.point - LightRayGeometry.transform.position;
         filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
+        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position)); // Limit the light ray's length to the object
     }
 }
