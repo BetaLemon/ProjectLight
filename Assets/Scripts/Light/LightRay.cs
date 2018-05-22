@@ -38,8 +38,21 @@ public class LightRay : MonoBehaviour {
         }
 
         // INTERACTION:
+        Vector3 rayOrigin = LightRayGeometry.transform.position;
+
         Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * LightRayGeometry.transform.localScale.z * 2, Color.red);
-        if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+        if (transform.parent.CompareTag("Prism"))
+        {
+            //RaycastHit tmp;
+            //if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out tmp, 4))
+            //{
+            //    LightRayGeometry.transform.position = tmp.point;
+            //}
+            //Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * Vector3.Distance(LightRayGeometry.transform.position, tmp.point), Color.cyan);
+            rayOrigin = LightRayGeometry.transform.position + LightRayGeometry.transform.forward * 1;
+        }
+
+        if (Physics.Raycast(rayOrigin, LightRayGeometry.transform.forward, out rayHit, LightRayGeometry.transform.localScale.z * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
         {
             // Specific game object interactions with light cylinder:
             if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
@@ -112,7 +125,8 @@ public class LightRay : MonoBehaviour {
 
     void Prism(RaycastHit rh)
     {
-        if (rh.collider.gameObject.transform == transform.parent) { length = maxLength; return; }
+        if (rh.collider.gameObject.CompareTag("Prism")) { length = Vector3.Distance(rh.point, LightRayGeometry.transform.position); return; }
+        //if(rh.collider.gameObject.transform.parent == transform.parent) { length = Vector3.Distance(rh.point, LightRayGeometry.transform.position); return;}
         Vector3 inVec = rh.point - LightRayGeometry.transform.position;
         rh.collider.GetComponentInParent<Prism>().Process(inVec, rh.point, rh.normal);
         LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));
