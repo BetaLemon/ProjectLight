@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class OptionsScript : MonoBehaviour {
 
+    [FMODUnity.EventRef]
+    public string clicksound;
+
     public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
 
     void Start()
@@ -14,6 +17,7 @@ public class OptionsScript : MonoBehaviour {
 
     public void GoToMainMenu()
     {
+        FMODUnity.RuntimeManager.PlayOneShot(clicksound);
         if (gameStateDataScriptRef.GetSceneSide() == true) //Came from ingame side
         {
             OptionsMode(true);
@@ -25,6 +29,7 @@ public class OptionsScript : MonoBehaviour {
     }
     public void BackToGame() //This button only appears if you just came from ingame and not from the main menu
     {
+        FMODUnity.RuntimeManager.PlayOneShot(clicksound);
         gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.INGAME);
     }
     public void SendToMenu()

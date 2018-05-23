@@ -15,18 +15,18 @@ public class MenuScript : MonoBehaviour {
 
     public void FileSelectionMode()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/MenuButtonClick", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(clicksound);
 
         gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.FILESELECT); //Informs the GameState that we are now heading to file selector
     }
     public void GoToOptions()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/MenuButtonClick", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(clicksound);
         gameStateDataScriptRef.SetSceneState(GameStateScript.SceneState.OPTIONS);
     }
     public void Quit()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/MenuButtonClick", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(clicksound);
         Application.Quit();
     }
 }

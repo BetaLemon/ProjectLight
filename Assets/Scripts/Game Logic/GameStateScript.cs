@@ -7,6 +7,24 @@ using UnityEngine;
 
 public class GameStateScript : MonoBehaviour {
 
+    //Mini soundtrack controller with FMOD:
+
+    [FMODUnity.EventRef]
+    public string menuOST;
+    [FMODUnity.EventRef]
+    public string domainsOST;
+    [FMODUnity.EventRef]
+    public string plainsOST;
+    [FMODUnity.EventRef]
+    public string towerOST;
+
+    FMOD.Studio.EventInstance menuSong;
+    //FMOD.Studio.EventInstance domainsSong;
+    //FMOD.Studio.EventInstance plainsSong;
+    //FMOD.Studio.EventInstance towerSong;
+
+    //--------------------------------------
+
     private bool side = false; //Did we come from or are we ingame side (true), or otherwise from/in the main menu side (false)?
     public enum SceneState { MAINMENU, OPTIONS, FILESELECT, INGAME };
     SceneState prevFrameState = SceneState.MAINMENU;
@@ -26,6 +44,12 @@ public class GameStateScript : MonoBehaviour {
     //WORLD SCENE START EVENTS
     void Start()
     {
+        menuSong = FMODUnity.RuntimeManager.CreateInstance(menuOST);
+        menuSong.start();
+        //domainsSong = FMODUnity.RuntimeManager.CreateInstance(domainsOST);
+        //plainsSong = FMODUnity.RuntimeManager.CreateInstance(plainsOST);
+        //towerSong = FMODUnity.RuntimeManager.CreateInstance(towerOST);
+
         //Reference Initializations:
         //PlayerInteraction.instance.boatOutlinesOff();
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
@@ -55,6 +79,13 @@ public class GameStateScript : MonoBehaviour {
     {
         if (state == SceneState.MAINMENU)
         {
+            FMOD.Studio.PLAYBACK_STATE musicState;
+            menuSong.getPlaybackState(out musicState);
+            if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING) //Anti overlap check
+            {
+                menuSong.start();
+            }
+
             side = false; //MainMenu Side (Mark indicating the game was abnandoned or hasn't started yet)
 
             cinemachineBrain.m_DefaultBlend.m_Time = 0; //This fixes some camera bugs... it can also be used for dinamically changing the blend time for all cameras
@@ -90,6 +121,8 @@ public class GameStateScript : MonoBehaviour {
         }
         else if (state == SceneState.INGAME)
         {
+            menuSong.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
             side = true; //Ingame side (Mark indicating the game has started or is paused)
 
             HudRef.SetActive(true);
