@@ -62,7 +62,8 @@ public class LightRay : MonoBehaviour {
             if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
             if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
 
-            length = Vector3.Distance(transform.position, rayHit.collider.transform.position);
+            length = rayHit.distance;
+            
             /*
             float distCylPosHitPos = Vector3.Distance(rayHit.point, LightRayGeometry.transform.position);
             if (distCylPosHitPos / 2 > maxLength)
@@ -75,7 +76,7 @@ public class LightRay : MonoBehaviour {
             }*/
         }
         else length = maxLength;
-
+        if (length > maxLength) { length = maxLength; }
         LightRayGeometry.transform.localScale = new Vector3(8, 8, length);
 	}
 
