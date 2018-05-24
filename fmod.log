@@ -8,7 +8,7 @@
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 00000000E76ADD18 isAsync 1 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 00000000EB32DC48 isAsync 1 updatePeriod 0.02
 [LOG] Thread::initThread                       : Init FMOD Studio update thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
@@ -28,91 +28,91 @@
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
 [LOG] Thread::initThread                       : Init FMOD nonblocking thread (0). Priority: 1, Stack Size: 81920, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
-[LOG] SystemI::createSound                     : setdata soundi = 00000000E7E05148 : node = 00000000E81C4630
-[LOG] SystemI::createSound                     : add node to async list : head = 0000000090AC38B8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E7E05148
+[LOG] SystemI::createSound                     : setdata soundi = 00000000EB15F4E8 : node = 00000000EA53F9C0
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000210AC138.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EB15F4E8
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5696
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000E81C4748
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EA53FAD8
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TitleTheme', format=2, channels=2, frequency=48000, lengthbytes=988288, lengthpcm=4423680, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.445221.
 [LOG] Thread::initThread                       :     Init FMOD file thread. Priority: 1, Stack Size: 16384, Semaphore: No, Sleep Time: 10, Looping: Yes.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E7E05148
-[LOG] SoundI::getSubSound                      : sound 00000000E7E05148.  Subsound index 0 / 1
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EB15F4E8
+[LOG] SoundI::getSubSound                      : sound 00000000EB15F4E8.  Subsound index 0 / 1
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000000090C71E68
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000D34C9168
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='click_menu_button', format=2, channels=2, frequency=48000, lengthbytes=1664, lengthpcm=6464, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.125234.
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000EAD7A168 : node = 00000000EA5416A0
-[LOG] SystemI::createSound                     : add node to async list : head = 0000000090AC38B8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EAD7A168
+[LOG] SystemI::createSound                     : setdata soundi = 000000005BDE2378 : node = 00000000EB1515E0
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000210AC138.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000005BDE2378
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5696
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EA5417B8
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EB1516F8
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EAD7A168
-[LOG] SoundI::getSubSound                      : sound 00000000EAD7A168.  Subsound index 0 / 1
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000005BDE2378
+[LOG] SoundI::getSubSound                      : sound 000000005BDE2378.  Subsound index 0 / 1
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000EAC9BD98 : node = 0000000090181110
-[LOG] SystemI::createSound                     : add node to async list : head = 0000000090AC38B8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EAC9BD98
+[LOG] SystemI::createSound                     : setdata soundi = 00000000EAD50098 : node = 00000000EAC703E0
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000210AC138.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EAD50098
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5696
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000000090181228
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EAC704F8
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - WhiteWizardDomains', format=2, channels=2, frequency=48000, lengthbytes=1248448, lengthpcm=4976640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EAC9BD98
-[LOG] SoundI::getSubSound                      : sound 00000000EAC9BD98.  Subsound index 0 / 1
-[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (00000000EAD7A168)
-[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (0000000090AC3908)
-[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000EAA54168)
-[LOG] SoundI::release                          : Epitome - TitleTheme (00000000E7E05148)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (0000000090AC2DA8)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000EAD79FB8)
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EAD50098
+[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (000000005BDE2378)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000210AD6A8)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000E78EFC68)
+[LOG] SoundI::release                          : Epitome - TitleTheme (00000000EB15F4E8)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000210ACE88)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000EAD53628)
+[LOG] SoundI::getSubSound                      : sound 00000000EAD50098.  Subsound index 0 / 1
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000EA547358
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000D34CE008
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='walk_grass_3', format=2, channels=2, frequency=48000, lengthbytes=1952, lengthpcm=8468, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.034271.
@@ -121,14 +121,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000EA547358
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000D34CE008
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='walk_grass_1', format=2, channels=2, frequency=48000, lengthbytes=2464, lengthpcm=10548, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.043976.
@@ -137,14 +137,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000EA547358
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000D34CE008
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='walk_grass_2', format=2, channels=2, frequency=48000, lengthbytes=2464, lengthpcm=10548, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.043976.
@@ -153,14 +153,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E82AEED8
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000D34CAD08
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='small_gem_get', format=2, channels=2, frequency=48000, lengthbytes=3584, lengthpcm=13373, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.303992.
@@ -169,124 +169,60 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000D34BF5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E82AE658
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000000021127178
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='new_area', format=2, channels=1, frequency=48000, lengthbytes=29088, lengthpcm=177639, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.649443.
+[LOG] SystemI::mixerSuspend                    : Suspending output.
+[LOG] SystemI::mixerResume                     : Resuming output.
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E78EFE18
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E78EFE18
+[LOG] SystemI::mixerSuspend                    : Suspending output.
+[LOG] SystemI::mixerResume                     : Resuming output.
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E78EFE18
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E78EFE18
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000EAC267D8 : node = 00000000EAC713A0
-[LOG] SystemI::createSound                     : add node to async list : head = 0000000090AC38B8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EAC267D8
+[LOG] SystemI::createSound                     : setdata soundi = 00000000EAD50758 : node = 00000000EAC71250
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000210AC138.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EAD50758
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5696
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EAC714B8
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000EAC71368
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EAC267D8
-[LOG] SoundI::getSubSound                      : sound 00000000EAC267D8.  Subsound index 0 / 1
-[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (00000000EAC9BD98)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (0000000090AC4128)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000EAA54678)
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E82AF538
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='insect_enemy_damaged', format=2, channels=1, frequency=48000, lengthbytes=6176, lengthpcm=33780, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.351733.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E82AEED8
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='wizard_damaged_1', format=2, channels=1, frequency=48000, lengthbytes=2976, lengthpcm=15932, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.479780.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E82AEED8
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='wizard_damaged_2', format=2, channels=1, frequency=48000, lengthbytes=3072, lengthpcm=17525, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.488738.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000000FFF3F5FC
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF92698E4B0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF92698E480
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF92698E580
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF92698E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000EACA9BB8
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='mana orb', format=2, channels=1, frequency=48000, lengthbytes=3360, lengthpcm=18064, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.564798.
-[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (00000000EAC267D8)
-[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000E7E35C48)
-[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (000000009049BF78)
-[LOG] SoundI::release                          :  (00000000EAAB57A8)
-[LOG] SoundI::release                          :     click_menu_button (0000000090AC2F48)
-[LOG] SoundI::release                          :  (00000000EAAB5358)
-[LOG] SoundI::release                          :     new_area (00000000E7E37308)
-[LOG] SoundI::release                          :  (00000000EAAB5078)
-[LOG] SoundI::release                          :     wizard_damaged_1 (00000000E7E36AE8)
-[LOG] SoundI::release                          :  (00000000EAAB44F8)
-[LOG] SoundI::release                          :     wizard_damaged_2 (00000000E7E36C88)
-[LOG] SoundI::release                          :  (00000000EAAB5638)
-[LOG] SoundI::release                          :     insect_enemy_damaged (00000000E7E36948)
-[LOG] SoundI::release                          :  (00000000EAAB5BF8)
-[LOG] SoundI::release                          :     mana orb (00000000E7E37648)
-[LOG] SoundI::release                          :  (00000000EAAB5918)
-[LOG] SoundI::release                          :     small_gem_get (00000000E7E35F88)
-[LOG] SoundI::release                          :  (00000000EAAB5D68)
-[LOG] SoundI::release                          :     walk_grass_1 (0000000090AC3908)
-[LOG] SoundI::release                          :  (00000000EAAB5A88)
-[LOG] SoundI::release                          :     walk_grass_2 (0000000090AC2DA8)
-[LOG] SoundI::release                          :  (00000000EAAB4388)
-[LOG] SoundI::release                          :     walk_grass_3 (0000000090AC2588)
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - WhiteWizardDomains', format=2, channels=2, frequency=48000, lengthbytes=1248448, lengthpcm=4976640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EAD50758
+[LOG] SoundI::getSubSound                      : sound 00000000EAD50758.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (00000000EAD50098)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000210AD1C8)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000E78EFE18)
+[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (00000000EAD50758)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000E7E36948)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000EAD53988)
+[LOG] SoundI::release                          :  (00000000EB1EB638)
+[LOG] SoundI::release                          :     click_menu_button (00000000210AD028)
+[LOG] SoundI::release                          :  (00000000EB1EA7D8)
+[LOG] SoundI::release                          :     small_gem_get (00000000210AED68)
+[LOG] SoundI::release                          :  (00000000EB1EBA88)
+[LOG] SoundI::release                          :     walk_grass_1 (00000000210AE888)
+[LOG] SoundI::release                          :  (00000000EB1EB4C8)
+[LOG] SoundI::release                          :     walk_grass_2 (00000000210ACE88)
+[LOG] SoundI::release                          :  (00000000EB1EA218)
+[LOG] SoundI::release                          :     walk_grass_3 (00000000210AE6E8)
+[LOG] SoundI::release                          :  (00000000EB1EB358)
+[LOG] SoundI::release                          :     new_area (00000000210AD6A8)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
