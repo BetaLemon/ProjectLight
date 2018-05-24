@@ -1,17 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MusicZoneScript : MonoBehaviour {
 
     private GameStateScript gameStateScript;
 
-    [FMODUnity.EventRef]
-    public string areaMusic;
+    public int areaMusicIndex;
 
     public bool isPlaying = false;
-
-    FMOD.Studio.EventInstance areaSong;
 
     void Start () {
         gameStateScript = GameObject.Find("GameState").GetComponent<GameStateScript>();
@@ -19,20 +14,20 @@ public class MusicZoneScript : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        FMOD.Studio.PLAYBACK_STATE musicState;
-        areaSong.getPlaybackState(out musicState);
+        //FMOD.Studio.PLAYBACK_STATE musicState;
+        //areaSong.getPlaybackState(out musicState);
         if (other.CompareTag("Player") && !isPlaying) //Check it's the player and avoid music overlapping
         {
-            gameStateScript.playOST(areaMusic);
-            areaSong.start();
-
+            Debug.Log("triggered");
+            gameStateScript.playOST(areaMusicIndex);
             isPlaying = true;
         }
     }
 
-    void update() {
-        if (isPlaying && gameStateScript.getCurrentLinkPlaying() != areaMusic) //Check if we're really still playing in the gamestate script
+    void Update() {
+        if (isPlaying && gameStateScript.getCurrentIndexPlaying() != areaMusicIndex) //Check if we're really still playing in the gamestate script
         {
+            Debug.Log("No longer playing index:" + areaMusicIndex);
              isPlaying = false;
         }
     }

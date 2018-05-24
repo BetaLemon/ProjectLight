@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GemPickup : MonoBehaviour
 {
-
     //private Vector3 _startPosition; //Serves as a reference for base sinoidal motion animation
     private GameObject player; //PlayerReference
     public float getDraggedRadius = 5.0f; //Radius from which the collectable will start getting absorbed

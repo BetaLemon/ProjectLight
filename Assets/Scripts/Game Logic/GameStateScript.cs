@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //This script can keep track of stuff globally.
@@ -11,9 +10,23 @@ public class GameStateScript : MonoBehaviour {
 
     [FMODUnity.EventRef]
     public string menuOST;
+    [FMODUnity.EventRef]
+    public string domainsOST;
+    [FMODUnity.EventRef]
+    public string seaSound;
+    [FMODUnity.EventRef]
+    public string plainsOST;
+    [FMODUnity.EventRef]
+    public string forestOST;
+    [FMODUnity.EventRef]
+    public string towerOST;
 
     FMOD.Studio.EventInstance menuSong;
-    FMOD.Studio.EventInstance areaSong;
+    FMOD.Studio.EventInstance domainsSong;
+    FMOD.Studio.EventInstance seaEffect;
+    FMOD.Studio.EventInstance plainsSong;
+    FMOD.Studio.EventInstance forestSong;
+    FMOD.Studio.EventInstance towerSong;
 
     //--------------------------------------
 
@@ -22,7 +35,7 @@ public class GameStateScript : MonoBehaviour {
     SceneState prevFrameState = SceneState.MAINMENU;
     SceneState state = SceneState.MAINMENU;
 
-    public string currentIngameOSTLinkPlaying = "";
+    public int currentIngameOSTIndexPlaying = -1;
 
     public bool gamePaused;
 
@@ -38,7 +51,13 @@ public class GameStateScript : MonoBehaviour {
     //WORLD SCENE START EVENTS
     void Start()
     {
+        domainsSong = FMODUnity.RuntimeManager.CreateInstance(domainsOST);
+        seaEffect = FMODUnity.RuntimeManager.CreateInstance(seaSound);
+        plainsSong = FMODUnity.RuntimeManager.CreateInstance(plainsOST);
+        //forestSong = FMODUnity.RuntimeManager.CreateInstance(forestOST);
+        towerSong = FMODUnity.RuntimeManager.CreateInstance(towerOST);
         menuSong = FMODUnity.RuntimeManager.CreateInstance(menuOST);
+
         menuSong.start();
 
         //Reference Initializations:
@@ -62,7 +81,6 @@ public class GameStateScript : MonoBehaviour {
     void Update()
     {
         //print("Current Scene State: " + state);
-
         prevFrameState = state; //Reference to current state for next frame
     }
 
@@ -70,7 +88,7 @@ public class GameStateScript : MonoBehaviour {
     {
         if (state == SceneState.MAINMENU)
         {
-            areaSong.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            stopIngameMusic(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
             FMOD.Studio.PLAYBACK_STATE musicState;
             menuSong.getPlaybackState(out musicState);
@@ -165,17 +183,44 @@ public class GameStateScript : MonoBehaviour {
         StartCoroutine(CameraBackToNormalTransitionTime(time));
     }
 
-    public void playOST(string areaMusic)
+    public void stopIngameMusic(FMOD.Studio.STOP_MODE mode)
     {
-        areaSong.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        areaSong = FMODUnity.RuntimeManager.CreateInstance(areaMusic);
-        areaSong.start();
-        currentIngameOSTLinkPlaying = areaMusic;
+        domainsSong.stop(mode);
+        seaEffect.stop(mode);
+        plainsSong.stop(mode);
+        //forestSong.stop(mode);
+        towerSong.stop(mode);
     }
 
-    public string getCurrentLinkPlaying()
+    public void playOST(int index)
     {
-        return currentIngameOSTLinkPlaying;
+        stopIngameMusic(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
+        switch (index)
+        {
+            case 0:
+                domainsSong.start();
+                break;
+            case 1:
+                seaEffect.start();
+                break;
+            case 2:
+                plainsSong.start();
+                break;
+            //case 3:
+            //    forestSong.start();
+            //    break;
+            case 4:
+                towerSong.start();
+                break;
+        }
+
+        currentIngameOSTIndexPlaying = index;
+    }
+
+    public int getCurrentIndexPlaying()
+    {
+        return currentIngameOSTIndexPlaying;
     }
 
     //Corutina que vuelve a poner la transición de camaras bien. Si, es una cutrada pero es muy util joder

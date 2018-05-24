@@ -1,9 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
+
+    [FMODUnity.EventRef]
+    public string smallGemCollectSound;
+    [FMODUnity.EventRef]
+    public string largeGemCollectSound;
+    [FMODUnity.EventRef]
+    public string manaOrbCollectSound;
 
     public Transform healEffect;
     Transform healInstance;
@@ -79,17 +84,19 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("SmallGemstone"))
         {
+            FMODUnity.RuntimeManager.PlayOneShot(smallGemCollectSound);
             Destroy(other.gameObject); smallGemstones += 1;
             SmallGemstones.text = "x" + smallGemstones.ToString(); //Update GUI
         }
         else if (other.gameObject.CompareTag("Gemstone"))
         {
+            FMODUnity.RuntimeManager.PlayOneShot(largeGemCollectSound);
             Destroy(other.gameObject); gemstones += 1;
             LargeGemstones.text = "x" + gemstones.ToString(); //Update GUI
         }
         else if (other.gameObject.CompareTag("ManaCharge"))
         {
-
+            FMODUnity.RuntimeManager.PlayOneShot(manaOrbCollectSound);
             healInstance = Instantiate(healEffect, transform) as Transform;
             healInstance.transform.position = transform.position;
 
