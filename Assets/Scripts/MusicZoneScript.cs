@@ -18,7 +18,6 @@ public class MusicZoneScript : MonoBehaviour {
         //areaSong.getPlaybackState(out musicState);
         if (other.CompareTag("Player") && !isPlaying) //Check it's the player and avoid music overlapping
         {
-            Debug.Log("triggered");
             gameStateScript.playOST(areaMusicIndex);
             isPlaying = true;
         }

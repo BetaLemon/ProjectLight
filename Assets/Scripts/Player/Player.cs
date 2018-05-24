@@ -4,11 +4,17 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
     [FMODUnity.EventRef]
+    public string playerDamagedSound;
+    [FMODUnity.EventRef]
     public string smallGemCollectSound;
     [FMODUnity.EventRef]
     public string largeGemCollectSound;
     [FMODUnity.EventRef]
     public string manaOrbCollectSound;
+
+    float timeForAnotherComplaint = 0.0f;
+    float timeToComplain;
+
 
     public Transform healEffect;
     Transform healInstance;
@@ -43,6 +49,7 @@ public class Player : MonoBehaviour {
     void Awake() { if (instance == null) instance = this; }
 
 	void Start () {
+        timeToComplain = Time.deltaTime * 15;
         controllerRef = FindObjectOfType<CharacterController>();
         playerControllerRef = GetComponent<PlayerController>();
     }
@@ -70,6 +77,13 @@ public class Player : MonoBehaviour {
             {
                 damageInstance = Instantiate(damageEffect, transform) as Transform;
                 damageInstance.transform.position = transform.position;
+            }
+            timeForAnotherComplaint += Time.deltaTime;
+            Debug.Log(timeForAnotherComplaint + "/" + timeToComplain);
+            if (timeForAnotherComplaint >= timeToComplain)
+            {
+                timeForAnotherComplaint = 0.0f;
+                FMODUnity.RuntimeManager.PlayOneShot(playerDamagedSound);
             }
 
             health -= other.gameObject.GetComponentInParent<BlackInsect>().getDamageDealt() * Time.deltaTime;

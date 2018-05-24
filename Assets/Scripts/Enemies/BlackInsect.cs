@@ -5,6 +5,11 @@ using UnityEngine;
 public class BlackInsect : MonoBehaviour {
 
     //// Script for a basic enemy that walks between a number of set points in a cycle.
+    [FMODUnity.EventRef]
+    public string smallEnemyDamagedSound;
+
+    float timeForAnotherComplaint = 0.0f;
+    float timeToComplain;
 
     enum EnemyState { WALKING, HURT, WAITING };
 
@@ -87,6 +92,15 @@ public class BlackInsect : MonoBehaviour {
                         directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
                         break;
                     case EnemyState.HURT:
+
+                        timeForAnotherComplaint += Time.deltaTime;
+                        Debug.Log(timeForAnotherComplaint + "/" + timeToComplain);
+                        if (timeForAnotherComplaint >= timeToComplain)
+                        {
+                            timeForAnotherComplaint = 0.0f;
+                            FMODUnity.RuntimeManager.PlayOneShot(smallEnemyDamagedSound);
+                        }
+
                         Vector3 player = FindObjectOfType<Player>().transform.position;
                         tmpVec = Vector3.Normalize(player - transform.position) * (-1) * (speed + 5);
                         directionVector.x = tmpVec.x; directionVector.z = tmpVec.z;
