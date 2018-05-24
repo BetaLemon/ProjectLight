@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class AreaIntroducer : MonoBehaviour {
 
+    [FMODUnity.EventRef]
+    public string newAreaSound;
+
     public string areaName;
     public int areaIndex; //Used for notifying the Ingame Progress Script
 
@@ -26,6 +29,7 @@ public class AreaIntroducer : MonoBehaviour {
     {
         if (other.CompareTag("Player") && ingameProgressRef.getAreaVisited(areaIndex) != true)
         {
+            FMODUnity.RuntimeManager.PlayOneShot(newAreaSound);
             areaTextRef.text = areaName;
             introDisplayerAnimationRef.SetBool("ShowAreaDisplayer", true);
             ingameProgressRef.setAreaVisited(true, areaIndex); //notifying the Ingame Progress Script, we visited this area according to index

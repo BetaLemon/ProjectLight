@@ -11,17 +11,9 @@ public class GameStateScript : MonoBehaviour {
 
     [FMODUnity.EventRef]
     public string menuOST;
-    [FMODUnity.EventRef]
-    public string domainsOST;
-    [FMODUnity.EventRef]
-    public string plainsOST;
-    [FMODUnity.EventRef]
-    public string towerOST;
 
     FMOD.Studio.EventInstance menuSong;
-    //FMOD.Studio.EventInstance domainsSong;
-    //FMOD.Studio.EventInstance plainsSong;
-    //FMOD.Studio.EventInstance towerSong;
+    FMOD.Studio.EventInstance areaSong;
 
     //--------------------------------------
 
@@ -29,6 +21,8 @@ public class GameStateScript : MonoBehaviour {
     public enum SceneState { MAINMENU, OPTIONS, FILESELECT, INGAME };
     SceneState prevFrameState = SceneState.MAINMENU;
     SceneState state = SceneState.MAINMENU;
+
+    public string currentIngameOSTLinkPlaying = "";
 
     public bool gamePaused;
 
@@ -46,9 +40,6 @@ public class GameStateScript : MonoBehaviour {
     {
         menuSong = FMODUnity.RuntimeManager.CreateInstance(menuOST);
         menuSong.start();
-        //domainsSong = FMODUnity.RuntimeManager.CreateInstance(domainsOST);
-        //plainsSong = FMODUnity.RuntimeManager.CreateInstance(plainsOST);
-        //towerSong = FMODUnity.RuntimeManager.CreateInstance(towerOST);
 
         //Reference Initializations:
         //PlayerInteraction.instance.boatOutlinesOff();
@@ -79,6 +70,8 @@ public class GameStateScript : MonoBehaviour {
     {
         if (state == SceneState.MAINMENU)
         {
+            areaSong.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
             FMOD.Studio.PLAYBACK_STATE musicState;
             menuSong.getPlaybackState(out musicState);
             if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING) //Anti overlap check
@@ -170,6 +163,19 @@ public class GameStateScript : MonoBehaviour {
     public void cameraCoroutine(float time)
     {
         StartCoroutine(CameraBackToNormalTransitionTime(time));
+    }
+
+    public void playOST(string areaMusic)
+    {
+        areaSong.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        areaSong = FMODUnity.RuntimeManager.CreateInstance(areaMusic);
+        areaSong.start();
+        currentIngameOSTLinkPlaying = areaMusic;
+    }
+
+    public string getCurrentLinkPlaying()
+    {
+        return currentIngameOSTLinkPlaying;
     }
 
     //Corutina que vuelve a poner la transición de camaras bien. Si, es una cutrada pero es muy util joder

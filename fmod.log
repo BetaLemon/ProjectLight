@@ -8,7 +8,7 @@
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000000112874AF8 isAsync 1 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000000014B365D28 isAsync 1 updatePeriod 0.02
 [LOG] Thread::initThread                       : Init FMOD Studio update thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
@@ -27,106 +27,120 @@
 [ERR] assert                                   : assertion: 'listener >= 0 && listener < numlisteners' failed
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000E4987A78 : node = 00000000904647E0
+[LOG] SystemI::createSound                     : setdata soundi = 0000000156A58ED8 : node = 000000016A3D5040
 [LOG] SystemI::createSound                     : add node to async list : head = 00000000EA2B6358.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E4987A78
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000000156A58ED8
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 7146560
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 4576
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000904648F8
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000016A3D5158
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TitleTheme', format=2, channels=2, frequency=48000, lengthbytes=988288, lengthpcm=4423680, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.445221.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E4987A78
-[LOG] SoundI::getSubSound                      : sound 00000000E4987A78.  Subsound index 0 / 1
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000000156A58ED8
+[LOG] SoundI::getSubSound                      : sound 0000000156A58ED8.  Subsound index 0 / 1
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0000000166A8F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0000000166E8F5FC
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF958C1E4B0
 [LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF958C1E480
 [LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF958C1E580
 [LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF958C1E640
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000000E4D98CD8
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000001130BDA08
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='click_menu_button', format=2, channels=2, frequency=48000, lengthbytes=1664, lengthpcm=6464, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.125234.
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000E4D69738 : node = 00000000E48A4B60
+[LOG] SystemI::createSound                     : setdata soundi = 000000011DF96E18 : node = 000000016A3D2B80
 [LOG] SystemI::createSound                     : add node to async list : head = 00000000EA2B6358.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E4D69738
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000011DF96E18
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 7146560
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 4576
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000E48A4C78
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000016A3D2C98
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - WhiteWizardDomains', format=2, channels=2, frequency=48000, lengthbytes=1248448, lengthpcm=4976640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E4D69738
-[LOG] SoundI::release                          : Epitome - TitleTheme (00000000E4987A78)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000EA2B56A8)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000E54790E8)
-[LOG] SoundI::getSubSound                      : sound 00000000E4D69738.  Subsound index 0 / 1
-[LOG] SystemI::mixerSuspend                    : Suspending output.
-[LOG] SystemI::mixerResume                     : Resuming output.
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000011286C548
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000011286C548
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000011DF96E18
+[LOG] SoundI::getSubSound                      : sound 000000011DF96E18.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - TitleTheme (0000000156A58ED8)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000EA2B51C8)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000E94938F8)
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000E54797A8 : node = 0000000112F6E4D0
+[LOG] SystemI::createSound                     : setdata soundi = 000000014B1A5478 : node = 000000016A3D0810
 [LOG] SystemI::createSound                     : add node to async list : head = 00000000EA2B6358.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E54797A8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014B1A5478
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 7146560
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 4576
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000000112F6E5E8
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000016A3D0928
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - WhiteWizardDomains', format=2, channels=2, frequency=48000, lengthbytes=1248448, lengthpcm=4976640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E54797A8
-[LOG] SoundI::getSubSound                      : sound 00000000E54797A8.  Subsound index 0 / 1
-[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (00000000E4D69738)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (0000000090871B88)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (000000011286C548)
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - ConcavePlains', format=2, channels=2, frequency=48000, lengthbytes=2405888, lengthpcm=8229435, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.646301.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014B1A5478
+[LOG] SoundI::getSubSound                      : sound 000000014B1A5478.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (000000011DF96E18)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000EA2B4328)
+[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (000000014B1A4C08)
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 00000000EA2AB128 : node = 0000000112F6DA50
+[LOG] SystemI::createSound                     : setdata soundi = 00000000E4CD83C8 : node = 000000016A3D3210
 [LOG] SystemI::createSound                     : add node to async list : head = 00000000EA2B6358.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000EA2AB128
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000E4CD83C8
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 7146560
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 4576
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000000112F6DB68
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000016A3D3328
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TitleTheme', format=2, channels=2, frequency=48000, lengthbytes=988288, lengthpcm=4423680, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.445221.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000EA2AB128
-[LOG] SoundI::getSubSound                      : sound 00000000EA2AB128.  Subsound index 0 / 1
-[LOG] SoundI::release                          : Epitome - WhiteWizardDomains (00000000E54797A8)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (0000000090870B48)
-[LOG] SoundI::release                          :     Epitome - WhiteWizardDomains (00000000E9DFEBF8)
-[LOG] SoundI::release                          : Epitome - TitleTheme (00000000EA2AB128)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000EA2B3CA8)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000E9DFEDA8)
-[LOG] SoundI::release                          :  (00000001125E6CF8)
-[LOG] SoundI::release                          :     click_menu_button (00000000908709A8)
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TowerOfEncarnations', format=2, channels=2, frequency=48000, lengthbytes=2499136, lengthpcm=9446400, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.618317.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000E4CD83C8
+[LOG] SoundI::getSubSound                      : sound 00000000E4CD83C8.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - ConcavePlains (000000014B1A5478)
+[LOG] SoundI::release                          :     Epitome - ConcavePlains (00000000EA2B51C8)
+[LOG] SoundI::release                          :     Epitome - ConcavePlains (00000000E5478F38)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 7257376
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 25888
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0000000166E8F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FF958C1E4B0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FF958C1E480
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FF958C1E580
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FF958C1E640
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000000063B6F358
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='new_area', format=2, channels=1, frequency=48000, lengthbytes=29088, lengthpcm=177639, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.649443.
+[LOG] SoundI::release                          : Epitome - TowerOfEncarnations (00000000E4CD83C8)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (00000000EA2B4328)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (0000000156A59088)
+[LOG] SoundI::release                          :  (000000014B1C4AE8)
+[LOG] SoundI::release                          :     click_menu_button (00000000EA2B3FE8)
+[LOG] SoundI::release                          :  (000000014B1C4F38)
+[LOG] SoundI::release                          :     new_area (00000000EA2B51C8)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
