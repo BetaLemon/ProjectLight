@@ -194,7 +194,7 @@ public class GameStateScript : MonoBehaviour {
 
     public void playOST(int index)
     {
-        stopIngameMusic(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        stopIngameMusic(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
         switch (index)
         {
