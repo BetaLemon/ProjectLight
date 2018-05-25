@@ -38,6 +38,13 @@ public class QuickUICameraLook : MonoBehaviour {
             Color tmp; tmp.r = 1; tmp.g = 1; tmp.b = 1; tmp.a = Mathf.Min(1, Vector3.Distance(transform.position, cam.transform.position) - minDist);
             img.color = tmp;
         }
+        TextMesh t = el.GetComponent<TextMesh>();
+        if(t != null)
+        {
+            Color tmp = t.color;
+            tmp.a = Mathf.Min(1, Vector3.Distance(transform.position, cam.transform.position) - minDist);
+            t.color = tmp;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
