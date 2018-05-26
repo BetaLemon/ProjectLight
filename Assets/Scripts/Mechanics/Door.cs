@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+    [FMODUnity.EventRef]
+    public string doorSound;
+
     public GameObject LeftHinge;
     public GameObject RightHinge;
 
@@ -35,8 +38,14 @@ public class Door : MonoBehaviour {
         }
     }
 
-    public void getTriggered() { animate = true;
-                                 if (doorOpen) { doorOpen = false; }
-                                 else { doorOpen = true; }
+    public void getTriggered() {
+        animate = true;
+        if (doorOpen) {
+            doorOpen = false;
+        }
+        else {
+            FMODUnity.RuntimeManager.PlayOneShot(doorSound);
+            doorOpen = true;
+        }
     }
 }

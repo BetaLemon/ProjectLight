@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
     [FMODUnity.EventRef]
+    public string playerFalldamageSound;
+    [FMODUnity.EventRef]
     public string playerDamagedSound;
     [FMODUnity.EventRef]
     public string smallGemCollectSound;
@@ -154,6 +156,7 @@ public class Player : MonoBehaviour {
     }
 
     public void fallDamage(float damage) {
+        FMODUnity.RuntimeManager.PlayOneShot(playerFalldamageSound);
         health -= damage;
     }
 }

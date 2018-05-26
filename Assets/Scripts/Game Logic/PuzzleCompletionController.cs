@@ -10,6 +10,9 @@ using UnityEngine;
 
 public class PuzzleCompletionController : MonoBehaviour {
 
+    [FMODUnity.EventRef]
+    public string puzzleCompleteSound;
+
     public enum PuzzleState { TRIED, UNTOUCHED, COMPLETED };
 
     #region Variables
@@ -42,7 +45,10 @@ public class PuzzleCompletionController : MonoBehaviour {
         }
 	}
 
-    public void getTriggered() { completedTriggers++; }
+    public void getTriggered() {
+        completedTriggers++;
+        FMODUnity.RuntimeManager.PlayOneShot(puzzleCompleteSound);
+    }
 
     public PuzzleState getState() { return state; }
 
