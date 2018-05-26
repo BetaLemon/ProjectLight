@@ -15,6 +15,7 @@ public class TutorialScript : MonoBehaviour {
 
     #region Variables
     public Transform playerSpawn;
+    public Transform maxOrbSpawn;
     public Transform rayOrbSpawn;
     public Transform gameStartSpawn;
     public string KeyboardInputAxis;
@@ -53,9 +54,8 @@ public class TutorialScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.M)) { Player.instance.transform.position = playerSpawn.position; }
 
-        if(Input.GetAxis(KeyboardInputAxis) != 0 || Input.GetAxis(GamepadInputAxis) != 0)   // Button was pressed.
+        if (Input.GetAxis(KeyboardInputAxis) != 0 || Input.GetAxis(GamepadInputAxis) != 0)   // Button was pressed.
         {
             if (qState && dt > stepDelay) { NextStep(); }
         }
@@ -103,7 +103,7 @@ public class TutorialScript : MonoBehaviour {
                 if (orb == null) {
                     orb = GameObject.Instantiate(OrbPrefab).GetComponent<LightOrb>();
                     orb.transform.parent = transform;
-                    orb.transform.position = playerSpawn.position;
+                    orb.transform.position = maxOrbSpawn.position;
                     orb.orbCharge = 0;
                 }
                 if(orb.orbCharge > 2 && dt > stepDelay*2) { NextStep(); }
@@ -193,13 +193,14 @@ public class TutorialScript : MonoBehaviour {
         currentID = id;
     }
 
-    void SetupTutorial()
+    public void SetupTutorial()
     {
         step = 0; prevStep = step - 1;
         dt = 0;
         input = PlayerInput.instance;
         playerMove = false;
         prevPlayerMove = !playerMove;
+        currentID = CamID.DONE;
     }
 
     void FinishTutorial()
@@ -208,5 +209,10 @@ public class TutorialScript : MonoBehaviour {
         playerMove = true;
         SetPlayerMove();
         gameObject.SetActive(false);
+    }
+
+    public Transform getPlayerSpawn()
+    {
+        return playerSpawn;
     }
 }

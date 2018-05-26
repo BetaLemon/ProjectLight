@@ -195,7 +195,11 @@ public class PlayerController : MonoBehaviour {
         controller.Move(direction * Time.deltaTime);
     }
 
-    public void StopMovement() { canMove = false; }
+    public void StopMovement() {
+        canMove = false;
+        state = PlayerState.STANDING;
+        AnimatorUpdate();
+    }
 
     public PlayerState GetState() { return state; }
 }
