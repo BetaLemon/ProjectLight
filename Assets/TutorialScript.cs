@@ -8,19 +8,21 @@ public class TutorialScript : MonoBehaviour {
     enum Steps
     {
         WELCOME, SHOW_BASICS, MOVEMENT, LIGHT_INTRO, LIGHT_INTRO2, LIGHT_E, LIGHT_E_DONE, LIGHT_Q, LIGHT_Q_DONE, LIGHT_R_INTRO, LIGHT_R_INTRO2,
-        LIGHT_R
+        LIGHT_R, LIGHT_R_DONE, ENLIGHTENED, TERRIBLE_JOKE, FINISHED
     }
+
+    enum CamID { DEFAULT, MOVE, RAY, DONE }
 
     #region Variables
     public Transform playerSpawn;
     public Transform rayOrbSpawn;
+    public Transform gameStartSpawn;
     public string KeyboardInputAxis;
     public string GamepadInputAxis;
 
     public TextMesh text;
     [TextArea(2, 20)]   // (min, max)
     public List<string> textLines;
-    private int currentText;
 
     public Transform PressQ;
     private bool qState;
@@ -36,20 +38,21 @@ public class TutorialScript : MonoBehaviour {
     private PlayerInput input;
     public GameObject OrbPrefab;
     private LightOrb orb;
+
+    //public Cinemachine.CinemachineVirtualCamera defaultCamera;
+    //public Cinemachine.CinemachineVirtualCamera playerMoveCamera;
+    //public Cinemachine.CinemachineVirtualCamera rayCamera;
+    public List<Cinemachine.CinemachineVirtualCamera> cameras;
+    private CamID currentID;
     #endregion
 
     // Use this for initialization
     void Start () {
-        step = 0; prevStep = step-1;
-        currentText = 0;
-        dt = 0;
-        input = PlayerInput.instance;
-        playerMove = false;
-        prevPlayerMove = !playerMove;
+        SetupTutorial();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetKey(KeyCode.M)) { Player.instance.transform.position = playerSpawn.position; }
 
         if(Input.GetAxis(KeyboardInputAxis) != 0 || Input.GetAxis(GamepadInputAxis) != 0)   // Button was pressed.
@@ -57,9 +60,10 @@ public class TutorialScript : MonoBehaviour {
             if (qState && dt > stepDelay) { NextStep(); }
         }
 
-        dt += Time.deltaTime;
+        if (step != Steps.MOVEMENT) { dt += Time.deltaTime; }
 
         //if (step == prevStep) return;
+        if (step == Steps.FINISHED) FinishTutorial();
 
         text.text = textLines[(int)step];   // Text for that step.
         // Custom behaviour;
@@ -68,6 +72,7 @@ public class TutorialScript : MonoBehaviour {
             case Steps.WELCOME:
                 qState = true;
                 playerMove = false;
+                SetCamera(CamID.DEFAULT);
                 break;
             case Steps.SHOW_BASICS:
                 qState = true;
@@ -76,14 +81,17 @@ public class TutorialScript : MonoBehaviour {
             case Steps.MOVEMENT:
                 qState = false;
                 playerMove = true;
+                SetCamera(CamID.MOVE);
                 if(input.isPressed("Horizontal") || input.isPressed("Vertical"))
                 {
-                    if (dt > stepDelay*2) { NextStep(); }
+                    if (dt > stepDelay) { NextStep(); }
+                    dt += Time.deltaTime;
                 }
                 break;
             case Steps.LIGHT_INTRO:
                 qState = true;
                 playerMove = false;
+                SetCamera(CamID.DEFAULT);
                 break;
             case Steps.LIGHT_INTRO2:
                 qState = true;
@@ -98,7 +106,7 @@ public class TutorialScript : MonoBehaviour {
                     orb.transform.position = playerSpawn.position;
                     orb.orbCharge = 0;
                 }
-                if(orb.orbCharge > 2 && dt > stepDelay) { NextStep(); }
+                if(orb.orbCharge > 2 && dt > stepDelay*2) { NextStep(); }
                 break;
             case Steps.LIGHT_E_DONE:
                 qState = true;
@@ -124,7 +132,8 @@ public class TutorialScript : MonoBehaviour {
             case Steps.LIGHT_R:
                 qState = false;
                 playerMove = false;
-                // need to reseat player.
+                SetCamera(CamID.RAY);
+                Player.instance.transform.position = playerSpawn.position;
                 orb.transform.position = rayOrbSpawn.position;
                 Vector3 forward = Player.instance.transform.forward;
                 Vector3 position = Player.instance.transform.position;
@@ -132,6 +141,20 @@ public class TutorialScript : MonoBehaviour {
                 forward.z = orb.transform.position.z - position.z;
                 Player.instance.transform.forward = forward;
                 if (orb.orbCharge > 2 && dt > stepDelay) { NextStep(); }
+                break;
+            case Steps.LIGHT_R_DONE:
+                qState = true;
+                playerMove = false;
+                SetCamera(CamID.DONE);
+                break;
+            case Steps.ENLIGHTENED:
+                qState = true;
+                playerMove = false;
+                break;
+            case Steps.TERRIBLE_JOKE:
+                qState = true;
+                playerMove = false;
+                text.fontSize = 50;
                 break;
             default:
                 Debug.Log("Default."); step = 0; break;
@@ -158,4 +181,32 @@ public class TutorialScript : MonoBehaviour {
     }
 
     void NextStep() { step++; dt = 0; }
+
+    void SetCamera(CamID id)
+    {
+        if (currentID == id) return;
+        for(int i = 0; i < cameras.Count; i++)
+        {
+            if(i == (int)id) { cameras[i].Priority = 20; }
+            else { cameras[i].Priority = 1; }
+        }
+        currentID = id;
+    }
+
+    void SetupTutorial()
+    {
+        step = 0; prevStep = step - 1;
+        dt = 0;
+        input = PlayerInput.instance;
+        playerMove = false;
+        prevPlayerMove = !playerMove;
+    }
+
+    void FinishTutorial()
+    {
+        Player.instance.transform.position = gameStartSpawn.position;
+        playerMove = true;
+        SetPlayerMove();
+        gameObject.SetActive(false);
+    }
 }
