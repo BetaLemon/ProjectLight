@@ -31,7 +31,13 @@ public class PlayerController : MonoBehaviour {
     private Vector3 camForward;
     private Vector3 camRight;
     private Animator animator;
+    public static PlayerController instance;
     #endregion
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     void Start()    // When the script starts.
     {

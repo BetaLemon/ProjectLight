@@ -77,7 +77,7 @@ public class LightOrb : MonoBehaviour {
             waitingRefill = false;
             currentRefillDelay = 0.0f;
         }
-        currentRefillDelay = 0;
+        //currentRefillDelay = 0;
     }
     public void SetOrbCharge(float amount) // You can directly set the orb's charge with this to a certain amount.
     {
@@ -153,6 +153,7 @@ public class LightOrb : MonoBehaviour {
     {
         if (autoRefillAmount <= 0 || refillDelay < 0) return;
         if (waitingRefill) { currentRefillDelay += Time.deltaTime; }
+        else { currentRefillDelay = 0; }
         if (waitingRefill && currentRefillDelay > refillDelay) { orbCharge += autoRefillAmount; isCharging = true; }
     }
 }
