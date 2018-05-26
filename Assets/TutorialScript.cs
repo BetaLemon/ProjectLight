@@ -7,11 +7,13 @@ public class TutorialScript : MonoBehaviour {
     // Steps:
     enum Steps
     {
-        WELCOME, SHOW_BASICS, MOVEMENT, LIGHT_INTRO, LIGHT_INTRO2, LIGHT_E, LIGHT_E_DONE
+        WELCOME, SHOW_BASICS, MOVEMENT, LIGHT_INTRO, LIGHT_INTRO2, LIGHT_E, LIGHT_E_DONE, LIGHT_Q, LIGHT_Q_DONE, LIGHT_R_INTRO, LIGHT_R_INTRO2,
+        LIGHT_R
     }
 
     #region Variables
     public Transform playerSpawn;
+    public Transform rayOrbSpawn;
     public string KeyboardInputAxis;
     public string GamepadInputAxis;
 
@@ -22,6 +24,8 @@ public class TutorialScript : MonoBehaviour {
 
     public Transform PressQ;
     private bool qState;
+    private bool playerMove;
+    private bool prevPlayerMove;
 
     private Steps step;
     private Steps prevStep;
@@ -40,6 +44,8 @@ public class TutorialScript : MonoBehaviour {
         currentText = 0;
         dt = 0;
         input = PlayerInput.instance;
+        playerMove = false;
+        prevPlayerMove = !playerMove;
 	}
 	
 	// Update is called once per frame
@@ -48,7 +54,7 @@ public class TutorialScript : MonoBehaviour {
 
         if(Input.GetAxis(KeyboardInputAxis) != 0 || Input.GetAxis(GamepadInputAxis) != 0)   // Button was pressed.
         {
-            if (qState && dt > stepDelay) { step++; dt = 0; }
+            if (qState && dt > stepDelay) { NextStep(); }
         }
 
         dt += Time.deltaTime;
@@ -61,41 +67,78 @@ public class TutorialScript : MonoBehaviour {
         {
             case Steps.WELCOME:
                 qState = true;
+                playerMove = false;
                 break;
             case Steps.SHOW_BASICS:
                 qState = true;
+                playerMove = false;
                 break;
             case Steps.MOVEMENT:
                 qState = false;
+                playerMove = true;
                 if(input.isPressed("Horizontal") || input.isPressed("Vertical"))
                 {
-                    if(dt > stepDelay) step++;
+                    if (dt > stepDelay*2) { NextStep(); }
                 }
                 break;
             case Steps.LIGHT_INTRO:
                 qState = true;
+                playerMove = false;
                 break;
             case Steps.LIGHT_INTRO2:
                 qState = true;
+                playerMove = false;
                 break;
             case Steps.LIGHT_E:
                 qState = false;
+                playerMove = true;
                 if (orb == null) {
                     orb = GameObject.Instantiate(OrbPrefab).GetComponent<LightOrb>();
                     orb.transform.parent = transform;
                     orb.transform.position = playerSpawn.position;
                     orb.orbCharge = 0;
                 }
-                if(orb.orbCharge > 2) { if (dt > stepDelay) step++; }
+                if(orb.orbCharge > 2 && dt > stepDelay) { NextStep(); }
                 break;
             case Steps.LIGHT_E_DONE:
                 qState = true;
+                playerMove = false;
+                break;
+            case Steps.LIGHT_Q:
+                qState = false;
+                playerMove = true;
+                if (orb.orbCharge <= 0 && dt > stepDelay) { NextStep(); }
+                break;
+            case Steps.LIGHT_Q_DONE:
+                qState = true;
+                playerMove = false;
+                break;
+            case Steps.LIGHT_R_INTRO:
+                qState = true;
+                playerMove = false;
+                break;
+            case Steps.LIGHT_R_INTRO2:
+                qState = true;
+                playerMove = false;
+                break;
+            case Steps.LIGHT_R:
+                qState = false;
+                playerMove = false;
+                // need to reseat player.
+                orb.transform.position = rayOrbSpawn.position;
+                Vector3 forward = Player.instance.transform.forward;
+                Vector3 position = Player.instance.transform.position;
+                forward.x = orb.transform.position.x - position.x;
+                forward.z = orb.transform.position.z - position.z;
+                Player.instance.transform.forward = forward;
+                if (orb.orbCharge > 2 && dt > stepDelay) { NextStep(); }
                 break;
             default:
                 Debug.Log("Default."); step = 0; break;
         }
 
         SetPressQState(qState);
+        SetPlayerMove();
 
         prevStep = step;
 	}
@@ -105,4 +148,14 @@ public class TutorialScript : MonoBehaviour {
         if(PressQ.gameObject.activeSelf != isEnabled)
             PressQ.gameObject.SetActive(isEnabled);
     }
+
+    void SetPlayerMove()
+    {
+        if (playerMove == prevPlayerMove) return;
+        if (playerMove) PlayerController.instance.AllowMovement();
+        else PlayerController.instance.StopMovement();
+        prevPlayerMove = playerMove;
+    }
+
+    void NextStep() { step++; dt = 0; }
 }
