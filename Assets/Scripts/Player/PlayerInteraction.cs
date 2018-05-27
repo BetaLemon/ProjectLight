@@ -88,7 +88,7 @@ public class PlayerInteraction : MonoBehaviour {
                     {
                         case "LightOrb":
                             if (input.isPressed("LightMax")) hitColliders[i].GetComponent<LightOrb>().ChargeOrb(Color.white, amount); //Attempt to charge the light orb if we are expanding the player light sphere radius (Default white from player white ray)
-                            else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(); //Attempt to subtract energy from the light orb if we press Q
+                            else if (input.isPressed("BaseInteraction")) hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(true); //Attempt to subtract energy from the light orb if we press Q
                             break;
                         case "BlackInsect":
                             BlackInsect(hitColliders[i]);

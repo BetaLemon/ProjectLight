@@ -13,6 +13,7 @@ public class LightOrb : MonoBehaviour {
     private Color lastEnteringColor = Color.white;
 
     public bool isSubtracting = false;
+    public bool lastSubtractionByPlayer = false;
 
     public Light glow;
 
@@ -54,11 +55,13 @@ public class LightOrb : MonoBehaviour {
         ChargeEffect.SetActive(false);
     }
 
-    public void SubtractFromOrb() //Interaction function: Can, and is, used by Wizard interaction in order to absorb energy from the orb towards the wizard
-    {
+    public void SubtractFromOrb(bool player) //Interaction function: Can, and is, used by Wizard interaction in order to absorb energy from the orb towards the wizard
+    { //If player is true, it's the player who's absorbing.
         if (orbCharge > minOrbCharge) //Priority for charging (Stops subtraction and charging at the same time)
         { 
             isSubtracting = true;
+            if(player) lastSubtractionByPlayer = true;
+            else lastSubtractionByPlayer = false;
 
             //Interrupt natural refill:
             waitingRefill = false;
@@ -88,12 +91,14 @@ public class LightOrb : MonoBehaviour {
     {
         if (isCharging) //Charging check
         {
+            Debug.Log("Enabling Charge Effect");
             ChargeEffect.SetActive(true);
             color = lastEnteringColor;
             orbCharge += chargeAmount; //The orb is filled with the standard ammount, which should/could be the same the wizard loses from his mana (orb deposition) for balance purposes
         }
         else if (!isCharging) //Not charging check
         {
+            Debug.Log("Disabling Charge Effect");
             ChargeEffect.SetActive(false);
         }
 
@@ -102,7 +107,7 @@ public class LightOrb : MonoBehaviour {
             float exchange = thePlayer.GetComponent<PlayerLight>().healthDrainAmmount; //Is the same equivalent value for subtracting as for charging (You give what you can take)
             orbCharge -= exchange; //(orb subtraction)
             if (orbCharge > 0) thePlayer.GetComponent<Player>().health += exchange; //Increase player health from orb absortion as long as there's energy (The player isn't dead)
-            AbsorbEffect.SetActive(true);
+            if(lastSubtractionByPlayer) AbsorbEffect.SetActive(true);
         }
         else if (!isSubtracting)
         {

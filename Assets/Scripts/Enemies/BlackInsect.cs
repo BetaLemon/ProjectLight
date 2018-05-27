@@ -198,7 +198,7 @@ public class BlackInsect : MonoBehaviour {
             if (hitColliders[i].CompareTag("LightOrb")) {
                 if (hitColliders[i].GetComponent<LightOrb>().orbCharge > 0)
                 {
-                    hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb();
+                    hitColliders[i].GetComponent<LightOrb>().SubtractFromOrb(false);
                     life -= 0.01f;
                 }
             }
