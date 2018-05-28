@@ -5,6 +5,12 @@ using UnityEngine;
 public class TutorialController : MonoBehaviour {
 
     public TutorialScript ts;
+    public static TutorialController instance;
+
+    private void Awake()
+    {
+        if(instance == null) { instance = this; }
+    }
 
     void Start()
     {
