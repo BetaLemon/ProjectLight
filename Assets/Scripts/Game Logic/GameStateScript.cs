@@ -40,9 +40,9 @@ public class GameStateScript : MonoBehaviour {
     public bool gamePaused;
 
     public GameObject FileSelectorSpawnRef;
-    public GameObject PlayerRef;
-    public GameObject PlayerCamerasRef;
-    Cinemachine.CinemachineBrain cinemachineBrain; //The cinemachine brain script reference
+    private GameObject PlayerRef;
+    private GameObject PlayerCamerasRef;
+    private Cinemachine.CinemachineBrain cinemachineBrain; //The cinemachine brain script reference
     public GameObject MainMenuRef;
     public GameObject MainMenuCanvasRef;
     public GameObject OptionsRef;
@@ -69,7 +69,7 @@ public class GameStateScript : MonoBehaviour {
 
         //Reference Initializations:
         //PlayerInteraction.instance.boatOutlinesOff();
-        PlayerRef = GameObject.FindGameObjectWithTag("Player");
+        PlayerRef = Player.instance.gameObject;
         PlayerRef.SetActive(false);
         PlayerCamerasRef = GameObject.Find("PlayerCameraAngles"); //All of the player camera angles inside the wrapper game object
         cinemachineBrain = PlayerCamerasRef.transform.GetChild(0).gameObject.GetComponent<Cinemachine.CinemachineBrain>(); //Cinemachine brain script reference

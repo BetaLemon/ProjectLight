@@ -5,12 +5,12 @@ public class MenuScript : MonoBehaviour {
     [FMODUnity.EventRef]
     public string clicksound;
 
-    public GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
+    private GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
 
     void Start() //The following always happens when the main menu appears:
     {
         //Reference Initializations:
-        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+        gameStateDataScriptRef = GameStateScript.instance;
     }
 
     public void FileSelectionMode()

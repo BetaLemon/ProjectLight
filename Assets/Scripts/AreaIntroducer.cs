@@ -27,6 +27,7 @@ public class AreaIntroducer : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other == null) return;
         if (other.CompareTag("Player") && ingameProgressRef.getAreaVisited(areaIndex) != true)
         {
             FMODUnity.RuntimeManager.PlayOneShot(newAreaSound);
