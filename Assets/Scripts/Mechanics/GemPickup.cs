@@ -2,35 +2,35 @@
 
 public class GemPickup : MonoBehaviour
 {
-    private Rigidbody rigidbody;
+    //private Rigidbody rigidbody;
+    public Transform model;
 
     //private Vector3 _startPosition; //Serves as a reference for base sinoidal motion animation
     private GameObject player; //PlayerReference
     public float getDraggedRadius = 5.0f; //Radius from which the collectable will start getting absorbed
     public float dragSpeed = 0.2f; //Speed at which the collectable is dragged towards the player on proximity
 
-    private float despawnTime;
+    public float despawnTime = 10f;
     private float lifeTime = 0.0f;
 
     //int raycastLayerMask = 1 << 8;
-    float hoverHeight = 2.5f;
-    float hoverForce = 10.0f;
+    public float hoverHeight = 1f;
 
     void Start()
     {
-        despawnTime = Time.deltaTime * 100;
-
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
 
         //_startPosition = transform.position;
         player = GameObject.FindWithTag("Player");
+        if(model == null) { model = transform.GetChild(0); }
+        if(model == null) { Debug.LogError("GamePickup is missing model."); }
     }
 
     void Update()
     {
         if (lifeTime >= despawnTime) //Despawn system
         {
-            Destroy(this);
+            //Destroy(gameObject);
         }
 
         //Check if collectable tag is ManaCharge or SmallGemstone
@@ -46,16 +46,22 @@ public class GemPickup : MonoBehaviour
             }
 
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), out hit, hoverHeight/*, raycastLayerMask*/))
+            Debug.DrawRay(transform.position, -Vector3.up * hoverHeight, Color.red);
+            if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), out hit, hoverHeight))
             {
-                //We apply an ascending force at the hover point position, if the collision hit was detected close the ascending force will be higher:
-                rigidbody.AddForceAtPosition(Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), transform.position);
+                if (!hit.collider.CompareTag("Player"))
+                {
+                    //We apply an ascending force at the hover point position, if the collision hit was detected close the ascending force will be higher:
+                    //rigidbody.AddForceAtPosition(Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), transform.position);
+                    //rigidbody.AddForce(Vector3.up * hoverForce);
+                    transform.position = new Vector3(hit.point.x, hit.point.y + hoverHeight, hit.point.z);
 
-                Debug.DrawRay(transform.position, transform.TransformDirection(new Vector3(0, -1, 0)) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit");
+                    //Debug.DrawRay(transform.position, transform.TransformDirection(new Vector3(0, -1, 0)) * hit.distance, Color.yellow);
+                    //Debug.Log("Did Hit");
+                }
             }
 
-            transform.position = new Vector3(transform.position.x, transform.position.y + Mathf.Sin(Time.time * 4) / 10, transform.position.z); //Sinoidal motion for position (Up and down)
+            model.transform.position = new Vector3(transform.position.x, transform.position.y + Mathf.Sin(Time.time * 4) / 10, transform.position.z); //Sinoidal motion for position (Up and down)
 
 
         }
