@@ -48,6 +48,13 @@ public class GameStateScript : MonoBehaviour {
     public GameObject OptionsRef;
     public GameObject HudRef;
 
+    public static GameStateScript instance;
+
+    private void Awake()
+    {
+        if(instance == null) { instance = this; }
+    }
+
     //WORLD SCENE START EVENTS
     void Start()
     {

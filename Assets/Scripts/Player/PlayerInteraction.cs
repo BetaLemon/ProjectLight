@@ -114,6 +114,7 @@ public class PlayerInteraction : MonoBehaviour {
 
             prevBaseInteraction = pressedBaseInteraction;
         }
+        /*
         else if (gameStateDataScriptRef.GetSceneState() == GameStateScript.SceneState.FILESELECT) //This update section only works if we're in FILESELECT:
         {
             ++timer;
@@ -162,7 +163,7 @@ public class PlayerInteraction : MonoBehaviour {
 
                 transform.position = BaseWorldSpawnRef.transform.position;
             }
-        }
+        }*/
     }
 
     void Update()
@@ -185,7 +186,7 @@ public class PlayerInteraction : MonoBehaviour {
             }
         }
     }
-
+    /*
     public void boatOutlinesOff()
     {
         FileSelectorBoat1.GetComponentInChildren<cakeslice.Outline>().enabled = false;
@@ -193,7 +194,7 @@ public class PlayerInteraction : MonoBehaviour {
         FileSelectorBoat3.GetComponentInChildren<cakeslice.Outline>().enabled = false;
         FileSelectorBoat4.GetComponentInChildren<cakeslice.Outline>().enabled = false;
     }
-
+    */
     void BlackInsect(Collider col)
     {
         col.gameObject.GetComponentInParent<BlackInsect>().Hurt();

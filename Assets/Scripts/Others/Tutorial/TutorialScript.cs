@@ -128,6 +128,7 @@ public class TutorialScript : MonoBehaviour {
             case Steps.LIGHT_R_INTRO2:
                 qState = true;
                 playerMove = false;
+                orb.orbCharge = 0;
                 break;
             case Steps.LIGHT_R:
                 qState = false;
@@ -162,6 +163,8 @@ public class TutorialScript : MonoBehaviour {
 
         SetPressQState(qState);
         SetPlayerMove();
+
+        Player.instance.health = Player.instance.maxHealth;
 
         prevStep = step;
 	}
