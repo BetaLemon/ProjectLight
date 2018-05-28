@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class BoatController : MonoBehaviour {
 
+    public struct BoatData
+    {
+        public string areaName;
+        public int completedPuzzles;
+        public int day;
+        public int month;
+        public int year;
+        public int hour;
+        public int minutes;
+        public BoatData(string nam, int puz, int d, int m, int y, int h, int min)
+        {
+            areaName = nam; completedPuzzles = puz; day = d; month = m; year = y; hour = h; minutes = min;
+        }
+    }
+
     #region Variables
     [Header("Input Axis, Horizontal then Vertical:")]
     public string[] keyboardInputAxis = new string[2];
@@ -18,6 +33,14 @@ public class BoatController : MonoBehaviour {
     public Transform upright;
     public Transform downleft;
     public Transform downright;
+
+    [Header("Text fields:")]
+    public TextMesh areaText;
+    public TextMesh puzzleText;
+    public TextMesh dateText;
+
+    public int totalPuzzleCount = 5;
+    private BoatData[,] boatData = new BoatData[2, 2];
 
     [Header("Others:")]
     public Transform BaseWorldSpawn;
@@ -54,13 +77,24 @@ public class BoatController : MonoBehaviour {
 	void Update () {
         if (stateScript.GetSceneState() != GameStateScript.SceneState.FILESELECT) { DisableBoats(); return; }
         else if(boatUI.gameObject.activeInHierarchy == false) { if(!active) EnableBoats(); }
-        //if (prevBoat == currentBoat) return;
-        
+                
         ProcessInput(keyboardInputAxis);
         //ProcessInput(gamepadInputAxis);
         LimitBoatIndex();
         UpdateBoats();
         SetUIPosition();
+
+        //if (prevBoat != currentBoat) { }
+
+        BoatData bd = new BoatData("Here comes the area name.", 4, 15, 5, 2018, 15, 25);
+        BoatData bd1 = new BoatData("Kill me, plz.", 0, 15, 5, 2019, 09, 24);
+        BoatData bd2 = new BoatData("Dylan, Fear the Dark.", 5, 15, 2, 2016, 12, 35);
+        BoatData bd3 = new BoatData("Mom's spaghetti!", 3, 6, 1, 2017, 14, 26);
+        SetBoatData(0, 0, bd);
+        SetBoatData(1, 0, bd1);
+        SetBoatData(1, 1, bd2);
+        SetBoatData(0, 1, bd3);
+        UpdateBoatText();
 
         CheckSubmit(keyboardSubmitKey);
 
@@ -99,6 +133,19 @@ public class BoatController : MonoBehaviour {
                 else { boats[i,j].GetComponentInChildren<cakeslice.Outline>().enabled = false; }
             }
         }
+    }
+
+    void UpdateBoatText()
+    {
+        BoatData bd = boatData[currentBoat[0], currentBoat[1]];
+        areaText.text = bd.areaName;
+        puzzleText.text = "Completed " + bd.completedPuzzles + " / " + totalPuzzleCount + " puzzles.";
+        dateText.text = bd.day + " / " + bd.month + " / " + bd.year + " - " + bd.hour + ":" + bd.minutes;
+    }
+
+    void SetBoatData(int x, int y, BoatData bd)
+    {
+        boatData[x, y] = bd;
     }
 
     void LimitBoatIndex() {
