@@ -91,14 +91,14 @@ public class LightOrb : MonoBehaviour {
     {
         if (isCharging) //Charging check
         {
-            Debug.Log("Enabling Charge Effect");
+            //Debug.Log("Enabling Charge Effect");
             ChargeEffect.SetActive(true);
             color = lastEnteringColor;
             orbCharge += chargeAmount; //The orb is filled with the standard ammount, which should/could be the same the wizard loses from his mana (orb deposition) for balance purposes
         }
         else if (!isCharging) //Not charging check
         {
-            Debug.Log("Disabling Charge Effect");
+            //Debug.Log("Disabling Charge Effect");
             ChargeEffect.SetActive(false);
         }
 
