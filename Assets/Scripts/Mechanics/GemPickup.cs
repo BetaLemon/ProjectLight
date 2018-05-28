@@ -23,7 +23,7 @@ public class GemPickup : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
 
         //_startPosition = transform.position;
-        player = GameObject.FindWithTag("Player"); //THIS SYSTEM OF OBTAINING PLAYER COORDINATES MAY BE IMPROVED IN EFFICIENCY. BUT PLAYER POSITION IS NEEDED
+        player = GameObject.FindWithTag("Player");
     }
 
     void Update()
