@@ -17,8 +17,9 @@ public class MirrorRotation : MonoBehaviour
 
     private Vector3 Rotation;
     private Vector3 prevRotation;
-    private float[] verticalClamp = { -80, 80 };
-    private float[] horizontalClamp = { -40, 40 };
+    [Header("Angle limits:")]
+    public float[] verticalClamp = { -80, 80 };
+    public float[] horizontalClamp = { -40, 40 };
 
     void Start()
     {
