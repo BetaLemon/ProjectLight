@@ -116,9 +116,8 @@ public class Player : MonoBehaviour {
             healInstance = Instantiate(healEffect, transform) as Transform;
             healInstance.transform.position = transform.position;
 
-
             Destroy(other.gameObject);
-            health += 5;
+            health += 2;
         }
     }
 
