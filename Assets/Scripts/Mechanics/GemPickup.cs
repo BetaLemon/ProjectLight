@@ -10,7 +10,7 @@ public class GemPickup : MonoBehaviour
     public float getDraggedRadius = 5.0f; //Radius from which the collectable will start getting absorbed
     public float dragSpeed = 0.2f; //Speed at which the collectable is dragged towards the player on proximity
 
-    public float despawnTime = 10f;
+    public float despawnTime = 25f;
     private float lifeTime = 0.0f;
 
     //int raycastLayerMask = 1 << 8;
@@ -28,9 +28,9 @@ public class GemPickup : MonoBehaviour
 
     void Update()
     {
-        if (lifeTime >= despawnTime) //Despawn system
+        if (lifeTime >= despawnTime && despawnTime != -1) //Despawn system
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
 
         //Check if collectable tag is ManaCharge or SmallGemstone
