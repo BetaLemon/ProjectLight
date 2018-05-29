@@ -5,7 +5,7 @@ public class DarkOrbMaterialAnimation : MonoBehaviour {
     Material orbMaterial;
     Vector3 startColor;
     Vector3 differentColor;
-    float rePulsateTime = 5.0f;
+    float rePulsateTime = 4.0f;
     float pulsationDuration = 1.0f;
     float timeSinceLastPulseEnd = 0.0f;
     Color currentColor;
@@ -29,7 +29,5 @@ public class DarkOrbMaterialAnimation : MonoBehaviour {
         }
 
         orbMaterial.SetColor("_MainColor", currentColor);
-        Debug.Log(currentColor);
-        //Debug.Log(timeSinceLastPulseEnd);
     }
 }
