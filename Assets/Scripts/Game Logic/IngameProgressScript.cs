@@ -29,6 +29,10 @@ public class IngameProgressScript : MonoBehaviour {
     public PlayerData[] playerData = new PlayerData[4];
     private int currentPlayer = -1;
 
+    public bool eraseFile = false;
+    public bool reloadData = false;
+    public bool saveToDisk = false;
+
     [Header("Area names:")]
     public string[] areaNames;
 
@@ -66,7 +70,7 @@ public class IngameProgressScript : MonoBehaviour {
 
     void Awake()
     {
-        if(instance == null) { instance = this; }
+        if (instance == null) { instance = this; }
     }
 
     void Start()
@@ -76,6 +80,13 @@ public class IngameProgressScript : MonoBehaviour {
         //    MakeEmptyGameState(i);
         //    playerData[i] = LoadGameState(i);
         //}
+    }
+
+    void Update()
+    {
+        if (eraseFile) { SaveSystem.Initialize("Profile.bin"); eraseFile = false; }
+        if (reloadData) { LoadAllData(); reloadData = false; }
+        if (saveToDisk) { SaveSystem.SaveToDisk(); saveToDisk = false; }
     }
 
     #region DylanFunctions XD
@@ -162,7 +173,7 @@ public class IngameProgressScript : MonoBehaviour {
 
         SaveSystem.SetBool("p" + playerIndex + "-isEmpty", false);
 
-        SaveSystem.SaveToDisk();
+        //SaveSystem.SaveToDisk();
     }
 
     public void SaveGame()
@@ -271,11 +282,13 @@ public class IngameProgressScript : MonoBehaviour {
             if(puz[i]) { st += "1"; }
             else { st += "0"; }
         }
+        Debug.Log("BoolToString: " + st);
         return st;
     }
 
     bool[] StringToBool(string st)
     {
+        Debug.Log("StringToBool: " + st);
         bool[] b = new bool[st.Length];
         char[] c = st.ToCharArray();
         for(int i = 0; i < c.Length; i++)
