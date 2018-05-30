@@ -4,12 +4,12 @@ public class OptionsScript : MonoBehaviour {
 
     private FMOD.Studio.EventInstance SFXVolumeTestEvent;
 
+    private FMOD.Studio.Bus Master;
     private FMOD.Studio.Bus Music;
     private FMOD.Studio.Bus Sounds;
-    private FMOD.Studio.Bus Master;
+    public float masterVolume = 1f;
     public float musicVolume = 0.5f;
     public float sfxVolume = 0.5f;
-    public float masterVolume = 0.5f;
 
     [FMODUnity.EventRef]
     public string clicksound;
@@ -18,10 +18,9 @@ public class OptionsScript : MonoBehaviour {
 
     void Awake()
     {
-        //Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
+        Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
         Music = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
         Sounds = FMODUnity.RuntimeManager.GetBus("bus:/Master/Sounds");
-        Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
         SFXVolumeTestEvent = FMODUnity.RuntimeManager.CreateInstance("event:/Collectables/LargeGemGet");
     }
 
@@ -33,6 +32,11 @@ public class OptionsScript : MonoBehaviour {
 
         //Reference Initializations:
         gameStateDataScriptRef = GameStateScript.instance;
+    }
+
+    void Update()
+    {
+        Debug.Log("Music: " + musicVolume + "Sounds: " + sfxVolume + "Master: " + masterVolume);
     }
 
     public void MasterVolumeLevel(float newMasterVolume)
