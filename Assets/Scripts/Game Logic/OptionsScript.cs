@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using FMODUnity;
 
 public class OptionsScript : MonoBehaviour
 {
+    Resolution[] resolutions;
+    public Dropdown resolutionDropdown;
+
     [FMODUnity.EventRef]
     public string clicksound;
 
@@ -26,6 +30,26 @@ public class OptionsScript : MonoBehaviour
 
     void Start()
     {
+        resolutions = Screen.resolutions;
+        resolutionDropdown.ClearOptions();
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+
         //Reference Initializations:
         gameStateDataScriptRef = GameStateScript.instance;
     }
@@ -33,6 +57,12 @@ public class OptionsScript : MonoBehaviour
     void Update()
     {
         //Debug.Log("Music: " + musicVolume + "Sounds: " + sfxVolume + "Master: " + masterVolume);
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
     public void MasterVolumeLevel(float newMasterVolume)
@@ -55,6 +85,16 @@ public class OptionsScript : MonoBehaviour
         {
             SFXVolumeTestEvent.start();
         }
+    }
+
+    public void SetQuality(int quality)
+    {
+        QualitySettings.SetQualityLevel(quality);
+    }
+
+    public void SetFullScreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
     }
 
     public void GoToMainMenu()
