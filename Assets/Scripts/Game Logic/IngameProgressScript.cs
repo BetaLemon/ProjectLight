@@ -161,6 +161,8 @@ public class IngameProgressScript : MonoBehaviour {
         SaveSystem.SetInt("p" + playerIndex + "-save-minute",   pd.minute);
 
         SaveSystem.SetBool("p" + playerIndex + "-isEmpty", false);
+
+        SaveSystem.SaveToDisk();
     }
 
     public void SaveGame()
