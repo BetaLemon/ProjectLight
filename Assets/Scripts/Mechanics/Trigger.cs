@@ -9,19 +9,19 @@ public class Trigger : MonoBehaviour {
     // Script that allows objects to react to the player's lightshaft. This allows it to trigger things, thus the name.
 
     #region Variables
-    public GameObject[] triggeredObjects;   // Objects that will be triggered.
+    public GameObject[] triggeredObjects;       // Objects that will be triggered.
     public TriggerType type;
     [Range(0, 10)]
 
-    private int triggerCount = 0;    //Times the trigger has been triggered
+    private int triggerCount = 0;               //Times the trigger has been triggered
     [Tooltip("-1 for infinite")]
-    public int maxTriggers = -1;     //Maximum ammount of times it can be triggered
+    public int maxTriggers = -1;                //Maximum ammount of times it can be triggered
 
-    private float triggerDelay;      //Delay before next trigger usage
-    private float timer = 0;        //Time since the trigger was last triggered
-    private bool canBeTriggered = true; //If timeSinceLastTrigger surpasses triggerDelay, this is set to true
+    private float triggerDelay;                 //Delay before next trigger usage
+    private float timer = 0;                    //Time since the trigger was last triggered
+    private bool canBeTriggered = true;         //If timeSinceLastTrigger surpasses triggerDelay, this is set to true
 
-    public Color triggerColor = Color.white; //The color the orb should contain for it to be triggered
+    public Color triggerColor = Color.white;    //The color the orb should contain for it to be triggered
     public float triggerCharge;
     #endregion
 
@@ -73,7 +73,7 @@ public class Trigger : MonoBehaviour {
     // Function that is called when the player hits the trigger. The player asks the Trigger object to pleaseTrigger():
     public void pleaseTrigger()
     {
-        if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
+        if (triggerCount < maxTriggers && canBeTriggered)
         { //Trigger use limiter
             triggerCount++;
             canBeTriggered = false;
@@ -85,7 +85,7 @@ public class Trigger : MonoBehaviour {
     {
         if(currentCharge > triggerCharge)
         {
-            if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
+            if (triggerCount < maxTriggers && canBeTriggered)
             { //Trigger use limiter
                 triggerCount++;
                 canBeTriggered = false;
@@ -96,7 +96,7 @@ public class Trigger : MonoBehaviour {
 
     public void pleaseTrigger(float currentCharge, Color color)
     {
-        if (color == triggerColor && currentCharge > triggerCharge && canBeTriggered && triggerCount < maxTriggers || color == triggerColor && currentCharge > triggerCharge && canBeTriggered && maxTriggers == -1)
+        if (color == triggerColor && currentCharge > triggerCharge && canBeTriggered && triggerCount < maxTriggers)
         {
             triggerCount++;
             canBeTriggered = false;

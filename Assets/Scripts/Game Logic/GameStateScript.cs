@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using FMODUnity;
 
 //This script can keep track of stuff globally.
-
 
 public class GameStateScript : MonoBehaviour {
 
     //Mini soundtrack controller with FMOD:
-    private FMOD.Studio.Bus Master;
-    private FMOD.Studio.Bus Music;
-    private FMOD.Studio.Bus Sounds;
-    public float masterVolume = 1f;
-    public float musicVolume = 0.5f;
-    public float sfxVolume = 0.5f;
+
+    FMOD.Studio.Bus Master;
+    FMOD.Studio.Bus Music;
+    FMOD.Studio.Bus Sounds;
 
     [FMODUnity.EventRef]
     public string menuOST;
@@ -58,9 +56,9 @@ public class GameStateScript : MonoBehaviour {
 
     private void Awake()
     {
-        Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
-        Music = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
-        Sounds = FMODUnity.RuntimeManager.GetBus("bus:/Master/Sounds");
+        Master = RuntimeManager.GetBus("bus:/Master");
+        Music = RuntimeManager.GetBus("bus:/Master/Music");
+        Sounds = RuntimeManager.GetBus("bus:/Master/Sounds");
 
         if (instance == null) { instance = this; }
     }
@@ -68,9 +66,9 @@ public class GameStateScript : MonoBehaviour {
     //WORLD SCENE START EVENTS
     void Start()
     {
-        Music.setVolume(musicVolume);
-        Sounds.setVolume(sfxVolume);
-        Master.setVolume(masterVolume);
+        Music.setVolume(0.7f);
+        Sounds.setVolume(0.7f);
+        Master.setVolume(1.0f);
 
         domainsSong = FMODUnity.RuntimeManager.CreateInstance(domainsOST);
         seaEffect = FMODUnity.RuntimeManager.CreateInstance(seaSound);
