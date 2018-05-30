@@ -2,15 +2,59 @@
 
 public class OptionsScript : MonoBehaviour {
 
+    private FMOD.Studio.EventInstance SFXVolumeTestEvent;
+
+    private FMOD.Studio.Bus Music;
+    private FMOD.Studio.Bus Sounds;
+    private FMOD.Studio.Bus Master;
+    public float musicVolume = 0.5f;
+    public float sfxVolume = 0.5f;
+    public float masterVolume = 0.5f;
+
     [FMODUnity.EventRef]
     public string clicksound;
 
     private GameStateScript gameStateDataScriptRef; //Reference to the Game/Global World Scene State
 
+    void Awake()
+    {
+        //Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
+        Music = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
+        Sounds = FMODUnity.RuntimeManager.GetBus("bus:/Master/Sounds");
+        Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
+        SFXVolumeTestEvent = FMODUnity.RuntimeManager.CreateInstance("event:/Collectables/LargeGemGet");
+    }
+
     void Start()
     {
+        Music.setVolume(musicVolume);
+        Sounds.setVolume(sfxVolume);
+        Master.setVolume(masterVolume);
+
         //Reference Initializations:
         gameStateDataScriptRef = GameStateScript.instance;
+    }
+
+    public void MasterVolumeLevel(float newMasterVolume)
+    {
+        masterVolume = newMasterVolume;
+    }
+
+    public void MusicVolumeLevel(float newMusicVolume)
+    {
+        musicVolume = newMusicVolume;
+    }
+
+    public void SFXVolumeLevel(float newSFXVolume)
+    {
+        sfxVolume = newSFXVolume;
+
+        FMOD.Studio.PLAYBACK_STATE PbState;
+        SFXVolumeTestEvent.getPlaybackState(out PbState);
+        if (PbState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            SFXVolumeTestEvent.start();
+        }
     }
 
     public void GoToMainMenu()

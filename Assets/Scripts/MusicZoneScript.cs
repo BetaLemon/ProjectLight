@@ -26,7 +26,6 @@ public class MusicZoneScript : MonoBehaviour {
     void Update() {
         if (isPlaying && gameStateScript.getCurrentIndexPlaying() != areaMusicIndex) //Check if we're really still playing in the gamestate script
         {
-            Debug.Log("No longer playing index:" + areaMusicIndex);
              isPlaying = false;
         }
     }

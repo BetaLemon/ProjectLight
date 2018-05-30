@@ -7,13 +7,256 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000000095FD5328 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000000107727B88 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] PlaybackSystem::init                     : done
 [LOG] Thread::initThread                       : Init FMOD Studio bank load thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] Manager::init                            : done.
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 7284448
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 28576
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000017428F5FC
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCA7AFE4B0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCA7AFE480
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCA7AFE580
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCA7AFE640
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000000107FBFE58
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='click_menu_button', format=2, channels=2, frequency=48000, lengthbytes=1664, lengthpcm=6464, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.125234.
+[LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 00000001079C9948 : node = 00000000FB081B00
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000001079C9948
+[LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000FB081C18
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000001079C9948
+[LOG] SoundI::getSubSound                      : sound 00000001079C9948.  Subsound index 0 / 1
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] SoundI::release                          : Epitome - TitleTheme (00000000F0EBA118)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000FDB0FEF8)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (0000000011D77D38)
+[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (00000001079C9948)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000FDB10238)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000FDFED6C8)
+[LOG] SoundI::release                          :  (000000011F9662F8)
+[LOG] SoundI::release                          :     PuzzleSolved (00000000FDB0FA18)
+[LOG] SoundI::release                          :  (000000011F9630A8)
+[LOG] SoundI::release                          :     click_menu_button (00000000FDB122B8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000000014A38DC18 : node = 00000000F0DC0C30
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014A38DC18
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DC0D48
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014A38DC18
+[LOG] SoundI::getSubSound                      : sound 000000014A38DC18.  Subsound index 0 / 1
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000000014A38DDC8 : node = 00000000F0DBFB20
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014A38DDC8
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DBFC38
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014A38DDC8
+[LOG] SoundI::getSubSound                      : sound 000000014A38DDC8.  Subsound index 0 / 1
+[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (000000014A38DC18)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000FDB10238)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000001079C9948)
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000000014A38E7E8 : node = 00000000F0DC0C30
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014A38E7E8
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DC0D48
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='400632__inspectorj__ambience-seaside-waves-close-a', format=2, channels=2, frequency=48000, lengthbytes=3643328, lengthpcm=14438601, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.670046.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014A38E7E8
+[LOG] SoundI::getSubSound                      : sound 000000014A38E7E8.  Subsound index 0 / 1
+[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (000000014A38DDC8)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000FDB103D8)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000001079C9438)
+[LOG] SoundI::release                          : 400632__inspectorj__ambience-seaside-waves-close-a (000000014A38E7E8)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000000FDB0E9D8)
+[LOG] SoundI::release                          :     400632__inspectorj__ambience-seaside-waves-close-a (00000001079C9798)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000000014A38DC18 : node = 00000000F0DC0C30
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014A38DC18
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DC0D48
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TitleTheme', format=2, channels=2, frequency=48000, lengthbytes=988288, lengthpcm=4423680, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.445221.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014A38DC18
+[LOG] SoundI::getSubSound                      : sound 000000014A38DC18.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - TitleTheme (000000014A38DC18)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000FDB11758)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (00000001079C9948)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 00000000FDC32C08 : node = 00000000F0DC0C30
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000000FDC32C08
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DC0D48
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TowerOfEncarnations', format=2, channels=2, frequency=48000, lengthbytes=2499136, lengthpcm=9446400, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.618317.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000000FDC32C08
+[LOG] SoundI::getSubSound                      : sound 00000000FDC32C08.  Subsound index 0 / 1
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000000014A38DDC8 : node = 00000000F0DBF490
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000000014A38DDC8
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DBF5A8
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TowerOfEncarnations', format=2, channels=2, frequency=48000, lengthbytes=2499136, lengthpcm=9446400, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.618317.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000000014A38DDC8
+[LOG] SoundI::getSubSound                      : sound 000000014A38DDC8.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - TowerOfEncarnations (00000000FDC32C08)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (00000000FDB10238)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (000000014A38E488)
+[LOG] SystemI::createSound                     : filename = C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 0000000011D77828 : node = 00000000F0DC0C30
+[LOG] SystemI::createSound                     : add node to async list : head = 00000000FDB11BE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000000011D77828
+[LOG] SystemI::createSoundInternal             :     Create name='C:\Users\dylan\Desktop\PL Repo\FmodBuild\Desktop\Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6688
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000F0DC0D48
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TowerOfEncarnations', format=2, channels=2, frequency=48000, lengthbytes=2499136, lengthpcm=9446400, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.618317.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000000011D77828
+[LOG] SoundI::getSubSound                      : sound 0000000011D77828.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - TowerOfEncarnations (000000014A38DDC8)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (00000000FDB103D8)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (00000001079C8D78)
+[LOG] SoundI::release                          : Epitome - TowerOfEncarnations (0000000011D77828)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (00000000FDB11758)
+[LOG] SoundI::release                          :     Epitome - TowerOfEncarnations (000000014A38E128)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
+[LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
 [LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
 [LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
 [LOG] Manager::readBank                        : fileversion = 100, compatVersion = 99 (oldest = 44, newest = 100)
@@ -29,4 +272,6 @@
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
+[LOG] Thread::callback                         : FMOD file thread finished.
 [LOG] SystemI::close                           : Closed.
