@@ -29,12 +29,10 @@ public class IngameProgressScript : MonoBehaviour {
     public PlayerData[] playerData = new PlayerData[4];
     private int currentPlayer = -1;
 
-    public bool eraseFile = false;
-    public bool reloadData = false;
-    public bool saveToDisk = false;
-
     [Header("Area names:")]
     public string[] areaNames;
+
+    private bool dataWasLoaded = false;
 
     /*
     #region LocalPlayerData
@@ -80,13 +78,6 @@ public class IngameProgressScript : MonoBehaviour {
         //    MakeEmptyGameState(i);
         //    playerData[i] = LoadGameState(i);
         //}
-    }
-
-    void Update()
-    {
-        if (eraseFile) { SaveSystem.Initialize("Profile.bin"); eraseFile = false; }
-        if (reloadData) { LoadAllData(); reloadData = false; }
-        if (saveToDisk) { SaveSystem.SaveToDisk(); saveToDisk = false; }
     }
 
     #region DylanFunctions XD
@@ -171,7 +162,7 @@ public class IngameProgressScript : MonoBehaviour {
         SaveSystem.SetInt("p" + playerIndex + "-save-hour",     pd.hour);
         SaveSystem.SetInt("p" + playerIndex + "-save-minute",   pd.minute);
 
-        SaveSystem.SetBool("p" + playerIndex + "-isEmpty", false);
+        SaveSystem.SetBool("p" + playerIndex + "-isEmpty", pd.isEmpty);
 
         //SaveSystem.SaveToDisk();
     }
@@ -224,7 +215,6 @@ public class IngameProgressScript : MonoBehaviour {
         pd.saveSpawn = BaseWorldSpawn.position;
         pd.year = 0;
 
-
         playerData[playerIndex] = pd;
         SaveGameState(playerIndex);
     }
@@ -246,10 +236,12 @@ public class IngameProgressScript : MonoBehaviour {
         {
             playerData[i] = LoadGameState(i);
         }
+        dataWasLoaded = true;
     }
 
     public BoatController.BoatData GetBoatData(int playerIndex)
     {
+        if(!dataWasLoaded) LoadAllData();
         BoatController.BoatData bd;
         bd.areaName = areaNames[playerData[playerIndex].lastVisitedArea];
         bd.completedPuzzles = CountTrueBools(playerData[playerIndex].puzzleCompletions);
@@ -298,4 +290,6 @@ public class IngameProgressScript : MonoBehaviour {
         }
         return b;
     }
+
+    public void DataWasNotLoadedAnymore() { dataWasLoaded = false; }
 }

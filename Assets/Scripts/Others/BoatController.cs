@@ -110,6 +110,7 @@ public class BoatController : MonoBehaviour {
         downright.GetComponentInChildren<cakeslice.Outline>().enabled = false;
         downleft.GetComponentInChildren<cakeslice.Outline>().enabled = false;
         active = false;
+        IngameProgressScript.instance.DataWasNotLoadedAnymore();
     }
 
     void EnableBoats()
@@ -151,7 +152,7 @@ public class BoatController : MonoBehaviour {
         {
             areaText.text = bd.areaName;
             puzzleText.text = "Completed " + bd.completedPuzzles + " / " + totalPuzzleCount + " puzzles.";
-            dateText.text = bd.day + " / " + bd.month + " / " + bd.year + " - " + bd.hour + ":" + bd.minutes;
+            dateText.text = bd.day + " / " + bd.month + " / " + bd.year + " - " + FixHoursAndMinutes(bd.hour) + ":" + FixHoursAndMinutes(bd.minutes);
         }
     }
 
@@ -215,5 +216,14 @@ public class BoatController : MonoBehaviour {
         else if (x == 1 && y == 1) { return 2; }
         else if (x == 0 && y == 1) { return 3; }
         else return -1;
+    }
+
+    string FixHoursAndMinutes(int val)
+    {
+        if(val < 10)
+        {
+            return "0" + val;
+        }
+        else { return "" + val; }
     }
 }
