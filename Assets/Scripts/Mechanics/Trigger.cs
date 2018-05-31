@@ -22,7 +22,7 @@ public class Trigger : MonoBehaviour {
     private bool canBeTriggered = true;         // If timeSinceLastTrigger surpasses triggerDelay, this is set to true
 
     public Color triggerColor = Color.white;    // The color the orb should contain for it to be triggered
-    public float triggerChargeThreashold;                 // Charge threashold number for a trigger to occur
+    public float triggerChargeThreashold = 4.0f;// Charge threashold number for a trigger to occur
 
     private bool previousSegmentHigh = false;   // Was the charge higher than threashold in the previous frame?
     private bool currentSegmentHigh = false;    // Is the charge over the trigger or under it?
@@ -85,6 +85,14 @@ public class Trigger : MonoBehaviour {
 
     public void pleaseTrigger(float currentCharge) //Tigger with charge checking
     {
+        if (currentCharge >= triggerChargeThreashold)
+        {
+            currentSegmentHigh = true;
+        }
+        else if (currentCharge < triggerChargeThreashold)
+        {
+            currentSegmentHigh = false;
+        }
         if (currentSegmentHigh && previousSegmentHigh == false || currentSegmentHigh == false && previousSegmentHigh) //If we go up or down the threashold
         {
             if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
@@ -94,16 +102,7 @@ public class Trigger : MonoBehaviour {
                 TriggerAllObjects();
             }
         }
-        if (currentCharge >= triggerChargeThreashold)
-        {
-            currentSegmentHigh = true;
-            previousSegmentHigh = true;
-        }
-        else if (currentCharge < triggerChargeThreashold)
-        {
-            currentSegmentHigh = false;
-            previousSegmentHigh = false;
-        }
+        previousSegmentHigh = currentSegmentHigh; //Remember current segment for next iteration
     }
 
     public void pleaseTrigger(float currentCharge, Color color) //Trigger with charge and color checking
@@ -111,12 +110,10 @@ public class Trigger : MonoBehaviour {
         if (currentCharge >= triggerChargeThreashold)
         {
             currentSegmentHigh = true;
-            previousSegmentHigh = true;
         }
         else if (currentCharge < triggerChargeThreashold)
         {
             currentSegmentHigh = false;
-            previousSegmentHigh = false;
         }
 
         if (currentSegmentHigh && previousSegmentHigh == false || currentSegmentHigh == false && previousSegmentHigh) //If we go up or down the threashold
@@ -127,6 +124,8 @@ public class Trigger : MonoBehaviour {
                 canBeTriggered = false;
                 TriggerAllObjects();
             }
+        }
+        previousSegmentHigh = currentSegmentHigh; //Remember current segment for next iteration
     }
 
     public bool HasPuzzleCompletionTrigger()

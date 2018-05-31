@@ -8,7 +8,7 @@
 [LOG] Thread::initThread                       : Init FMOD stream thread. Priority: 2, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Priority: 3, Stack Size: 49152, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000000116171BA8 isAsync 1 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000000121D93888 isAsync 1 updatePeriod 0.02
 [LOG] Thread::initThread                       : Init FMOD Studio update thread. Priority: 0, Stack Size: 65536, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
@@ -26,15 +26,15 @@
 [LOG] SystemI::createSound                     : filename = FmodBuild\Desktop/Music.bank : mode 02010082
 [LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
 [LOG] Thread::initThread                       : Init FMOD nonblocking thread (0). Priority: 1, Stack Size: 81920, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
-[LOG] SystemI::createSound                     : setdata soundi = 0000000116049618 : node = 00000000ECAF2450
-[LOG] SystemI::createSound                     : add node to async list : head = 00000000BF6728E8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000000116049618
+[LOG] SystemI::createSound                     : setdata soundi = 0000000121A32908 : node = 000000010C50B540
+[LOG] SystemI::createSound                     : add node to async list : head = 000000010834C058.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000000121A32908
 [LOG] SystemI::createSoundInternal             :     Create name='FmodBuild\Desktop/Music.bank', mode=0x02010082
 [LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 232
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 10792384
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6432
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000000ECAF2568
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000010C50B658
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
@@ -43,26 +43,26 @@
 [LOG] SystemI::createSoundInternal             :     exinfo->length             = 7284448
 [LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 24096
 [LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000004CEAF5FC
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000000017B08F5FC
 [LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->useropen           = 00007FFCBC5EE4B0
-[LOG] SystemI::createSoundInternal             :     exinfo->userclose          = 00007FFCBC5EE480
-[LOG] SystemI::createSoundInternal             :     exinfo->userread           = 00007FFCBC5EE580
-[LOG] SystemI::createSoundInternal             :     exinfo->userseek           = 00007FFCBC5EE640
-[LOG] SystemI::createSoundInternal             :     exinfo->fileuserdata       = 00000000BFB19858
+[LOG] SystemI::createSoundInternal             :     exinfo->useropen           = 00007FFCD85FE4B0
+[LOG] SystemI::createSoundInternal             :     exinfo->userclose          = 00007FFCD85FE480
+[LOG] SystemI::createSoundInternal             :     exinfo->userread           = 00007FFCD85FE580
+[LOG] SystemI::createSoundInternal             :     exinfo->userseek           = 00007FFCD85FE640
+[LOG] SystemI::createSoundInternal             :     exinfo->fileuserdata       = 0000000108392B48
 [LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
 [LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Epitome - TitleTheme', format=2, channels=2, frequency=48000, lengthbytes=988288, lengthpcm=4423680, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.445221.
 [LOG] SystemI::DSPCodecPoolRegister            :     register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             :     Sample 0/1: name='PuzzleSolved', format=2, channels=2, frequency=48000, lengthbytes=17632, lengthpcm=184320, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.328491.
 [LOG] Thread::initThread                       :     Init FMOD file thread. Priority: 1, Stack Size: 16384, Semaphore: No, Sleep Time: 10, Looping: Yes.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000000116049618
-[LOG] SoundI::getSubSound                      : sound 0000000116049618.  Subsound index 0 / 1
-[LOG] SoundI::release                          : Epitome - TitleTheme (0000000116049618)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (00000000BF673CB8)
-[LOG] SoundI::release                          :     Epitome - TitleTheme (0000000116049978)
-[LOG] SoundI::release                          :  (00000001156CE7E8)
-[LOG] SoundI::release                          :     PuzzleSolved (00000000BF673E58)
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000000121A32908
+[LOG] SoundI::getSubSound                      : sound 0000000121A32908.  Subsound index 0 / 1
+[LOG] SoundI::release                          : Epitome - TitleTheme (0000000121A32908)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (000000010834D428)
+[LOG] SoundI::release                          :     Epitome - TitleTheme (0000000121A31318)
+[LOG] SoundI::release                          :  (0000000103903598)
+[LOG] SoundI::release                          :     PuzzleSolved (000000010834C0A8)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
