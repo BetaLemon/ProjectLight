@@ -10,15 +10,6 @@ public class RayFilter : MonoBehaviour
     public GameObject LightRayGeometry;   // Stores the cylinder that represents the player's light ray. Internally called LightRay.
     public LayerMask raycastLayer;
 
-    //-------- COLOR RESTRICTIONS (6) ---------
-    //Red: Color.red
-    //Yellow: Color.red + Color.green
-    //Green: Color.green
-    //Blue: Color.blue
-    //Purple: Color.red + Color.blue
-    //Pink: Color.red + Color.white
-    //-----------------------------------------
-
     public Color color;    //The color the filter will filter.
     private bool processing;
     public float filterWidth = 0.5f;
@@ -37,15 +28,17 @@ public class RayFilter : MonoBehaviour
         processing = true;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        LightRayGeometry.GetComponentInParent<LightRay>().color = color;    // Assigns the color to the outputting LightRay
+    }
+
     void Update()
     {
         if (processing)
         {
             hitPoint = hitPoint + (incomingVec.normalized) * filterWidth;
 
-            //print("LightRay being processed");
-            LightRayGeometry.GetComponentInParent<LightRay>().color = color;    // Assigns the color to the outputting LightRay
             LightRayGeometry.transform.position = hitPoint;                     // We set the LightRay's position to where the light hit.
             LightRayGeometry.transform.forward = incomingVec;                   // We make the LightRay look in the direction of the vector coming in vector.
             processing = false;                                                 // After this execution we won't be processing anymore.
@@ -61,7 +54,6 @@ public class RayFilter : MonoBehaviour
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
-                //print(rayHit.collider.gameObject.name);
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(hitPoint, rayHit.point) / 2);    // The length is the distance between the point of entering light
                                                                                                                             // and where the raycast hits on the other object.
             }
