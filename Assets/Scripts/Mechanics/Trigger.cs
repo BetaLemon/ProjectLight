@@ -137,4 +137,13 @@ public class Trigger : MonoBehaviour {
         }
         return has;
     }
+
+    public void MakeTrigger()
+    {
+        LightOrb orb = GetComponent<LightOrb>();
+        if (orb != null)
+        {
+            orb.SetOrbCharge(triggerCharge+1);
+        }
+    }
 }

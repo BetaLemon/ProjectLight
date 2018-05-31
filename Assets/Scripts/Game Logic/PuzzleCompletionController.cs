@@ -17,6 +17,7 @@ public class PuzzleCompletionController : MonoBehaviour {
 
     #region Variables
     private PuzzleState state;
+    private Trigger[] triggers;
     private int completedTriggers;
     private int neededTriggers;
     public bool shouldTriggerSomething = false;
@@ -29,7 +30,7 @@ public class PuzzleCompletionController : MonoBehaviour {
         completedTriggers = 0;
 
         // We need to get all triggers necessary for completing the level. They will have ourselves as triggeredObject.
-        Trigger[] triggers = GetComponentsInChildren<Trigger>();
+        triggers = GetComponentsInChildren<Trigger>();
         neededTriggers = 0;
         foreach(Trigger trigger in triggers)
         {
@@ -47,12 +48,11 @@ public class PuzzleCompletionController : MonoBehaviour {
 
     public void getTriggered() {
         completedTriggers++;
-        FMODUnity.RuntimeManager.PlayOneShot(puzzleCompleteSound);
     }
 
     public PuzzleState getState() { return state; }
 
-    void TriggerAllObjects()
+    void TriggerAllObjects(bool playSound)
     {
         //sDebug.Log("Triggered All Objects!");
         for (int i = 0; i < something.Length; i++)   // For all the objects in the array that need to be triggered:
@@ -74,6 +74,26 @@ public class PuzzleCompletionController : MonoBehaviour {
             {
                 puzCon.getTriggered();
             }
+
+            if (playSound)
+            {
+                // PLAY SOUND
+                FMODUnity.RuntimeManager.PlayOneShot(puzzleCompleteSound);
+            }
+        }
+    }
+
+    void TriggerAllObjects()
+    {
+        TriggerAllObjects(true);
+    }
+
+    public void TriggerOnLoad()
+    {
+        // Make all children trigger myself.
+        foreach(Trigger t in triggers)
+        {
+            t.MakeTrigger();
         }
     }
 }

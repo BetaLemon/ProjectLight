@@ -209,6 +209,7 @@ public class TutorialScript : MonoBehaviour {
     void FinishTutorial()
     {
         Player.instance.transform.position = gameStartSpawn.position;
+        IngameProgressScript.instance.PlayerNotEmptyAnymore();
         playerMove = true;
         SetPlayerMove();
         gameObject.SetActive(false);

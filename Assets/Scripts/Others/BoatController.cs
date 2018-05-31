@@ -13,9 +13,10 @@ public class BoatController : MonoBehaviour {
         public int year;
         public int hour;
         public int minutes;
-        public BoatData(string nam, int puz, int d, int m, int y, int h, int min)
+        public bool isEmpty;
+        public BoatData(string nam, int puz, int d, int m, int y, int h, int min, bool empty)
         {
-            areaName = nam; completedPuzzles = puz; day = d; month = m; year = y; hour = h; minutes = min;
+            areaName = nam; completedPuzzles = puz; day = d; month = m; year = y; hour = h; minutes = min; isEmpty = empty;
         }
     }
 
@@ -39,7 +40,7 @@ public class BoatController : MonoBehaviour {
     public TextMesh puzzleText;
     public TextMesh dateText;
 
-    public int totalPuzzleCount = 5;
+    private int totalPuzzleCount;
     private BoatData[,] boatData = new BoatData[2, 2];
 
     [Header("Others:")]
@@ -71,6 +72,10 @@ public class BoatController : MonoBehaviour {
         boats[1, 0] = upright;
         boats[1, 1] = downright;
         boats[0, 1] = downleft;
+
+        totalPuzzleCount = IngameProgressScript.instance.GetPuzzleCount();
+
+        LoadPlayerData();
     }
 	
 	// Update is called once per frame
@@ -84,16 +89,14 @@ public class BoatController : MonoBehaviour {
         UpdateBoats();
         SetUIPosition();
 
+        LoadPlayerData();
         //if (prevBoat != currentBoat) { }
 
-        BoatData bd = new BoatData("Here comes the area name.", 4, 15, 5, 2018, 15, 25);
-        BoatData bd1 = new BoatData("Kill me, plz.", 0, 15, 5, 2019, 09, 24);
-        BoatData bd2 = new BoatData("Dylan, Fear the Dark.", 5, 15, 2, 2016, 12, 35);
-        BoatData bd3 = new BoatData("Mom's spaghetti!", 3, 6, 1, 2017, 14, 26);
-        SetBoatData(0, 0, bd);
-        SetBoatData(1, 0, bd1);
-        SetBoatData(1, 1, bd2);
-        SetBoatData(0, 1, bd3);
+        //BoatData bd = new BoatData("Here comes the area name.", 4, 15, 5, 2018, 15, 25, false);
+        //BoatData bd1 = new BoatData("Kill me, plz.", 0, 15, 5, 2019, 09, 24, false);
+        //BoatData bd2 = new BoatData("Dylan, Fear the Dark.", 5, 15, 2, 2016, 12, 35, false);
+        //BoatData bd3 = new BoatData("Mom's spaghetti!", 3, 6, 1, 2017, 14, 26, false);
+        
         UpdateBoatText();
 
         CheckSubmit(keyboardSubmitKey);
@@ -109,6 +112,7 @@ public class BoatController : MonoBehaviour {
         downright.GetComponentInChildren<cakeslice.Outline>().enabled = false;
         downleft.GetComponentInChildren<cakeslice.Outline>().enabled = false;
         active = false;
+        IngameProgressScript.instance.DataWasNotLoadedAnymore();
     }
 
     void EnableBoats()
@@ -121,6 +125,7 @@ public class BoatController : MonoBehaviour {
         active = true;
         currentBoat[0] = 0; currentBoat[1] = 0;
         prevBoat = currentBoat; prevBoat[0] = 0;
+        LoadPlayerData();
     }
 
     void UpdateBoats()
@@ -138,14 +143,19 @@ public class BoatController : MonoBehaviour {
     void UpdateBoatText()
     {
         BoatData bd = boatData[currentBoat[0], currentBoat[1]];
-        areaText.text = bd.areaName;
-        puzzleText.text = "Completed " + bd.completedPuzzles + " / " + totalPuzzleCount + " puzzles.";
-        dateText.text = bd.day + " / " + bd.month + " / " + bd.year + " - " + bd.hour + ":" + bd.minutes;
-    }
 
-    void SetBoatData(int x, int y, BoatData bd)
-    {
-        boatData[x, y] = bd;
+        if (bd.isEmpty)
+        {
+            areaText.text = "";
+            puzzleText.text = "Empty File";
+            dateText.text = "";
+        }
+        else
+        {
+            areaText.text = bd.areaName;
+            puzzleText.text = "Completed " + bd.completedPuzzles + " / " + totalPuzzleCount + " puzzles.";
+            dateText.text = bd.day + " / " + bd.month + " / " + bd.year + " - " + FixHoursAndMinutes(bd.hour) + ":" + FixHoursAndMinutes(bd.minutes);
+        }
     }
 
     void LimitBoatIndex() {
@@ -167,7 +177,8 @@ public class BoatController : MonoBehaviour {
 
     void CheckSubmit(string axis)
     {
-        if (input.isPressed(axis)) { LoadBoat(); }
+        if (input.isPressed(axis)) { LoadBoat(currentBoat[0], currentBoat[1]); }
+        if(Input.GetKeyDown(KeyCode.F12)) { IngameProgressScript.instance.DeletePlayer(GetPlayerIndex(currentBoat[0], currentBoat[1])); LoadPlayerData(); }
     }
 
     void SetUIPosition()
@@ -181,11 +192,40 @@ public class BoatController : MonoBehaviour {
         boatUI.transform.position = newPos;
     }
 
-    void LoadBoat()
+    void LoadBoat(int x, int y)
     {
         DisableBoats();
         stateScript.SetSceneState(GameStateScript.SceneState.INGAME);
-        Player.instance.transform.position = BaseWorldSpawn.transform.position;
+
+        IngameProgressScript.instance.SetPlayer(GetPlayerIndex(x, y));
+
+        //Player.instance.transform.position = BaseWorldSpawn.transform.position;
         active = false;
+    }
+
+    void LoadPlayerData()
+    {
+        boatData[0, 0] = IngameProgressScript.instance.GetBoatData(0);
+        boatData[1, 0] = IngameProgressScript.instance.GetBoatData(1);
+        boatData[1, 1] = IngameProgressScript.instance.GetBoatData(2);
+        boatData[0, 1] = IngameProgressScript.instance.GetBoatData(3);
+    }
+
+    int GetPlayerIndex(int x, int y)
+    {
+        if (x == 0 && y == 0) { return 0; }
+        else if (x == 1 && y == 0) { return 1; }
+        else if (x == 1 && y == 1) { return 2; }
+        else if (x == 0 && y == 1) { return 3; }
+        else return -1;
+    }
+
+    string FixHoursAndMinutes(int val)
+    {
+        if(val < 10)
+        {
+            return "0" + val;
+        }
+        else { return "" + val; }
     }
 }

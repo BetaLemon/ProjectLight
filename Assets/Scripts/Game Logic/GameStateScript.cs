@@ -50,6 +50,8 @@ public class GameStateScript : MonoBehaviour {
     public GameObject MainMenuRef;
     public GameObject MainMenuCanvasRef;
     public GameObject OptionsRef;
+    public GameObject BackToGameButton;
+    public GameObject SaveGameButton;
     public GameObject HudRef;
 
     public static GameStateScript instance;
@@ -131,7 +133,12 @@ public class GameStateScript : MonoBehaviour {
             MainMenuRef.SetActive(true);
             MainMenuCanvasRef.SetActive(true);
 
+<<<<<<< HEAD
             OptionsRef.transform.GetChild(5).gameObject.SetActive(false); //Disactivates the back to game button since we're on the main menu and game is not active
+=======
+            BackToGameButton.SetActive(false); //Disactivates the back to game button since we're on the main menu and game is not active
+            SaveGameButton.SetActive(false);
+>>>>>>> lemon
         }
         else if (state == SceneState.OPTIONS)
         {
@@ -140,8 +147,14 @@ public class GameStateScript : MonoBehaviour {
             if (side) //Stuff that happens only if you come from the game
             {
                 PauseGame(true);
+<<<<<<< HEAD
                 OptionsRef.transform.GetChild(5).gameObject.SetActive(true); //Activates the back to game button
+=======
+                SaveGameButton.SetActive(true);
+                BackToGameButton.SetActive(true); //Activates the back to game button
+>>>>>>> lemon
             }
+            else SaveGameButton.SetActive(false);
         }
         else if (state == SceneState.FILESELECT)
         {
