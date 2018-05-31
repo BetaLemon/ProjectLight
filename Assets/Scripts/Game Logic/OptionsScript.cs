@@ -121,12 +121,14 @@ public class OptionsScript : MonoBehaviour
     }
     public void OptionsMode(bool tf) //Activates(true)/Disactivates(false) back to menu confirmation so the player doesn't leave by mistake (Options divided in two states basically)
     {
-        transform.GetChild(0).gameObject.SetActive(!tf); //Volume
-        transform.GetChild(1).gameObject.SetActive(!tf); //Exit
-        transform.GetChild(2).gameObject.SetActive(!tf); //BackToGame
-        transform.GetChild(3).gameObject.SetActive(tf); //AreYouSureYouWantToLeave
-        transform.GetChild(4).gameObject.SetActive(tf); //YES
-        transform.GetChild(5).gameObject.SetActive(tf); //NO
+        transform.GetChild(0).gameObject.SetActive(!tf); //TextSettings
+        transform.GetChild(1).gameObject.SetActive(!tf); //Settings
+        transform.GetChild(2).gameObject.SetActive(!tf); //TextVolume
+        transform.GetChild(3).gameObject.SetActive(!tf); //Volume
+        transform.GetChild(4).gameObject.SetActive(!tf); //Exit
+        transform.GetChild(6).gameObject.SetActive(tf); //AreYouSureYouWantToLeave
+        transform.GetChild(7).gameObject.SetActive(tf); //YES
+        transform.GetChild(8).gameObject.SetActive(tf); //NO
     }
 
 }
