@@ -17,7 +17,7 @@ public class Trigger : MonoBehaviour {
     [Tooltip("-1 for infinite")]
     public int maxTriggers = -1;                // Maximum ammount of times it can be triggered
 
-    private float triggerDelay;                 // Delay before next trigger usage
+    public float triggerDelay = 1;                 // Delay before next trigger usage
     private float timer = 0;                    // Time since the trigger was last triggered
     private bool canBeTriggered = true;         // If timeSinceLastTrigger surpasses triggerDelay, this is set to true
 
@@ -29,7 +29,7 @@ public class Trigger : MonoBehaviour {
     #endregion
 
     void Start () {
-        triggerDelay = Time.deltaTime * 120; //Setting the trigger delay between triggers on start, since unity recommends this.
+        //triggerDelay = Time.deltaTime * 120; //Setting the trigger delay between triggers on start, since unity recommends this.
     }
 	
 	void Update () {
