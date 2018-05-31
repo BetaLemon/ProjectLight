@@ -9,20 +9,23 @@ public class Trigger : MonoBehaviour {
     // Script that allows objects to react to the player's lightshaft. This allows it to trigger things, thus the name.
 
     #region Variables
-    public GameObject[] triggeredObjects;   // Objects that will be triggered.
+    public GameObject[] triggeredObjects;       // Objects that will be triggered.
     public TriggerType type;
     [Range(0, 10)]
 
-    private int triggerCount = 0;    //Times the trigger has been triggered
+    private int triggerCount = 0;               // Times the trigger has been triggered
     [Tooltip("-1 for infinite")]
-    public int maxTriggers = -1;     //Maximum ammount of times it can be triggered
+    public int maxTriggers = -1;                // Maximum ammount of times it can be triggered
 
-    private float triggerDelay;      //Delay before next trigger usage
-    private float timer = 0;        //Time since the trigger was last triggered
-    private bool canBeTriggered = true; //If timeSinceLastTrigger surpasses triggerDelay, this is set to true
+    private float triggerDelay;                 // Delay before next trigger usage
+    private float timer = 0;                    // Time since the trigger was last triggered
+    private bool canBeTriggered = true;         // If timeSinceLastTrigger surpasses triggerDelay, this is set to true
 
-    public Color triggerColor = Color.white; //The color the orb should contain for it to be triggered
-    public float triggerCharge;
+    public Color triggerColor = Color.white;    // The color the orb should contain for it to be triggered
+    public float triggerChargeThreashold;                 // Charge threashold number for a trigger to occur
+
+    private bool previousSegmentHigh = false;   // Was the charge higher than threashold in the previous frame?
+    private bool currentSegmentHigh = false;    // Is the charge over the trigger or under it?
     #endregion
 
     void Start () {
@@ -70,8 +73,7 @@ public class Trigger : MonoBehaviour {
         }
     }
 
-    // Function that is called when the player hits the trigger. The player asks the Trigger object to pleaseTrigger():
-    public void pleaseTrigger()
+    public void pleaseTrigger() //Direct trigger, no checks envolved except base trigger restrictions
     {
         if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
         { //Trigger use limiter
@@ -81,9 +83,9 @@ public class Trigger : MonoBehaviour {
         }
     }
 
-    public void pleaseTrigger(float currentCharge)
+    public void pleaseTrigger(float currentCharge) //Tigger with charge checking
     {
-        if(currentCharge > triggerCharge)
+        if (currentSegmentHigh && previousSegmentHigh == false || currentSegmentHigh == false && previousSegmentHigh) //If we go up or down the threashold
         {
             if (triggerCount < maxTriggers && canBeTriggered || maxTriggers == -1 && canBeTriggered)
             { //Trigger use limiter
@@ -92,16 +94,39 @@ public class Trigger : MonoBehaviour {
                 TriggerAllObjects();
             }
         }
+        if (currentCharge >= triggerChargeThreashold)
+        {
+            currentSegmentHigh = true;
+            previousSegmentHigh = true;
+        }
+        else if (currentCharge < triggerChargeThreashold)
+        {
+            currentSegmentHigh = false;
+            previousSegmentHigh = false;
+        }
     }
 
-    public void pleaseTrigger(float currentCharge, Color color)
+    public void pleaseTrigger(float currentCharge, Color color) //Trigger with charge and color checking
     {
-        if (color == triggerColor && currentCharge > triggerCharge && canBeTriggered && triggerCount < maxTriggers || color == triggerColor && currentCharge > triggerCharge && canBeTriggered && maxTriggers == -1)
+        if (currentCharge >= triggerChargeThreashold)
         {
-            triggerCount++;
-            canBeTriggered = false;
-            TriggerAllObjects();
+            currentSegmentHigh = true;
+            previousSegmentHigh = true;
         }
+        else if (currentCharge < triggerChargeThreashold)
+        {
+            currentSegmentHigh = false;
+            previousSegmentHigh = false;
+        }
+
+        if (currentSegmentHigh && previousSegmentHigh == false || currentSegmentHigh == false && previousSegmentHigh) //If we go up or down the threashold
+        {
+            if (color == triggerColor && currentCharge > triggerChargeThreashold && canBeTriggered && triggerCount < maxTriggers || color == triggerColor && currentCharge > triggerChargeThreashold && canBeTriggered && maxTriggers == -1)
+            {
+                triggerCount++;
+                canBeTriggered = false;
+                TriggerAllObjects();
+            }
     }
 
     public bool HasPuzzleCompletionTrigger()
