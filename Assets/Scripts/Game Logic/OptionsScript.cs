@@ -8,6 +8,9 @@ public class OptionsScript : MonoBehaviour
     Resolution[] resolutions;
     public Dropdown resolutionDropdown;
 
+    public GameObject[] HUDElements;
+    public GameObject[] HUDInvertedElements;
+
     [FMODUnity.EventRef]
     public string clicksound;
 
@@ -121,6 +124,16 @@ public class OptionsScript : MonoBehaviour
     }
     public void OptionsMode(bool tf) //Activates(true)/Disactivates(false) back to menu confirmation so the player doesn't leave by mistake (Options divided in two states basically)
     {
+        foreach(GameObject go in HUDElements)
+        {
+            go.SetActive(tf);
+        }
+
+        foreach(GameObject go in HUDInvertedElements)
+        {
+            go.SetActive(!tf);
+        }
+        /*
 <<<<<<< HEAD
         transform.GetChild(0).gameObject.SetActive(!tf); //TextSettings
         transform.GetChild(1).gameObject.SetActive(!tf); //Settings
@@ -139,5 +152,6 @@ public class OptionsScript : MonoBehaviour
         transform.GetChild(5).gameObject.SetActive(tf); //YES
         transform.GetChild(6).gameObject.SetActive(tf); //NO
 >>>>>>> lemon
+*/
     }
 }

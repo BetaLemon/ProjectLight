@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
-using FMODUnity;
 
 //This script can keep track of stuff globally.
 
-public class GameStateScript : MonoBehaviour {
+
+public class GameStateScript : MonoBehaviour
+{
 
     //Mini soundtrack controller with FMOD:
-
-    FMOD.Studio.Bus Master;
-    FMOD.Studio.Bus Music;
-    FMOD.Studio.Bus Sounds;
 
     [FMODUnity.EventRef]
     public string menuOST;
@@ -58,20 +55,12 @@ public class GameStateScript : MonoBehaviour {
 
     private void Awake()
     {
-        Master = RuntimeManager.GetBus("bus:/Master");
-        Music = RuntimeManager.GetBus("bus:/Master/Music");
-        Sounds = RuntimeManager.GetBus("bus:/Master/Sounds");
-
         if (instance == null) { instance = this; }
     }
 
     //WORLD SCENE START EVENTS
     void Start()
     {
-        Music.setVolume(0.7f);
-        Sounds.setVolume(0.7f);
-        Master.setVolume(1.0f);
-
         domainsSong = FMODUnity.RuntimeManager.CreateInstance(domainsOST);
         seaEffect = FMODUnity.RuntimeManager.CreateInstance(seaSound);
         plainsSong = FMODUnity.RuntimeManager.CreateInstance(plainsOST);
@@ -133,12 +122,8 @@ public class GameStateScript : MonoBehaviour {
             MainMenuRef.SetActive(true);
             MainMenuCanvasRef.SetActive(true);
 
-<<<<<<< HEAD
-            OptionsRef.transform.GetChild(5).gameObject.SetActive(false); //Disactivates the back to game button since we're on the main menu and game is not active
-=======
             BackToGameButton.SetActive(false); //Disactivates the back to game button since we're on the main menu and game is not active
             SaveGameButton.SetActive(false);
->>>>>>> lemon
         }
         else if (state == SceneState.OPTIONS)
         {
@@ -147,12 +132,8 @@ public class GameStateScript : MonoBehaviour {
             if (side) //Stuff that happens only if you come from the game
             {
                 PauseGame(true);
-<<<<<<< HEAD
-                OptionsRef.transform.GetChild(5).gameObject.SetActive(true); //Activates the back to game button
-=======
                 SaveGameButton.SetActive(true);
                 BackToGameButton.SetActive(true); //Activates the back to game button
->>>>>>> lemon
             }
             else SaveGameButton.SetActive(false);
         }

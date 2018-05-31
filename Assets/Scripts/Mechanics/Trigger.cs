@@ -143,7 +143,8 @@ public class Trigger : MonoBehaviour {
         LightOrb orb = GetComponent<LightOrb>();
         if (orb != null)
         {
-            orb.SetOrbCharge(triggerCharge+1);
+            if (currentSegmentHigh) { pleaseTrigger(triggerChargeThreashold - 1); }
+            else { pleaseTrigger(triggerChargeThreashold + 1); }
         }
     }
 }
