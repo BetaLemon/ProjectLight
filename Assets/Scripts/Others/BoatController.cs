@@ -40,7 +40,7 @@ public class BoatController : MonoBehaviour {
     public TextMesh puzzleText;
     public TextMesh dateText;
 
-    public int totalPuzzleCount = 5;
+    private int totalPuzzleCount;
     private BoatData[,] boatData = new BoatData[2, 2];
 
     [Header("Others:")]
@@ -72,6 +72,8 @@ public class BoatController : MonoBehaviour {
         boats[1, 0] = upright;
         boats[1, 1] = downright;
         boats[0, 1] = downleft;
+
+        totalPuzzleCount = IngameProgressScript.instance.GetPuzzleCount();
 
         LoadPlayerData();
     }

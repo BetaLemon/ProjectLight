@@ -11,6 +11,8 @@ public class IngameProgressScript : MonoBehaviour {
         public bool[] habilities;
         public bool[] achievements;
         public bool[] areas;
+        public int largeGems;
+        public int smallGems;
         public Vector3 saveSpawn;
         public Vector3 playerPosition;
         public int lastVisitedArea;
@@ -18,11 +20,13 @@ public class IngameProgressScript : MonoBehaviour {
         public bool isEmpty;
     }
 
-    public int puzzleCount = 14;
+    public int puzzleCount = 16;
     public int bossCount = 2;
     public int habilityCount = 1;
     public int achievementCount = 1;
     public int areaCount = 4;
+
+    public PuzzleCompletionController[] puzzleControllers;
 
     public Transform BaseWorldSpawn;
 
@@ -78,6 +82,7 @@ public class IngameProgressScript : MonoBehaviour {
         //    MakeEmptyGameState(i);
         //    playerData[i] = LoadGameState(i);
         //}
+        puzzleCount = puzzleControllers.Length;
     }
 
     #region DylanFunctions XD
@@ -148,6 +153,8 @@ public class IngameProgressScript : MonoBehaviour {
         SaveSystem.SetString("p" + playerIndex + "-achievements",       BoolToString(pd.achievements));
         SaveSystem.SetString("p" + playerIndex + "-areas",              BoolToString(pd.areas));
         SaveSystem.SetInt("p" + playerIndex + "-lastVisitedArea",       pd.lastVisitedArea);
+        SaveSystem.SetInt("p" + playerIndex + "-largeGems",             pd.largeGems);
+        SaveSystem.SetInt("p" + playerIndex + "-smallGems",             pd.smallGems);
 
         System.DateTime dt = System.DateTime.Now;
         pd.day = dt.Day;
@@ -185,6 +192,9 @@ public class IngameProgressScript : MonoBehaviour {
         pd.areas = StringToBool(SaveSystem.GetString("p" + playerIndex + "-areas"));
         pd.lastVisitedArea = SaveSystem.GetInt("p" + playerIndex + "-lastVisitedArea");
 
+        pd.largeGems = SaveSystem.GetInt("p" + playerIndex + "-largeGems");
+        pd.smallGems = SaveSystem.GetInt("p" + playerIndex + "-smallGems");
+
         pd.day = SaveSystem.GetInt("p" + playerIndex + "-save-day");
         pd.month = SaveSystem.GetInt("p" + playerIndex + "-save-month");
         pd.year = SaveSystem.GetInt("p" + playerIndex + "-save-year");
@@ -214,6 +224,8 @@ public class IngameProgressScript : MonoBehaviour {
         pd.puzzleCompletions = new bool[puzzleCount];
         pd.saveSpawn = BaseWorldSpawn.position;
         pd.year = 0;
+        pd.smallGems = 0;
+        pd.largeGems = 0;
 
         playerData[playerIndex] = pd;
         SaveGameState(playerIndex);
@@ -226,6 +238,8 @@ public class IngameProgressScript : MonoBehaviour {
         currentPlayer = playerIndex;
         Player.instance.transform.position = playerData[playerIndex].playerPosition;
         if(playerData[currentPlayer].isEmpty) { TutorialController.instance.StartTutorial(); }
+        UpdatePuzzles(playerData[currentPlayer].puzzleCompletions);
+        UpdateGems(playerData[currentPlayer].largeGems, playerData[currentPlayer].smallGems);
     }
 
     public void PlayerNotEmptyAnymore() { playerData[currentPlayer].isEmpty = false; }
@@ -255,6 +269,10 @@ public class IngameProgressScript : MonoBehaviour {
         return bd;
     }
 
+    public int GetPuzzleCount() { return puzzleControllers.Length; }
+
+    #region TypeFunctions
+
     int CountTrueBools(bool[] b)
     {
         if (b == null) return 0;
@@ -274,13 +292,11 @@ public class IngameProgressScript : MonoBehaviour {
             if(puz[i]) { st += "1"; }
             else { st += "0"; }
         }
-        Debug.Log("BoolToString: " + st);
         return st;
     }
 
     bool[] StringToBool(string st)
     {
-        Debug.Log("StringToBool: " + st);
         bool[] b = new bool[st.Length];
         char[] c = st.ToCharArray();
         for(int i = 0; i < c.Length; i++)
@@ -290,6 +306,22 @@ public class IngameProgressScript : MonoBehaviour {
         }
         return b;
     }
+    #endregion
 
     public void DataWasNotLoadedAnymore() { dataWasLoaded = false; }
+
+    void UpdatePuzzles(bool[] puz)
+    {
+        int count = 0;
+        for(int i = 0; i < puzzleControllers.Length; i++)
+        {
+            if (puz[i] && puzzleControllers[i] != null) { puzzleControllers[i].TriggerOnLoad(); Debug.Log(count++); }
+        }
+    }
+
+    void UpdateGems(int large, int small)
+    {
+        Player.instance.gemstones = large;
+        Player.instance.smallGemstones = small;
+    }
 }

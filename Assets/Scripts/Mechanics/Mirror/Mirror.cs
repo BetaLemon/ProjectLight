@@ -62,7 +62,6 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
                 Debug.DrawRay(hitPoint, reflectVec.normalized * rayHit.distance, Color.green);
-                Debug.Log(rayHit.distance);
                 LightRayGeometry.transform.localScale = new Vector3(8, 8, rayHit.distance/2);      // The length is the distance between the point of entering light
                                                                                                                         // and where the raycast hits on the other object.
             }
