@@ -7,7 +7,8 @@ public class DialogueLaunch : MonoBehaviour
     private bool nowInteract = false;
     public ConversationDisplayer textCanvasTextRef;
     public Cinemachine.CinemachineVirtualCamera npcCamRef;
-    public GameObject playerRef;
+    private GameObject playerRef;
+    private Animator animator;
     public int priorityOnEnter = 10;
 
     private void Start()
@@ -16,6 +17,7 @@ public class DialogueLaunch : MonoBehaviour
         //textCanvasTextRef = GameObject.Find("SimpleHud").transform.GetChild(4).gameObject.transform.GetChild(1).gameObject.GetComponent<ConversationDisplayer>();
         // This does the same, and actually is much more reliable:
         textCanvasTextRef = FindObjectOfType<ConversationDisplayer>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter(Collider other) //Función que da la oportunidad de hablar con un npc
@@ -23,7 +25,7 @@ public class DialogueLaunch : MonoBehaviour
 
         if (other.gameObject.tag == "Player") //Si el objeto que ha causado la colision es el mago
         {
-            playerRef = GameObject.FindWithTag("Player");
+            playerRef = Player.instance.gameObject;
             nowInteract = true; //Ahora si podemos pulsar enter para activar el dialogo desde el update
         }
     }
@@ -52,6 +54,8 @@ public class DialogueLaunch : MonoBehaviour
                 npcCamRef.Priority = priorityOnEnter;
             }
         }
+        if (Panel.instance.ConversationInProgress()) { animator.SetBool("Talking", true); }
+        else { animator.SetBool("Talking", false); }
     }
 
     public void StartConv()
