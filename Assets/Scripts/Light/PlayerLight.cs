@@ -111,20 +111,21 @@ public class PlayerLight : MonoBehaviour {
                     if (tmpHit.collider != null) // If something was hit:
                     {
                         //Check at what distance the intersection happened:
-                        float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
-                        if (distCylPosHitPos / 2 > maxLightCylinderScale)
+                        //float distCylPosHitPos = Vector3.Distance(GetComponent<PlayerInteraction>().getRayHit().point, lightCylinder.transform.position);
+                        float distCylPosHitPos = GetComponent<PlayerInteraction>().getRayHit().distance;
+                        if (distCylPosHitPos > maxLightCylinderScale)
                         {
-                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, maxLightCylinderScale);
+                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, maxLightCylinderScale/2);
                         }
                         else
                         {
-                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, distCylPosHitPos / 2);
+                            lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, distCylPosHitPos/2);
                         }
 
                     }
                     else    // Else, if nothing was hit:
                     {
-                        lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, Lerp(maxLightCylinderScale, 0.5f, lightCylinder.transform.localScale.z));
+                        lightCylinder.transform.localScale = new Vector3(cylinderRadius, cylinderRadius, Lerp(maxLightCylinderScale/2, 0.5f, lightCylinder.transform.localScale.z));
                     }
                     LightMouseMovement(prevMousePos, mousePos);
                     break;

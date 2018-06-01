@@ -23,6 +23,7 @@ public class LightRay : MonoBehaviour {
     {
         amount = 0.05f; //GetComponent<PlayerLight>().healthDrainAmmount;
         mr = LightRayGeometry.GetComponent<MeshRenderer>();
+        if(mr == null) mr = LightRayGeometry.GetComponentInChildren<MeshRenderer>();
         ChangeColor();
     }
 

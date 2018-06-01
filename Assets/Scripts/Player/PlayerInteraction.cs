@@ -8,20 +8,19 @@ public class PlayerInteraction : MonoBehaviour {
 
     public LayerMask raycastLayers;
 
-    public GameObject CylindricLight;
     public GameObject LightRayGeometry;
 
     public GameObject BaseWorldSpawnRef;
 
     float timer = 0;
-    float selectDelay = 20; //Change highlighted file delay in frames
-    int highlightedFilenum; //File 1 to 4 index
-    private bool[] highlightedFile = new bool[2]; //The file selector is treated as a very simple 2x2 boolean slot matrix: Left slot = false means left column, Right slot = false means higher row
-    public GameObject SelectorEnvironment;
-    public GameObject FileSelectorBoat1;
-    public GameObject FileSelectorBoat2;
-    public GameObject FileSelectorBoat3;
-    public GameObject FileSelectorBoat4;
+    //float selectDelay = 20; //Change highlighted file delay in frames
+    //int highlightedFilenum; //File 1 to 4 index
+    //private bool[] highlightedFile = new bool[2]; //The file selector is treated as a very simple 2x2 boolean slot matrix: Left slot = false means left column, Right slot = false means higher row
+    //public GameObject SelectorEnvironment;
+    //public GameObject FileSelectorBoat1;
+    //public GameObject FileSelectorBoat2;
+    //public GameObject FileSelectorBoat3;
+    //public GameObject FileSelectorBoat4;
 
     private RaycastHit rayHit;
     bool prevBaseInteraction;
@@ -40,19 +39,19 @@ public class PlayerInteraction : MonoBehaviour {
     void Start () {
 
         //Reference Initializations:
-        gameStateDataScriptRef = GameObject.Find("GameState").GetComponent<GameStateScript>();
+        gameStateDataScriptRef = GameStateScript.instance;
         BaseWorldSpawnRef = GameObject.Find("BaseWorldSpawn");
 
         //File selector: Default upper left boat selected
-        highlightedFilenum = 1;
-        highlightedFile[0] = false;
-        highlightedFile[1] = false;
+        //highlightedFilenum = 1;
+        //highlightedFile[0] = false;
+        //highlightedFile[1] = false;
 
-        SelectorEnvironment = GameObject.Find("MENU_PORT");
-        FileSelectorBoat1 = SelectorEnvironment.transform.GetChild(0).gameObject;
-        FileSelectorBoat2 = SelectorEnvironment.transform.GetChild(1).gameObject;
-        FileSelectorBoat3 = SelectorEnvironment.transform.GetChild(2).gameObject;
-        FileSelectorBoat4 = SelectorEnvironment.transform.GetChild(3).gameObject;
+        //SelectorEnvironment = GameObject.Find("MENU_PORT");
+        //FileSelectorBoat1 = SelectorEnvironment.transform.GetChild(0).gameObject;
+        //FileSelectorBoat2 = SelectorEnvironment.transform.GetChild(1).gameObject;
+        //FileSelectorBoat3 = SelectorEnvironment.transform.GetChild(2).gameObject;
+        //FileSelectorBoat4 = SelectorEnvironment.transform.GetChild(3).gameObject;
 
         input = PlayerInput.instance;
         light = GetComponent<PlayerLight>();
@@ -77,7 +76,7 @@ public class PlayerInteraction : MonoBehaviour {
             pressedBaseInteraction = input.isPressed("BaseInteraction");
 
             /// PASSIVE INTERACTION (Sphere Light)
-            Collider[] hitColliders = Physics.OverlapSphere(CylindricLight.transform.position, GetComponent<PlayerLight>().lightSphere.range - 3); //(Sphere center, Radius)
+            Collider[] hitColliders = Physics.OverlapSphere(LightRayGeometry.transform.position, GetComponent<PlayerLight>().lightSphere.range - 3); //(Sphere center, Radius)
             int tmp = 0;
             for (int i = 0; i < hitColliders.Length; i++)
             {
@@ -171,10 +170,11 @@ public class PlayerInteraction : MonoBehaviour {
         /// ACTIVE INTERACTION (Cylinder LightRay)
         if (GetComponent<PlayerLight>().getLightMode() == PlayerLight.LightMode.FAR) // If the player uses the Cylinder Light.
         {
-            Debug.DrawRay(CylindricLight.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale * 2, Color.red);
-            if (Physics.Raycast(CylindricLight.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale * 2))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
+            //LightRayGeometry.transform.localScale = new Vector3(8, 8, light.maxLightCylinderScale * 2);
+            Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward * light.maxLightCylinderScale, Color.red);
+            if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, light.maxLightCylinderScale))  //(vec3 Origin, vec3direction, vec3 output on intersection) If Raycast hits a collider.
             {
-                float distCylPosHitPos = Vector3.Distance(getRayHit().point, CylindricLight.transform.position);
+                //float distCylPosHitPos = Vector3.Distance(getRayHit().point, LightRayGeometry.transform.position);
 
                 // Specific game object interactions with light cylinder:
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { Mirror(rayHit); } //Reflect mirror light
@@ -183,6 +183,9 @@ public class PlayerInteraction : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("Trigger")) { TriggerTrigger(rayHit); }
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
                 if (rayHit.collider.gameObject.CompareTag("Prism")) { Prism(rayHit); }
+
+                //LightRayGeometry.transform.localScale = new Vector3(8, 8, distCylPosHitPos);
+                Debug.Log("Collided: " + rayHit.collider.name + " at: " + rayHit.distance);
             }
         }
     }
@@ -202,16 +205,16 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Mirror(RaycastHit mirrorHit)
     {
-        Vector3 inVec = mirrorHit.point - CylindricLight.transform.position;
+        Vector3 inVec = mirrorHit.point - LightRayGeometry.transform.position;
         mirrorHit.collider.GetComponentInParent<Mirror>().Reflect(inVec, mirrorHit.normal, mirrorHit.point, Color.white);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
+        //LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(mirrorHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 
     void Filter(RaycastHit filterHit)
     {
-        Vector3 inVec = filterHit.point - CylindricLight.transform.position;
+        Vector3 inVec = filterHit.point - LightRayGeometry.transform.position;
         filterHit.collider.GetComponentInParent<RayFilter>().Process(inVec, filterHit.point);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
+        //LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(filterHit.point, LightRayGeometry.transform.position) / 2); // Limit the light ray's length to the object
     }
 
     void TriggerTrigger(RaycastHit rh)
@@ -221,9 +224,9 @@ public class PlayerInteraction : MonoBehaviour {
 
     void Prism(RaycastHit rh)
     {
-        Vector3 inVec = rh.point - CylindricLight.transform.position;
+        Vector3 inVec = rh.point - LightRayGeometry.transform.position;
         rh.collider.GetComponentInParent<Prism>().Process(inVec, rh.point, rh.normal);
-        LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));
+        //LightRayGeometry.transform.localScale = new Vector3(8, 8, Vector3.Distance(rh.point, LightRayGeometry.transform.position));
     }
 
     public RaycastHit getRayHit()

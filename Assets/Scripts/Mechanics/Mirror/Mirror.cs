@@ -28,6 +28,8 @@ public class Mirror : MonoBehaviour {
     
     private RaycastHit rayHit;               // Saves the hit when the raycast intersects with a collider.
     private bool hitOtherMirror = false;     // Stores specifically if a mirror has been hit.
+
+    private int maxRayDistance = 30;
     
     // Function that is called when a raycast has hit our mirror and a reflection is expected:
     public void Reflect(Vector3 inVec, Vector3 normal, Vector3 point, Color inColor)   // Parameters actually come from the Raycast.
@@ -53,7 +55,7 @@ public class Mirror : MonoBehaviour {
             float amount = FindObjectOfType<PlayerLight>().healthDrainAmmount;
 
             //Debug.DrawRay(hitPoint, reflectVec * 1000, Color.blue);            // For debugging reasons, we display the ray.
-            if (Physics.Raycast(hitPoint, reflectVec, out rayHit))      // If our casted ray hits something:
+            if (Physics.Raycast(LightRayGeometry.transform.position, LightRayGeometry.transform.forward, out rayHit, maxRayDistance))      // If our casted ray hits something:
             {   
                 if (rayHit.collider.gameObject.CompareTag("Mirror")) { OtherMirror(rayHit); hitOtherMirror = true; }    // If we have hit a Mirror -> OtherMirror(). Hit mirror!
                 if (rayHit.collider.gameObject.CompareTag("Filter")) { Filter(rayHit); } //Process light ray
@@ -61,14 +63,15 @@ public class Mirror : MonoBehaviour {
                 if (rayHit.collider.gameObject.CompareTag("LightOrb")) { rayHit.collider.GetComponentInParent<LightOrb>().ChargeOrb(color,amount); } //Charge the light orb
                 if (rayHit.collider.gameObject.CompareTag("BlackInsect")) { BlackInsect(rayHit.collider); }
 
-                Debug.DrawRay(hitPoint, reflectVec.normalized * rayHit.distance, Color.green);
-                LightRayGeometry.transform.localScale = new Vector3(8, 8, rayHit.distance/2);      // The length is the distance between the point of entering light
+                Debug.DrawRay(LightRayGeometry.transform.position, LightRayGeometry.transform.forward.normalized * rayHit.distance, Color.green);
+                if(rayHit.distance < maxRayDistance) LightRayGeometry.transform.localScale = new Vector3(8, 8, rayHit.distance);      // The length is the distance between the point of entering light
+                else { LightRayGeometry.transform.localScale = new Vector3(8, 8, maxRayDistance); }
                                                                                                                         // and where the raycast hits on the other object.
             }
             else   // If our ray didn't hit shit...
             {
                 // ... then, well, nothing was hit:
-                LightRayGeometry.transform.localScale = new Vector3(8, 8, 15);  // Set to max length.
+                LightRayGeometry.transform.localScale = new Vector3(8, 8, maxRayDistance/2);  // Set to max length.
                 hitOtherMirror = false;
             }
         }

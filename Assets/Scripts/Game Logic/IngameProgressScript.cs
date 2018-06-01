@@ -311,7 +311,7 @@ public class IngameProgressScript : MonoBehaviour {
     void UpdatePuzzles(bool[] puz)
     {
         int count = 0;
-        for(int i = 0; i < puzzleControllers.Length; i++)
+        for(int i = 0; i < puz.Length; i++)
         {
             if (puz[i] && puzzleControllers[i] != null) { puzzleControllers[i].TriggerOnLoad(); Debug.Log(count++); }
         }

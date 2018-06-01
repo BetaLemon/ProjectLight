@@ -49,7 +49,7 @@ public class GemPickup : MonoBehaviour
             Debug.DrawRay(transform.position, -Vector3.up * hoverHeight, Color.red);
             if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), out hit, hoverHeight))
             {
-                if (!hit.collider.CompareTag("Player"))
+                if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("ManaCharge") && !hit.collider.CompareTag("SmallGemstone"))
                 {
                     //We apply an ascending force at the hover point position, if the collision hit was detected close the ascending force will be higher:
                     //rigidbody.AddForceAtPosition(Vector3.up * hoverForce * (1.0f - (hit.distance / hoverHeight)), transform.position);
