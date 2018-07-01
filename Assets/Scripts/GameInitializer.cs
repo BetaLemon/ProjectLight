@@ -37,7 +37,7 @@ public class GameInitializer : MonoBehaviour {
             float progress = Mathf.Clamp01(operation.progress / .9f);
 
             loadingOrb.GetComponent<LightOrb>().SetOrbCharge(progress * 10);
-            loadingOrb.transform.GetChild(1).gameObject.transform.Rotate(1,1,0, Space.World);
+            loadingOrb.transform.GetChild(3).gameObject.transform.Rotate(1,1,0, Space.World);
 
             yield return null;
         }
